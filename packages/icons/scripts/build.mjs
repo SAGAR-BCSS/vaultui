@@ -92,7 +92,7 @@ const reverseAliases = (() => {
 const tokensOf = (name) =>
   name
     .split("-")
-    .filter((t) => t.length > 1 && !["simple", "alt", "logo"].includes(t));
+    .filter((t) => t.length > 0 && !["simple", "alt"].includes(t));
 
 function buildTags(name) {
   const tags = new Set(tokensOf(name));

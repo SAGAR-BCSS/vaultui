@@ -473,8 +473,10 @@ function paintModal() {
   }
 
   const category = state.catalog.categories[icon.category];
+  const gridSize = viewBoxOf(svg).split(/\s+/)[2] ?? "256";
   const title = $("#modal-title");
   const categoryEl = $("#modal-category");
+  const gridEl = $("#modal-grid");
   const tags = $("[data-modal-tags]");
   const aliasesEl = $("[data-modal-aliases]") as HTMLElement | null;
   const preview = $("#modal-preview") as HTMLElement | null;
@@ -482,6 +484,7 @@ function paintModal() {
 
   if (title) title.textContent = icon.name;
   if (categoryEl) categoryEl.textContent = category?.label ?? "";
+  if (gridEl) gridEl.textContent = `${gridSize} grid · currentColor`;
   if (tags) tags.textContent = `Tags · ${icon.tags.split(" ").join(" · ")}`;
   if (aliasesEl) {
     if (icon.aliases.length > 0) {
