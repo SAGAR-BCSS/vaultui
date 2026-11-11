@@ -4,6 +4,8 @@ packages:
 
 allowBuilds:
   esbuild: true
+  sharp: true
+  workerd: true
 
 minimumReleaseAgeExclude:
   - '@vaultui/tokens@0.1.2'

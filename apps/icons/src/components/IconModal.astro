@@ -1,0 +1,122 @@
+---
+interface Props {
+  weights: string[];
+}
+
+const { weights } = Astro.props;
+const label = (w: string) => w.charAt(0).toUpperCase() + w.slice(1);
+const sizes = [16, 24, 32, 48];
+---
+
+<div class="icon-modal" id="icon-modal" hidden>
+  <div class="drawer-backdrop" data-modal-close></div>
+
+  <aside
+    class="drawer"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+    aria-describedby="modal-desc"
+  >
+    <header class="drawer__head">
+      <div class="min-w-0 flex-1">
+        <p class="drawer__eyebrow">Icon detail</p>
+        <h2 id="modal-title" class="drawer__title">icon</h2>
+        <p id="modal-desc" class="drawer__meta">
+          <span class="drawer__chip"><span class="drawer__dot"></span><span id="modal-category">Category</span></span>
+          <span id="modal-grid">256 grid · currentColor</span>
+        </p>
+      </div>
+      <button type="button" class="drawer__close" data-drawer-close aria-label="Close icon details">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+      </button>
+    </header>
+
+    <div class="drawer__body">
+      <section class="drawer__stage" aria-label="Icon preview">
+        <div class="icon-modal__preview" id="modal-preview" aria-hidden="true"></div>
+      </section>
+
+      <div class="drawer__fields">
+        <div class="field">
+          <span class="field__label">Weight</span>
+          <div class="segmented" role="radiogroup" aria-label="Icon weight">
+            {weights.map((weight) => (
+              <button
+                type="button"
+                class="seg-btn"
+                role="radio"
+                data-modal-weight={weight}
+                aria-checked={weight === "regular" ? "true" : "false"}
+              >
+                {label(weight)}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field__label">Preview size</span>
+          <div class="segmented" role="radiogroup" aria-label="Preview size">
+            {sizes.map((size) => (
+              <button
+                type="button"
+                class="seg-btn"
+                role="radio"
+                data-modal-size={size}
+                aria-checked={size === 48 ? "true" : "false"}
+              >
+                {size}px
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <section class="drawer__code" aria-label="Code">
+        <div class="drawer__code-head">
+          <div class="code-tabs" role="tablist" aria-label="Code format">
+            <button type="button" class="code-tab" role="tab" data-lang="react" aria-selected="true">React</button>
+            <button type="button" class="code-tab" role="tab" data-lang="vue" aria-selected="false">Vue</button>
+            <button type="button" class="code-tab" role="tab" data-lang="svelte" aria-selected="false">Svelte</button>
+            <button type="button" class="code-tab" role="tab" data-lang="html" aria-selected="false">HTML</button>
+          </div>
+          <div class="drawer__code-actions">
+            <button type="button" class="btn btn--ghost btn--square" data-modal-download aria-label="Download SVG" title="Download SVG">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" /></svg>
+            </button>
+            <button type="button" class="btn btn--primary" data-modal-copy>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+              <span data-copy-label>Copy</span>
+            </button>
+          </div>
+        </div>
+        <div class="code-well" role="tabpanel" aria-live="polite">
+          <pre><code data-code-output></code></pre>
+        </div>
+        <p class="drawer__tags" data-modal-tags></p>
+      </section>
+    </div>
+
+    <footer class="drawer__foot">
+      <button type="button" class="btn btn--ghost btn--square" data-modal-prev aria-label="Previous icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6" /></svg>
+      </button>
+      <div class="drawer__foot-meta">
+        <span class="tabular-nums" data-modal-position>1 / 1</span>
+        <span class="drawer__hint"><kbd>←</kbd><kbd>→</kbd> navigate · <kbd>esc</kbd> close</span>
+      </div>
+      <button type="button" class="btn btn--ghost btn--square" data-modal-next aria-label="Next icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+      </button>
+    </footer>
+  </aside>
+</div>
+
+<div
+  class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[90] px-3 py-2 rounded-md text-[12px] font-medium opacity-0 pointer-events-none transition-opacity duration-200"
+  style="background: var(--color-surface-0); color: var(--color-surface-900); box-shadow: var(--shadow-raised)"
+  role="status"
+  aria-live="polite"
+  data-toast
+></div>

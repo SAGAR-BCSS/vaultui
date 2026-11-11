@@ -8,7 +8,7 @@
 
 **Premium React + Tailwind components — the ones you can't find elsewhere.**
 
-A Turborepo monorepo: docs-explorer app, package-per-kit, token-driven theme engine, and a free tier published once to **npm** — installable with **npm, yarn, pnpm, or bun** (`@vaultui/ui`, `@vaultui/tokens`, `@vaultui/utils`).
+A Turborepo monorepo with three apps (component docs, icon explorer, Storybook), package-per-kit, one token-driven theme engine, and a free tier published once to **npm** — installable with **npm, yarn, pnpm, or bun** (`@vaultui/ui`, `@vaultui/tokens`, `@vaultui/utils`).
 
 > ⚠️ **Working name.** Renaming later = one find-replace of `@vault` / `vault-ui`.
 
@@ -17,17 +17,25 @@ A Turborepo monorepo: docs-explorer app, package-per-kit, token-driven theme eng
 ```
 vault-ui/
 ├── apps/
-│   └── showroom/     # Storybook — the storefront
+│   ├── components/   # React + Vite — docs, marketplace, guidelines, playground
+│   ├── icons/        # Astro — 1,512-icon explorer (6 weights, static)
+│   └── storybook/    # Storybook — the component storefront
 ├── packages/
-│   ├── ai-chat/      # 🤖 AI Agent Kit — 11 components
-│   ├── commerce/     # 🛒 Commerce Kit — 5 components
+│   ├── ai-chat/      # 🤖 AI Agent Kit
+│   ├── cli/          # vault-ui scaffolding CLI
+│   ├── collab/       # realtime collaboration kit
+│   ├── commerce/     # 🛒 Commerce Kit
 │   ├── configs/      # shared tsconfig
-│   ├── data-viz/     # 📈 Data Viz Pro — 5 components
-│   ├── dev-tools/    # 🧰 Dev Tools Kit — 4 components
-│   ├── project/      # 🗂️ Project Mgmt Kit — 3 components
+│   ├── data-viz/     # 📈 Data Viz Pro
+│   ├── dev-tools/    # 🧰 Dev Tools Kit
+│   ├── icons/        # icon pipeline + generated dataset (Phosphor, MIT)
+│   ├── marketing/    # landing / marketing sections
+│   ├── project/      # 🗂️ Project Mgmt Kit
 │   ├── tokens/       # design tokens / theme engine (Tailwind v4 CSS-first)
-│   ├── utils/        # cn() + shared helpers
-│   └── ui/           # free-tier components (MIT teaser)
+│   ├── ui/           # free-tier components (MIT teaser)
+│   └── utils/        # cn() + shared helpers
+├── scripts/          # registry + tailwind source generators
+├── .github/workflows # CI + Cloudflare deploy pipelines
 ├── LICENSE           # MIT (free tier)
 ├── COMMERCIAL-LICENSE.md
 ├── RELEASE.md        # release guide + consumer smoke tests
@@ -38,8 +46,11 @@ vault-ui/
 
 ```bash
 pnpm install
-turbo typecheck        # or: pnpm typecheck
-pnpm storybook         # opens Storybook on :6006
+pnpm typecheck         # turbo: every package + app
+pnpm build             # turbo: every package + app
+pnpm components        # docs app      → http://localhost:3000
+pnpm icons             # icon explorer → http://localhost:4321
+pnpm storybook         # Storybook     → http://localhost:6006
 ```
 
 ## Install the components
@@ -66,9 +77,27 @@ See [`../component-marketplace-roadmap.md`](../component-marketplace-roadmap.md)
 
 ## Commands (Turborepo)
 
-| Command        | What it does                 |
-| -------------- | ---------------------------- |
-| `turbo dev`    | run all dev tasks            |
-| `turbo build`  | build all (cached by turbo)  |
-| `turbo typecheck` | typecheck all packages    |
-| `pnpm storybook` | showroom only            |
+| Command             | What it does                                   |
+| ------------------- | ---------------------------------------------- |
+| `turbo dev`         | run every app/package dev task                 |
+| `turbo build`       | build everything (turbo-cached)                |
+| `turbo typecheck`   | typecheck every package and app                |
+| `pnpm components`   | components docs app only (Vite, :3000)         |
+| `pnpm icons`        | icon explorer only (Astro, :4321)              |
+| `pnpm storybook`    | Storybook only (:6006)                         |
+| `pnpm icons:build`  | static icon site → `apps/icons/dist`           |
+| `pnpm components:build` | production components build → `apps/components/dist` |
+
+## Vault Icons (`apps/icons`)
+
+A static icon explorer for the 1,512-icon Vault set — six weights, 9,072 SVG files — built with **Astro + Tailwind v4** and shipped to Cloudflare Pages.
+
+- `packages/icons` — build pipeline: ingests the MIT-licensed Phosphor geometry, strips metadata, forces `currentColor`, assigns the 10-category taxonomy and search tags, then emits `manifest.json`, `search-index.json` and per-weight/per-letter SVG shards.
+- `apps/icons` — floating app shell, virtualized icon grid, fuzzy search, and a right-side inspector drawer with React / Vue / Svelte / HTML snippets.
+
+```bash
+pnpm icons        # dev server — http://localhost:4321
+pnpm icons:build  # static build — apps/icons/dist
+```
+
+**Cloudflare Pages:** build command `pnpm icons:build`, output directory `apps/icons/dist`.

@@ -1,9 +1,9 @@
 {
-  "name": "@vaultui/web",
+  "name": "@vaultui/components",
   "version": "0.0.1",
   "private": true,
   "type": "module",
-  "description": "Vault UI \u2014 the UI server / product app",
+  "description": "Vault UI \u2014 the component docs, marketplace and guidelines app",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

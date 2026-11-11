@@ -1,5 +1,5 @@
 /**
- * Counts registry items for `apps/web/src/projects/counts.ts`.
+ * Counts registry items for `apps/components/src/projects/counts.ts`.
  *
  * The LANDING page must NOT import the registries — importing them pulls the
  * entire UI kit (~2k modules) into the main bundle. So instead the landing

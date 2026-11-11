@@ -5,7 +5,7 @@
  * literals here (Tailwind scans file contents, not imports).
  *
  * Usage:  node scripts/tailwind-candidates.mjs
- * Output: apps/web/src/tailwind-utilities.ts, apps/showroom/src/tailwind-utilities.ts
+ * Output: apps/components/src/tailwind-utilities.ts, apps/storybook/src/tailwind-utilities.ts
  */
 import fs from "fs";
 import path from "path";
@@ -62,7 +62,7 @@ const body = [
   "",
 ].join("\n");
 
-for (const app of ["apps/web/src", "apps/showroom/src"]) {
+for (const app of ["apps/components/src", "apps/storybook/src"]) {
   const out = path.join(repoRoot, app, "tailwind-utilities.ts");
   fs.writeFileSync(out, body);
   console.log(`wrote ${out} (${candidates.size} candidates)`);

@@ -60,7 +60,27 @@ jobs:
       - name: Registry is deterministic
         run: |
           node scripts/registry-build.mjs
-          git diff --exit-code -- registry.json apps/web/public/registry.json
+          git diff --exit-code -- registry.json apps/components/public/registry.json
+
+      # The icon explorer is generated from @phosphor-icons/core. Fail loudly if
+      # the dataset ever ships incomplete (1,512 icons × 6 weights).
+      - name: Icon inventory guard
+        run: |
+          node -e "const m=require('./packages/icons/generated/manifest.json'); console.log('icons:', m.total, 'weights:', m.weights.length); if (m.total < 1500 || m.weights.length !== 6) process.exit(1)"
+
+      - name: Upload components build
+        uses: actions/upload-artifact@v4
+        with:
+          name: components-dist
+          path: apps/components/dist
+          retention-days: 7
+
+      - name: Upload icons build
+        uses: actions/upload-artifact@v4
+        with:
+          name: icons-dist
+          path: apps/icons/dist
+          retention-days: 7
 
   # Proves the bun install/build path on every push. Uses LOCAL packed
   # tarballs (not the repo-root symlinks — bun cannot resolve css subpath

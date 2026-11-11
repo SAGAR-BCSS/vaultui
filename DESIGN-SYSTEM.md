@@ -77,8 +77,8 @@ Status chips: **50-tint bg + 700/800 text** (e.g. `bg-success-50 text-success-70
 | Core components | `packages/ui/src/*` (+ `button.css`, `primitives.css`) |
 | Charts | `packages/data-viz/src/*` (+ `dataviz.css`) |
 | Marketing | `packages/marketing/src/*` (+ `marketing.css`) |
-| Guidelines docs | `apps/web/src/docs/guidelines/sections/*` |
-| Storybook | `apps/showroom/src/stories/*` |
+| Guidelines docs | `apps/components/src/docs/guidelines/sections/*` |
+| Storybook | `apps/storybook/src/stories/*` |
 | Registry | `registry.json` |
 
 ## 4. Consuming in other projects

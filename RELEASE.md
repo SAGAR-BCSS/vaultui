@@ -88,17 +88,17 @@ pnpm --filter @vaultui/project publish
 
 ```bash
 pnpm --filter @vaultui/ui version 0.2.0    # then commit + tag
-pnpm --filter @vaultui/web run build       # sanity check consumers
+pnpm --filter @vaultui/components run build       # sanity check consumers
 ```
 
 ## Monetization checklist (before real sales)
 
 - [ ] Create a **Lemon Squeezy** product per kit (Single $49 / Team $149 / Source $299)
-- [ ] Put the buy links into `apps/web/src/App.tsx` pricing CTAs (currently demo)
+- [ ] Put the buy links into `apps/components/src/App.tsx` pricing CTAs (currently demo)
 - [ ] Gate npm access: paid kits published to a **private scoped repo** or distributed via
       a license-keyed artifact server (e.g. `jsdelivr` + signed token)
 - [ ] Add `purchases.ts` util to verify a license key before kit installation
-- [ ] Wire `apps/web` checkout buttons → Stripe/LS checkout URLs from `site-config.ts`
+- [ ] Wire `apps/components` checkout buttons → Stripe/LS checkout URLs from `site-config.ts`
 - [ ] Launch kit: Product Hunt, X build-in-public thread, r/nextjs + r/reactjs posts
 - [ ] Write 3–5 "migration from shadcn" tutorials + YouTube shorts
 

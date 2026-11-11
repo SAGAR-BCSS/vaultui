@@ -1,0 +1,217 @@
+---
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import IconModal from "../components/IconModal.astro";
+
+const dataRoot = path.join(process.cwd(), "public", "data");
+const manifest = JSON.parse(readFileSync(path.join(dataRoot, "manifest.json"), "utf8"));
+
+const shardCache = new Map<string, Record<string, string>>();
+function svgFor(name: string): string {
+  const letter = /[a-z]/i.test(name[0]) ? name[0].toLowerCase() : "_";
+  if (!shardCache.has(letter)) {
+    shardCache.set(
+      letter,
+      JSON.parse(readFileSync(path.join(dataRoot, "payload", "regular", `${letter}.json`), "utf8")),
+    );
+  }
+  return shardCache.get(letter)?.[name] ?? "";
+}
+
+const buckets = manifest.categories.map((category: { id: string }) =>
+  manifest.icons.filter((icon: { category: string }) => icon.category === category.id),
+);
+const ordered: { name: string; category: string; tags: string[] }[] = [];
+for (let index = 0; ; index += 1) {
+  let added = false;
+  for (const bucket of buckets) {
+    if (bucket[index]) {
+      ordered.push(bucket[index]);
+      added = true;
+    }
+  }
+  if (!added) break;
+}
+
+const initial = ordered.slice(0, 72);
+const totalFiles = manifest.total * manifest.weights.length;
+---
+
+<BaseLayout>
+  <div class="app-shell">
+    <Sidebar categories={manifest.categories} />
+
+    <main class="main" id="main">
+      <header
+        class="sticky top-0 z-30 border-b backdrop-blur-xl"
+        style="border-color: var(--color-surface-200); background: color-mix(in oklab, var(--color-surface-0) 85%, transparent)"
+      >
+        <div class="flex items-center gap-3 h-16 px-4 sm:px-6">
+          <button
+            type="button"
+            class="lg:hidden grid place-items-center w-9 h-9 rounded-md shrink-0"
+            style="background: var(--color-surface-0); color: var(--color-surface-700); box-shadow: var(--shadow-soft)"
+            data-sidebar-open
+            aria-label="Open navigation"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
+          </button>
+
+          <div class="relative flex-1 min-w-0 max-w-[560px]">
+            <svg
+              class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+              width="16" height="16" viewBox="0 0 24 24" fill="none"
+              stroke="var(--color-surface-400)" stroke-width="2" stroke-linecap="round"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input
+              id="search"
+              type="search"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder={`Search ${manifest.total.toLocaleString()} icons…`}
+              aria-label="Search icons"
+              class="h-10 w-full rounded-full pl-9 pr-16 text-[14px] outline-none transition-shadow"
+              style="background: var(--color-surface-100); color: var(--color-surface-900); box-shadow: var(--shadow-inset)"
+            />
+            <kbd
+              class="absolute right-2.5 top-1/2 -translate-y-1/2 px-1.5 py-0.5 rounded text-[12px] font-medium pointer-events-none"
+              style="background: var(--color-surface-0); color: var(--color-surface-500); box-shadow: var(--shadow-soft); border: 1px solid var(--color-surface-200)"
+              aria-hidden="true"
+            >/</kbd>
+          </div>
+
+          <div class="relative shrink-0" data-weight-control>
+            <button
+              type="button"
+              id="weight-trigger"
+              class="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[14px] font-medium"
+              style="background: var(--color-surface-0); color: var(--color-surface-800); box-shadow: var(--shadow-soft)"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="weight-menu"
+              aria-label="Icon weight"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-surface-500)" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 8h16M4 16h16" />
+                <circle cx="9" cy="8" r="2" fill="var(--color-surface-0)" />
+                <circle cx="15" cy="16" r="2" fill="var(--color-surface-0)" />
+              </svg>
+              <span class="hidden sm:inline" data-weight-label>Regular</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+            <div class="weight-menu" id="weight-menu" role="listbox" aria-label="Icon weight" hidden>
+              {manifest.weights.map((weight: string) => (
+                <button
+                  type="button"
+                  class="weight-option"
+                  role="option"
+                  data-weight={weight}
+                  aria-selected={weight === "regular" ? "true" : "false"}
+                >
+                  {weight.charAt(0).toUpperCase() + weight.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div class="ml-auto flex items-center gap-3 shrink-0">
+            <span class="hidden sm:inline text-[12px] tabular-nums" style="color: var(--color-surface-600)" id="result-count" aria-live="polite">
+              {manifest.total.toLocaleString()} icons
+            </span>
+            <a
+              href="https://github.com/SAGARBABU123/vaultui"
+              class="inline-grid place-items-center w-10 h-10 rounded-md"
+              style="background: var(--color-surface-0); color: var(--color-surface-700); box-shadow: var(--shadow-soft)"
+              aria-label="GitHub repository"
+              title="GitHub repository"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.56v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.08 0 4.41-2.7 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.68.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="px-4 sm:px-6 pb-20">
+        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 py-6">
+          <div class="min-w-0 sm:flex-1">
+            <h1 class="text-[30px] font-semibold leading-tight" id="view-title">All icons</h1>
+            <p class="text-[14px] mt-1 max-w-[60ch]" style="color: var(--color-surface-600)" id="view-desc">
+              {manifest.total.toLocaleString()} icons across {manifest.categories.length} categories, each in six weights. Click any icon for React, Vue and Svelte snippets.
+            </p>
+          </div>
+          <p class="text-[12px] tabular-nums shrink-0" style="color: var(--color-surface-600)">
+            {totalFiles.toLocaleString()} SVG files · 256 grid · currentColor
+          </p>
+        </div>
+
+        <noscript>
+          <p
+            class="mb-4 px-4 py-3 rounded-lg text-[14px]"
+            style="background: var(--color-surface-0); color: var(--color-surface-700); box-shadow: var(--shadow-soft)"
+          >
+            Search and filtering need JavaScript. The first 72 icons are shown below.
+          </p>
+        </noscript>
+
+        <div class="icon-grid" id="icon-grid" data-static>
+          {initial.map((icon) => (
+            <button
+              type="button"
+              class="icon-tile"
+              data-icon={icon.name}
+              aria-label={`${icon.name} icon`}
+            >
+              <span class="icon-tile__glyph" set:html={svgFor(icon.name)} />
+              <span class="icon-tile__name">{icon.name}</span>
+            </button>
+          ))}
+        </div>
+
+        <div id="empty-state" hidden class="py-20 flex flex-col items-center text-center">
+          <svg width="132" height="132" viewBox="0 0 132 132" fill="none" aria-hidden="true">
+            <rect x="14" y="14" width="104" height="104" rx="20" stroke="var(--color-surface-300)" stroke-width="1.5" stroke-dasharray="4 6" />
+            <rect x="30" y="30" width="24" height="24" rx="6" fill="var(--color-brand-100)" stroke="var(--color-brand-500)" stroke-width="1.5" />
+            <rect x="62" y="30" width="24" height="24" rx="6" fill="var(--color-surface-100)" stroke="var(--color-surface-300)" stroke-width="1.5" />
+            <rect x="30" y="62" width="24" height="24" rx="6" fill="var(--color-surface-100)" stroke="var(--color-surface-300)" stroke-width="1.5" />
+            <circle cx="74" cy="74" r="16" stroke="var(--color-brand-500)" stroke-width="2.5" />
+            <path d="m86 86 12 12" stroke="var(--color-brand-500)" stroke-width="3" stroke-linecap="round" />
+          </svg>
+          <h2 class="text-[20px] font-semibold mt-6" id="empty-title">No icons match that search</h2>
+          <p class="text-[14px] mt-2 max-w-[42ch]" style="color: var(--color-surface-600)" id="empty-copy">
+            Try a shorter term, or browse the full library by category.
+          </p>
+          <div class="flex items-center gap-2 mt-6">
+            <button
+              type="button"
+              class="h-10 px-4 rounded-md text-[14px] font-semibold"
+              style="background: var(--color-brand-600); color: var(--color-surface-0); box-shadow: var(--shadow-soft)"
+              data-clear-search
+            >Clear search</button>
+            <button
+              type="button"
+              class="h-10 px-4 rounded-md text-[14px] font-medium"
+              style="background: var(--color-surface-100); color: var(--color-surface-800)"
+              data-browse-all
+            >Browse all</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <IconModal weights={manifest.weights} />
+
+  <script>
+    import "../scripts/app";
+  </script>
+</BaseLayout>

@@ -1,0 +1,32 @@
+---
+import "../styles/icona.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Vault Icons — 1,500+ developer icons in 6 weights",
+  description = "A static, searchable library of 1,500+ vector icons built for React, Vue and Svelte. Six weights, one 256px grid, zero client-side framework runtime.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="neumorphic">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#faf9f8" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <slot name="head" />
+  </head>
+  <body class="antialiased">
+    <slot />
+  </body>
+</html>
