@@ -476,6 +476,9 @@ function paintModal() {
   const positionEl = $("[data-modal-position]");
   if (positionEl) positionEl.textContent = `${position + 1} / ${state.items.length}`;
 
+  const pageLink = modal.querySelector<HTMLAnchorElement>("[data-modal-page]");
+  if (pageLink) pageLink.href = `/icons/${icon.name}`;
+
   $$("[data-modal-weight]").forEach((button) => {
     button.setAttribute("aria-checked", String(button.getAttribute("data-modal-weight") === state.modalWeight));
   });
