@@ -137,10 +137,8 @@ export const ORIGINAL_FILLS = {
   cart: `<path d="M3.4 4.6h2.4l2.2 9.2h9.6l2.2-6.8H6.4V4.6Z"/><circle cx="9.6" cy="18.8" r="1.6"/><circle cx="17.4" cy="18.8" r="1.6"/>`,
 };
 
-export function renderOriginal(name, weight) {
-  const inner = ORIGINAL_ICONS[name];
+export function renderIcon(inner, fill, weight) {
   if (!inner) return "";
-  const fill = ORIGINAL_FILLS[name] ?? inner;
   const open = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"';
 
   if (weight === "fill") {
@@ -156,4 +154,10 @@ export function renderOriginal(name, weight) {
 
   const stroke = STROKE_WEIGHTS[weight] ?? STROKE_WEIGHTS.regular;
   return `${open} fill="none" stroke="currentColor" stroke-width="${stroke}" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+}
+
+export function renderOriginal(name, weight) {
+  const inner = ORIGINAL_ICONS[name];
+  if (!inner) return "";
+  return renderIcon(inner, ORIGINAL_FILLS[name] ?? inner, weight);
 }

@@ -18,9 +18,34 @@
 import { mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { pathToFileURL } from "node:url";
 import { optimize } from "svgo";
 import { ALIASES, CATEGORIES, CATEGORY_IDS, classify } from "../taxonomy.mjs";
-import { ORIGINAL_ICONS, renderOriginal } from "../original/specs.mjs";
+import { ORIGINAL_FILLS, ORIGINAL_ICONS, renderIcon } from "../original/specs.mjs";
+
+/**
+ * Batch files (specs-batch-*.mjs) let multiple authors work in parallel.
+ * Each module exports `BATCH_X` (inner markup map) and optionally
+ * `BATCH_X_FILLS` (solid silhouettes for open-path glyphs).
+ */
+async function loadBatches() {
+  const dir = path.join(here, "..", "original");
+  const files = (await readdir(dir))
+    .filter((file) => /^specs-batch-.*\.mjs$/.test(file))
+    .sort();
+
+  const icons = {};
+  const fills = {};
+  for (const file of files) {
+    const mod = await import(pathToFileURL(path.join(dir, file)).href);
+    for (const [key, value] of Object.entries(mod)) {
+      if (!key.startsWith("BATCH_")) continue;
+      if (key.endsWith("_FILLS")) Object.assign(fills, value);
+      else Object.assign(icons, value);
+    }
+  }
+  return { icons, fills };
+}
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
@@ -138,7 +163,10 @@ async function main() {
   // Our own masters win: same name replaces the reference glyph, new names are
   // appended to the inventory. This is the migration path to a fully original
   // set — delete the reference source once every icon is covered.
-  const originalNames = Object.keys(ORIGINAL_ICONS);
+  const batches = await loadBatches();
+  const originalGlyphs = { ...ORIGINAL_ICONS, ...batches.icons };
+  const originalFills = { ...ORIGINAL_FILLS, ...batches.fills };
+  const originalNames = Object.keys(originalGlyphs);
   const known = new Set(icons.map((icon) => icon.name));
 
   for (const name of originalNames) {
@@ -158,8 +186,10 @@ async function main() {
       if (entry) entry.source = "original";
     }
 
+    const inner = originalGlyphs[name];
+    const fill = originalFills[name] ?? inner;
     for (const weight of WEIGHTS) {
-      shards.get(`${weight}/${shardKey(name)}`)[name] = renderOriginal(name, weight);
+      shards.get(`${weight}/${shardKey(name)}`)[name] = renderIcon(inner, fill, weight);
     }
   }
 
