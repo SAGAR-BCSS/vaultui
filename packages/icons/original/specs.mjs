@@ -66,6 +66,26 @@ export const ORIGINAL_ICONS = {
   menu: `<path d="M4 7h16"/><path d="M4 12h16"/><path d="M4 17h16"/>`,
   close: `<path d="m6 6 12 12"/><path d="m18 6-12 12"/>`,
   "more-horizontal": `<circle cx="5.5" cy="12" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="18.5" cy="12" r="1.3"/>`,
+
+  envelope: `<rect x="3.2" y="5.4" width="17.6" height="13.2" rx="2"/><path d="m4.2 6.8 7.8 5.8 7.8-5.8"/>`,
+  phone: `<path d="M6.4 3.8 9.2 6.6 7.5 8.3c1.4 2.8 3.4 4.8 6.2 6.2l1.7-1.7 2.8 2.8-2.5 2.5c-5.4-.8-10-5.4-10.8-10.8Z"/>`,
+  chat: `<path d="M4.4 5.6h15.2v10.2h-9.6L4.4 20Z"/>`,
+  camera: `<path d="M3.4 8.6h3.8l1.6-2.2h6.4l1.6 2.2h3.8v10H3.4Z"/><circle cx="12" cy="13.2" r="3.2"/>`,
+  image: `<rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.2"/><circle cx="8.6" cy="9.4" r="1.5"/><path d="m4.6 17.6 4.7-4.7 3.1 3.1 3-3 4.2 4.2"/>`,
+  video: `<rect x="3.4" y="6.6" width="12.4" height="10.8" rx="2"/><path d="m15.8 11.2 4.8-2.8v7.2l-4.8-2.8Z"/>`,
+  music: `<path d="M9 17.4V5.8l8.6-1.9v11.6"/><circle cx="6.6" cy="17.8" r="2.5"/><circle cx="15.2" cy="15.5" r="2.5"/>`,
+  cloud: `<path d="M7.2 18.2a4.3 4.3 0 0 1-.5-8.6 5.5 5.5 0 0 1 10.6-1 4.1 4.1 0 0 1 1.7 8 4 4 0 0 1-1.5.3Z"/>`,
+  database: `<ellipse cx="12" cy="6.4" rx="7.2" ry="2.7"/><path d="M4.8 6.4v11.2c0 1.5 3.2 2.7 7.2 2.7s7.2-1.2 7.2-2.7V6.4"/>`,
+  bookmark: `<path d="M6.6 3.8h10.8v16.4L12 15.6l-5.4 4.6Z"/>`,
+  tag: `<path d="M3.6 12.4V5.6a2 2 0 0 1 2-2h6.8l8 8-8.4 8.4Z"/><circle cx="8.2" cy="8.2" r="1.3"/>`,
+  "credit-card": `<rect x="3.2" y="5.6" width="17.6" height="12.8" rx="2.2"/><path d="M3.6 9.8h16.8"/>`,
+  "chart-bar": `<path d="M4.2 4v16h16"/><rect x="7.2" y="12" width="3" height="5" rx="1"/><rect x="12.2" y="8.4" width="3" height="8.6" rx="1"/><rect x="17.2" y="5.2" width="3" height="11.8" rx="1"/>`,
+  clock: `<circle cx="12" cy="12" r="8"/><path d="M12 7.2V12l3.4 2.2"/>`,
+  filter: `<path d="M3.8 5.2h16.4l-6.6 7.6v6.4l-3.2 1.8v-8.2Z"/>`,
+  grid: `<rect x="3.8" y="3.8" width="7" height="7" rx="1.6"/><rect x="13.2" y="3.8" width="7" height="7" rx="1.6"/><rect x="3.8" y="13.2" width="7" height="7" rx="1.6"/><rect x="13.2" y="13.2" width="7" height="7" rx="1.6"/>`,
+  list: `<path d="M8.6 6.4h11.4"/><path d="M8.6 12h11.4"/><path d="M8.6 17.6h11.4"/><circle cx="4.8" cy="6.4" r="1.3"/><circle cx="4.8" cy="12" r="1.3"/><circle cx="4.8" cy="17.6" r="1.3"/>`,
+  terminal: `<rect x="3.4" y="4.6" width="17.2" height="14.8" rx="2.2"/><path d="m7 9.4 2.8 2.6L7 14.6"/><path d="M12.8 14.8h4.2"/>`,
+  cart: `<path d="M3.4 4.6h2.4l2.2 9.2h9.6l2.2-6.8H6.4"/><circle cx="9.6" cy="18.8" r="1.6"/><circle cx="17.4" cy="18.8" r="1.6"/>`,
 };
 
 /**
@@ -104,6 +124,17 @@ export const ORIGINAL_FILLS = {
   download: `<path d="M12 3.6 7 8.8h2.6V14h4.8V8.8H17Z"/><rect x="4" y="18.2" width="16" height="2.6" rx="1.3"/>`,
   upload: `<path d="M12 20.4 7 15.2h2.6V10h4.8v5.2H17Z"/><rect x="4" y="3.2" width="16" height="2.6" rx="1.3"/>`,
   menu: `<rect x="4" y="6.6" width="16" height="2.4" rx="1.2"/><rect x="4" y="10.8" width="16" height="2.4" rx="1.2"/><rect x="4" y="15" width="16" height="2.4" rx="1.2"/>`,
+
+  envelope: `<path d="M4.4 5.4h15.2a2 2 0 0 1 2 2v9.2a2 2 0 0 1-2 2H4.4a2 2 0 0 1-2-2V7.4a2 2 0 0 1 2-2Zm.2 2.6v1l7.4 5.2 7.4-5.2v-1l-7.4 5.2Z" fill-rule="evenodd"/>`,
+  camera: `<path d="M5.2 6.4h4.2l1.4-2h4.4l1.4 2h4.2a2 2 0 0 1 2 2v10.2h-19.6V8.4a2 2 0 0 1 2-2Zm6.8 4a3.2 3.2 0 1 0 0 6.4 3.2 3.2 0 0 0 0-6.4Z" fill-rule="evenodd"/>`,
+  image: `<path d="M5.4 4.6h13.2a2 2 0 0 1 2 2v10.8a2 2 0 0 1-2 2H5.4a2 2 0 0 1-2-2V6.6a2 2 0 0 1 2-2Zm.2 12.6 3.6-3.6 3 3 2.4-2.4 2.8 2.8v.2Z" fill-rule="evenodd"/><circle cx="8.6" cy="9.4" r="1.5"/>`,
+  video: `<rect x="3.4" y="6.6" width="12.4" height="10.8" rx="2"/><path d="m15.8 11.2 4.8-2.8v7.2l-4.8-2.8Z"/>`,
+  music: `<path d="M9 17.2V5.6l8.6-1.9v11.4h-2.6V7.2L11.6 8.8v8.4Z"/><circle cx="6.6" cy="17.8" r="2.5"/><circle cx="15.2" cy="15.5" r="2.5"/>`,
+  database: `<path d="M12 3.7c-4 0-7.2 1.2-7.2 2.7S8 9.1 12 9.1s7.2-1.2 7.2-2.7S16 3.7 12 3.7Zm-7.2 5.2v3.3c0 1.5 3.2 2.7 7.2 2.7s7.2-1.2 7.2-2.7V8.9c-1.7 1.3-4.3 2-7.2 2s-5.5-.7-7.2-2Zm0 5.5v3c0 1.5 3.2 2.7 7.2 2.7s7.2-1.2 7.2-2.7v-3c-1.7 1.3-4.3 2-7.2 2s-5.5-.7-7.2-2Z"/>`,
+  "chart-bar": `<rect x="4" y="4" width="1.6" height="16" rx="0.8"/><rect x="4" y="18.4" width="16" height="1.6" rx="0.8"/><rect x="7.2" y="12" width="3" height="5" rx="1"/><rect x="12.2" y="8.4" width="3" height="8.6" rx="1"/><rect x="17.2" y="5.2" width="3" height="11.8" rx="1"/>`,
+  clock: `<circle cx="12" cy="12" r="8"/><path d="M11 6.8h2v5.4l3 1.8-1 1.7-4-2.4Z"/>`,
+  list: `<rect x="3.5" y="5.4" width="2.6" height="2.6" rx="1.3"/><rect x="3.5" y="10.7" width="2.6" height="2.6" rx="1.3"/><rect x="3.5" y="16" width="2.6" height="2.6" rx="1.3"/><rect x="8.6" y="5.8" width="11.6" height="1.8" rx="0.9"/><rect x="8.6" y="11.1" width="11.6" height="1.8" rx="0.9"/><rect x="8.6" y="16.4" width="11.6" height="1.8" rx="0.9"/>`,
+  cart: `<path d="M3.4 4.6h2.4l2.2 9.2h9.6l2.2-6.8H6.4V4.6Z"/><circle cx="9.6" cy="18.8" r="1.6"/><circle cx="17.4" cy="18.8" r="1.6"/>`,
 };
 
 export function renderOriginal(name, weight) {
