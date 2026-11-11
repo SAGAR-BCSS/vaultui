@@ -90,6 +90,9 @@ See [`../component-marketplace-roadmap.md`](../component-marketplace-roadmap.md)
 
 ## Vault Icons (`apps/icons`)
 
+> Program status, agent assignments and the resume playbook live in
+> [`ICON-PROGRAM.md`](./ICON-PROGRAM.md). Read it before continuing icon work.
+
 A static icon explorer for the 1,512-icon Vault set — six weights, 9,072 SVG files — built with **Astro + Tailwind v4** and shipped to Cloudflare Pages.
 
 - `packages/icons` — build pipeline: ingests the MIT-licensed Phosphor geometry, strips metadata, forces `currentColor`, assigns the 10-category taxonomy and search tags, then emits `manifest.json`, `search-index.json` and per-weight/per-letter SVG shards.
