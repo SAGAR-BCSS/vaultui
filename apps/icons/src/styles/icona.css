@@ -435,6 +435,20 @@ h2 {
   flex-shrink: 0;
 }
 
+.drawer__code-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.drawer__mini-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
 .drawer__tags {
   min-width: 0;
   font-size: 12px;
@@ -442,6 +456,17 @@ h2 {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.drawer__aliases {
+  font-size: 12px;
+  color: var(--color-surface-600);
+}
+
+.btn--sm {
+  height: 28px;
+  padding: 0 9px;
+  font-size: 12px;
 }
 
 .btn {

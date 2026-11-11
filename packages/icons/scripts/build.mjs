@@ -126,7 +126,13 @@ async function main() {
       shards.get(`${weight}/${shardKey(name)}`)[name] = svg;
     }
 
-    icons.push({ name, category, tags: buildTags(name), source: "reference" });
+    icons.push({
+      name,
+      category,
+      tags: buildTags(name),
+      aliases: reverseAliases.get(name) ?? [],
+      source: "reference",
+    });
   }
 
   // Our own masters win: same name replaces the reference glyph, new names are
@@ -139,7 +145,13 @@ async function main() {
     if (!known.has(name)) {
       const category = classify(name);
       perCategory[category] += 1;
-      icons.push({ name, category, tags: buildTags(name), source: "original" });
+      icons.push({
+        name,
+        category,
+        tags: buildTags(name),
+        aliases: reverseAliases.get(name) ?? [],
+        source: "original",
+      });
       known.add(name);
     } else {
       const entry = icons.find((icon) => icon.name === name);
@@ -177,6 +189,7 @@ async function main() {
     icon.name,
     CATEGORY_IDS.indexOf(icon.category),
     icon.tags.join(" "),
+    icon.aliases.join(" "),
   ]);
 
   const meta = {

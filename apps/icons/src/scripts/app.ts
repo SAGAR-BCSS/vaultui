@@ -12,8 +12,13 @@
  */
 
 type Category = { id: string; label: string; blurb: string; count: number };
-type Catalog = { weights: string[]; categories: Category[]; total: number; icons: [string, number, string][] };
-type Icon = { name: string; category: number; tags: string };
+type Catalog = {
+  weights: string[];
+  categories: Category[];
+  total: number;
+  icons: [string, number, string, string?][];
+};
+type Icon = { name: string; category: number; tags: string; aliases: string[] };
 
 const $ = <T extends Element = HTMLElement>(selector: string) =>
   document.querySelector<T>(selector);
@@ -52,6 +57,7 @@ const shardLoading = new Map<string, Promise<Record<string, string>>>();
 let rafToken = 0;
 let searchTimer = 0;
 let mounted = false;
+let loadErrorAnnounced = false;
 
 /* ---------------------------------------------------------------- helpers */
 
@@ -165,7 +171,13 @@ function loadShard(weight: string, letter: string): Promise<Record<string, strin
 
   const promise = fetch(shardUrl(weight, letter))
     .then((response) => (response.ok ? response.json() : {}))
-    .catch(() => ({}))
+    .catch(() => {
+      if (!loadErrorAnnounced) {
+        loadErrorAnnounced = true;
+        announce("Some icons failed to load — check your connection.");
+      }
+      return {};
+    })
     .then((data: Record<string, string>) => {
       shardCache.set(key, data);
       shardLoading.delete(key);
@@ -268,7 +280,11 @@ function prefetchRange(startRow: number, endRow: number) {
     (letter) => !shardCache.has(`${state.weight}/${letter}`),
   );
   if (missing.length === 0) return;
-  Promise.all(missing.map((letter) => loadShard(state.weight, letter))).then(() => render());
+  grid.setAttribute("aria-busy", "true");
+  Promise.all(missing.map((letter) => loadShard(state.weight, letter))).then(() => {
+    grid.setAttribute("aria-busy", "false");
+    render();
+  });
 }
 
 /* ----------------------------------------------------------------- apply */
@@ -460,12 +476,22 @@ function paintModal() {
   const title = $("#modal-title");
   const categoryEl = $("#modal-category");
   const tags = $("[data-modal-tags]");
+  const aliasesEl = $("[data-modal-aliases]") as HTMLElement | null;
   const preview = $("#modal-preview") as HTMLElement | null;
   const code = $("[data-code-output]");
 
   if (title) title.textContent = icon.name;
   if (categoryEl) categoryEl.textContent = category?.label ?? "";
   if (tags) tags.textContent = `Tags · ${icon.tags.split(" ").join(" · ")}`;
+  if (aliasesEl) {
+    if (icon.aliases.length > 0) {
+      aliasesEl.hidden = false;
+      aliasesEl.textContent = `Also known as · ${icon.aliases.join(" · ")}`;
+    } else {
+      aliasesEl.hidden = true;
+      aliasesEl.textContent = "";
+    }
+  }
   if (preview) {
     preview.innerHTML = `<span class="icon-modal__frame">${svg}</span>`;
     preview.style.setProperty("--preview-size", `${state.modalSize}px`);
@@ -536,6 +562,11 @@ function stepModal(direction: number) {
   state.modalWeight = state.weight;
   paintModal();
   history.replaceState({ icon: state.modalName }, "", `#${state.modalName}`);
+}
+
+function currentSvg(): string {
+  const icon = currentIcon();
+  return icon ? svgFor(icon.name, state.modalWeight) : "";
 }
 
 function currentSnippet(): string {
@@ -719,6 +750,14 @@ function wire() {
         copyText(currentSnippet());
         return;
       }
+      if (target.closest("[data-modal-copy-svg]")) {
+        copyText(currentSvg());
+        return;
+      }
+      if (target.closest("[data-modal-copy-name]")) {
+        copyText(state.modalName);
+        return;
+      }
       if (target.closest("[data-modal-download]")) {
         downloadSvg();
         return;
@@ -866,7 +905,12 @@ async function boot() {
 
   state.catalog = catalog;
   state.all = interleave(
-    catalog.icons.map(([name, category, tags]) => ({ name, category, tags })),
+    catalog.icons.map(([name, category, tags, aliases]) => ({
+      name,
+      category,
+      tags,
+      aliases: aliases ? aliases.split(" ").filter(Boolean) : [],
+    })),
     catalog.categories.length,
   );
 

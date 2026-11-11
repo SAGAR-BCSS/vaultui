@@ -95,7 +95,14 @@ const sizes = [16, 24, 32, 48];
         <div class="code-well" role="tabpanel" aria-live="polite">
           <pre><code data-code-output></code></pre>
         </div>
-        <p class="drawer__tags" data-modal-tags></p>
+        <div class="drawer__code-foot">
+          <p class="drawer__tags" data-modal-tags></p>
+          <div class="drawer__mini-actions">
+            <button type="button" class="btn btn--ghost btn--sm" data-modal-copy-svg>Copy SVG</button>
+            <button type="button" class="btn btn--ghost btn--sm" data-modal-copy-name>Copy name</button>
+          </div>
+        </div>
+        <p class="drawer__aliases" data-modal-aliases hidden></p>
       </section>
     </div>
 
