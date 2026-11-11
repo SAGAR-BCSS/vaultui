@@ -20,6 +20,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { optimize } from "svgo";
 import { ALIASES, CATEGORIES, CATEGORY_IDS, classify } from "../taxonomy.mjs";
+import { ORIGINAL_ICONS, renderOriginal } from "../original/specs.mjs";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, "..");
@@ -125,7 +126,35 @@ async function main() {
       shards.get(`${weight}/${shardKey(name)}`)[name] = svg;
     }
 
-    icons.push({ name, category, tags: buildTags(name) });
+    icons.push({ name, category, tags: buildTags(name), source: "reference" });
+  }
+
+  // Our own masters win: same name replaces the reference glyph, new names are
+  // appended to the inventory. This is the migration path to a fully original
+  // set — delete the reference source once every icon is covered.
+  const originalNames = Object.keys(ORIGINAL_ICONS);
+  const known = new Set(icons.map((icon) => icon.name));
+
+  for (const name of originalNames) {
+    if (!known.has(name)) {
+      const category = classify(name);
+      perCategory[category] += 1;
+      icons.push({ name, category, tags: buildTags(name), source: "original" });
+      known.add(name);
+    } else {
+      const entry = icons.find((icon) => icon.name === name);
+      if (entry) entry.source = "original";
+    }
+
+    for (const weight of WEIGHTS) {
+      shards.get(`${weight}/${shardKey(name)}`)[name] = renderOriginal(name, weight);
+    }
+  }
+
+  for (const weight of WEIGHTS) perWeight[weight] = icons.length;
+  totalBytes = 0;
+  for (const payload of shards.values()) {
+    for (const svg of Object.values(payload)) totalBytes += Buffer.byteLength(svg);
   }
 
   for (const [key, payload] of shards) {
@@ -136,9 +165,10 @@ async function main() {
 
   const manifest = {
     name: "Vault Icons",
-    grid: 256,
+    grids: { original: 24, reference: 256 },
     weights: WEIGHTS,
     total: icons.length,
+    originalCount: icons.filter((icon) => icon.source === "original").length,
     categories: CATEGORIES.map((c) => ({ ...c, count: perCategory[c.id] })),
     icons,
   };
@@ -152,6 +182,7 @@ async function main() {
   const meta = {
     generatedAt: new Date().toISOString(),
     icons: icons.length,
+    originals: manifest.originalCount,
     files: icons.length * WEIGHTS.length,
     weights: perWeight,
     perCategory,
@@ -165,7 +196,7 @@ async function main() {
   await writeFile(path.join(outDir, "meta.json"), JSON.stringify(meta, null, 2));
 
   const kb = (n) => `${(n / 1024).toFixed(1)} KB`;
-  console.log(`Vault Icons: ${icons.length} icons × ${WEIGHTS.length} weights = ${icons.length * WEIGHTS.length} SVGs`);
+  console.log(`Vault Icons: ${icons.length} icons × ${WEIGHTS.length} weights = ${icons.length * WEIGHTS.length} SVGs (${manifest.originalCount} original)`);
   console.log(`Payload ${kb(totalBytes)} · search index ${kb(Buffer.byteLength(JSON.stringify(searchIndex)))} · ${meta.buildMs} ms`);
   console.log(CATEGORY_IDS.map((id) => `${id}: ${perCategory[id]}`).join(" | "));
 }

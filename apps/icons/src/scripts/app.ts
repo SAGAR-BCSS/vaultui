@@ -77,6 +77,9 @@ const jsxInner = (svg: string) =>
     .replace(/\sclass=/g, " className=")
     .replace(/\s([a-z]+-[a-z-]+)=/g, (_, attr: string) => ` ${camel(attr)}=`);
 
+const viewBoxOf = (svg: string) =>
+  /viewBox="([^"]+)"/.exec(svg)?.[1] ?? "0 0 256 256";
+
 const indent = (value: string, spaces: number) =>
   value
     .split("\n")
@@ -365,6 +368,7 @@ function setWeight(weight: string) {
 
 function snippetFor(name: string, svg: string, lang: string): string {
   const component = pascal(name);
+  const box = viewBoxOf(svg);
   const inner = jsxInner(svg);
   const htmlInner = innerOf(svg);
 
@@ -377,7 +381,7 @@ export function ${component}({ size = 24, ...props }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 256 256"
+      viewBox="${box}"
       width={size}
       height={size}
       fill="currentColor"
@@ -398,7 +402,7 @@ const props = withDefaults(defineProps<{ size?: number | string }>(), { size: 24
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
+    viewBox="${box}"
     :width="props.size"
     :height="props.size"
     fill="currentColor"
@@ -416,7 +420,7 @@ ${indent(htmlInner, 4)}
 
 <svg
   xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 256 256"
+  viewBox="${box}"
   width={size}
   height={size}
   fill="currentColor"
@@ -429,7 +433,7 @@ ${indent(htmlInner, 2)}
 
   return `<svg
   xmlns="http://www.w3.org/2000/svg"
-  viewBox="0 0 256 256"
+  viewBox="${box}"
   width="24"
   height="24"
   fill="currentColor"
