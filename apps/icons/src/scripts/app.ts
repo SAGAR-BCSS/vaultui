@@ -487,7 +487,7 @@ function paintModal() {
   });
 }
 
-function openModal(name: string) {
+function showModal(name: string, push: boolean) {
   state.lastFocus = document.activeElement as HTMLElement | null;
   state.modalName = name;
   state.modalWeight = state.weight;
@@ -499,16 +499,30 @@ function openModal(name: string) {
   paintModal();
   const close = modal.querySelector<HTMLElement>("[data-drawer-close]");
   close?.focus();
-  history.replaceState(null, "", `#${name}`);
+  if (push) history.pushState({ icon: name }, "", `#${name}`);
 }
 
-function closeModal() {
+function hideModal() {
   modal.hidden = true;
   scroller.style.overflowY = "";
   state.lastFocus?.focus();
+}
+
+function closeModal() {
+  // If this drawer owns a history entry, let Back remove it (so browser Back
+  // and the close button behave identically).
+  if (history.state?.icon) {
+    history.back();
+    return;
+  }
+  hideModal();
   const url = new URL(window.location.href);
   url.hash = "";
   history.replaceState(null, "", url);
+}
+
+function openModal(name: string) {
+  showModal(name, true);
 }
 
 function stepModal(direction: number) {
@@ -518,7 +532,7 @@ function stepModal(direction: number) {
   state.modalName = state.items[next].name;
   state.modalWeight = state.weight;
   paintModal();
-  history.replaceState(null, "", `#${state.modalName}`);
+  history.replaceState({ icon: state.modalName }, "", `#${state.modalName}`);
 }
 
 function currentSnippet(): string {
@@ -761,6 +775,59 @@ function wire() {
     }
   });
 
+  window.addEventListener("popstate", () => {
+    const name = window.location.hash.replace("#", "");
+    if (name && state.items.some((icon) => icon.name === name)) {
+      if (modal.hidden) showModal(name, false);
+      else {
+        state.modalName = name;
+        paintModal();
+      }
+    } else if (!modal.hidden) {
+      hideModal();
+    }
+  });
+
+  grid.addEventListener("keydown", (event) => {
+    const tile = (event.target as HTMLElement).closest<HTMLElement>("[data-icon]");
+    const keys = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown", "Home", "End"];
+    if (!tile || !keys.includes(event.key)) return;
+
+    const index = state.items.findIndex((icon) => icon.name === tile.dataset.icon);
+    if (index < 0) return;
+
+    const delta =
+      event.key === "ArrowRight" ? 1
+      : event.key === "ArrowLeft" ? -1
+      : event.key === "ArrowDown" ? layout.cols
+      : event.key === "ArrowUp" ? -layout.cols
+      : 0;
+
+    const next =
+      event.key === "Home" ? 0
+      : event.key === "End" ? state.items.length - 1
+      : index + delta;
+
+    if (next < 0 || next >= state.items.length) return;
+    event.preventDefault();
+
+    const row = Math.floor(next / layout.cols);
+    const top = gridOffsetTop() + row * layout.rowH;
+    if (top < scroller.scrollTop + 8 || top + layout.rowH > scroller.scrollTop + scroller.clientHeight - 8) {
+      scroller.scrollTop = Math.max(0, top - layout.rowH);
+    }
+
+    render();
+    const name = state.items[next].name;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        grid
+          .querySelector<HTMLElement>(`[data-icon="${CSS.escape(name)}"]`)
+          ?.focus({ preventScroll: true });
+      });
+    });
+  });
+
   scroller.addEventListener("scroll", render, { passive: true });
 
   let resizeTimer = 0;
@@ -839,7 +906,7 @@ async function boot() {
 
   const hash = window.location.hash.replace("#", "");
   if (hash && state.items.some((icon) => icon.name === hash)) {
-    openModal(hash);
+    showModal(hash, false);
   }
 }
 

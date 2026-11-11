@@ -8,8 +8,13 @@ interface Props {
 
 const {
   title = "Vault Icons — 1,500+ developer icons in 6 weights",
-  description = "A static, searchable library of 1,500+ vector icons built for React, Vue and Svelte. Six weights, one 256px grid, zero client-side framework runtime.",
+  description = "A static, searchable library of 1,500+ vector icons built for React, Vue and Svelte. Six weights, one grid, zero client-side framework runtime.",
 } = Astro.props;
+
+const canonical = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://vault-icons.kaundinya.workers.dev",
+).toString();
 ---
 
 <!doctype html>
@@ -23,6 +28,8 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <slot name="head" />
   </head>
