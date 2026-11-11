@@ -68,6 +68,9 @@ jobs:
         run: |
           node -e "const m=require('./packages/icons/generated/manifest.json'); console.log('icons:', m.total, 'weights:', m.weights.length); if (m.total < 1500 || m.weights.length !== 6) process.exit(1)"
 
+      - name: Validate icon dataset
+        run: node packages/icons/scripts/validate-icons.mjs
+
       - name: Upload components build
         uses: actions/upload-artifact@v4
         with:

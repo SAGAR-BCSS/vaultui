@@ -38,6 +38,21 @@ const { icon } = Astro.props as { icon: { name: string; category: string; tags: 
 const category = manifest.categories.find((entry: { id: string }) => entry.id === icon.category);
 const svg = svgFor(icon.name, "regular");
 const label = (weight: string) => weight.charAt(0).toUpperCase() + weight.slice(1);
+
+const canonical = new URL(`/icons/${icon.name}`, Astro.site ?? "https://vault-icons.kaundinya.workers.dev").toString();
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CreativeWork",
+  name: `${icon.name} icon`,
+  description: `${icon.name} — ${category?.label ?? "icon"} in six weights, optimized SVG with currentColor.`,
+  keywords: icon.tags.join(", "),
+  url: canonical,
+  isPartOf: {
+    "@type": "CollectionPage",
+    name: "Vault Icons",
+    url: new URL("/", Astro.site ?? "https://vault-icons.kaundinya.workers.dev").toString(),
+  },
+});
 ---
 
 <BaseLayout
@@ -51,6 +66,8 @@ const label = (weight: string) => weight.charAt(0).toUpperCase() + weight.slice(
       display: block;
     }
   </style>
+
+  <script type="application/ld+json" set:html={jsonLd} />
 
   <main class="min-h-dvh">
     <div class="mx-auto max-w-[900px] px-6 py-10">

@@ -16,6 +16,7 @@
     "components:build": "pnpm --filter @vaultui/components build",
     "icons": "pnpm --filter @vaultui/icons-site dev",
     "icons:build": "pnpm --filter @vaultui/icons-site build",
+    "icons:validate": "node packages/icons/scripts/validate-icons.mjs",
     "storybook": "pnpm --filter @vaultui/storybook storybook",
     "clean": "turbo run clean && rm -rf node_modules",
     "publish:free": "cd packages/tokens && npm publish --access public && cd ../../packages/utils && npm publish --access public && cd ../../packages/ui && npm publish --access public"
