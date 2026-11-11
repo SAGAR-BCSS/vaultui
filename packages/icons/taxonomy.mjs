@@ -1,7 +1,7 @@
 /**
  * Vault Icons — master taxonomy.
  *
- * Nine development categories, evaluated in priority order (first match wins).
+ * Ten development categories, evaluated in priority order (first match wins).
  * Every icon lands in exactly one category, so the inventory can never lose an
  * icon to a "misc" bucket.
  */
@@ -94,7 +94,9 @@ const RULES = [
     match: (n) =>
       anyPrefix(n, [
         "currency", "shopping", "bag", "basket", "handbag", "coin", "coins",
-        "money", "piggy-bank", "wallet", "bank", "cash-register", "calculator",
+        "money", "piggy-bank", "wallet", "bank", "credit-card", "cart",
+        "hand-coins", "hand-deposit", "hand-withdraw",
+        "cash-register", "calculator",
         "percent", "tag", "gift", "medal", "trophy", "trend", "chart", "graph",
         "ranking", "invoice", "receipt", "scales", "storefront", "ticket",
         "barcode", "qr-code", "tip-jar", "treasure-chest", "sales", "discount",
@@ -108,7 +110,8 @@ const RULES = [
         "envelope", "mail", "mailbox", "chat", "chats", "paper-plane", "phone",
         "broadcast", "cell-tower", "cell-signal", "megaphone", "rss",
         "voicemail", "at", "hash", "translate", "user-sound", "share-network",
-        "share-fat", "share",
+        "share-fat", "share", "message", "send", "smiley", "mask-happy",
+        "mask-sad",
       ]),
   },
   {
@@ -124,8 +127,14 @@ const RULES = [
         "high-definition", "standard-definition", "playlist", "game-controller",
         "joystick", "virtual-reality", "drone", "boombox", "amplifier",
         "video-conference", "monitor-play", "cast", "wave-sine", "wave-square",
-        "wave-sawtooth", "wave-triangle", "waves",
+        "wave-sawtooth", "wave-triangle", "waves", "aperture", "crop",
+        "disco-ball", "eyedropper", "headphone", "mouse", "panorama", "power",
+        "printer", "security-camera", "vignette",
       ]),
+  },
+  {
+    id: "arrows-navigation",
+    match: (n) => anyPrefix(n, ["map-pin"]),
   },
   {
     id: "files-folders",
@@ -134,7 +143,7 @@ const RULES = [
         "file", "files", "folder", "folders", "archive", "book", "books",
         "notebook", "bookmark", "bookmarks", "briefcase", "map", "package",
         "tray", "certificate", "identification", "vault", "cabinet", "lockers",
-        "address-book",
+        "address-book", "floppy-disk",
       ]),
   },
   {
@@ -144,8 +153,8 @@ const RULES = [
         "text", "align", "article", "paragraph", "quotes", "link", "scissors",
         "clipboard", "paperclip", "highlighter", "pencil", "pen", "marker",
         "eraser", "signature", "ruler", "list", "indent", "outdent", "backspace",
-        "keyboard", "cursor-text", "note", "notepad", "chalkboard", "log",
-        "line-segment", "line-segments", "spell", "type",
+        "keyboard", "cursor-text", "note", "notepad", "newspaper", "exam",
+        "chalkboard", "log", "line-segment", "line-segments", "spell", "type",
       ]),
   },
   {
@@ -156,7 +165,8 @@ const RULES = [
         "cpu", "memory", "graphics-card", "git", "cube", "stack", "layout",
         "monitor", "desktop", "laptop", "device", "devices", "computer-tower",
         "cloud", "activity", "pulse", "webhooks", "brackets", "bug", "binary",
-        "tree-structure", "tree-view", "network", "plug", "plugs", "usb", "wifi",
+        "tree-structure", "tree-view", "network", "globe", "plug", "plugs",
+        "usb", "wifi",
         "bluetooth", "browser", "browsers", "app-window", "rows", "columns",
         "grid", "kanban", "function", "matrix", "command", "option", "sim-card",
         "vibrate", "scan", "flow-arrow", "sidebar", "queue", "circuitry",
@@ -171,7 +181,7 @@ const RULES = [
         "warning", "check", "seal", "shield", "flag", "timer", "clock",
         "hourglass", "spinner", "siren", "alarm", "prohibit", "info", "question",
         "first-aid", "heartbeat", "bell", "notification", "lifebuoy", "battery",
-        "gauge", "speedometer", "traffic", "radioactive", "biohazard", "sos",
+        "lock", "gauge", "speedometer", "traffic", "radioactive", "biohazard", "sos",
       ]),
   },
   {
@@ -179,8 +189,9 @@ const RULES = [
     match: (n) =>
       anyPrefix(n, [
         "arrow", "arrows", "caret", "chevron", "corner", "corners", "resize",
-        "navigation", "compass", "sign-in", "sign-out", "repeat", "shuffle",
-        "swap", "sort", "flip", "split-horizontal", "split-vertical", "signpost",
+        "navigation", "compass", "sign-in", "sign-out", "repeat", "refresh",
+        "rotate", "shuffle", "swap", "sort", "flip", "split-horizontal",
+        "split-vertical", "signpost",
         "stairs", "escalator", "elevator", "road-horizon", "gps", "crosshair",
       ]),
   },
@@ -240,6 +251,12 @@ const RULES = [
         "knife", "robot", "feather", "flask", "gavel", "graduation-cap",
         "hard-hat", "head-circuit", "lectern", "microscope", "stamp",
         "sticker", "suitcase", "tote", "recycle", "scroll", "barricade",
+        // household, people, health & infrastructure
+        "chef-hat", "cheers", "checkerboard", "strategy", "student", "trolley",
+        "door", "office-chair", "stool", "seat", "picnic-table", "towel", "wall",
+        "swimming-pool", "spray-bottle", "test-tube", "yarn",
+        "shipping-container", "solar", "nuclear-plant", "hand", "ear", "eyes",
+        "heart", "person", "gender",
       ]),
   },
   {
@@ -352,4 +369,64 @@ export const ALIASES = {
   "loader": ["spinner"],
   "warning-hex": ["warning-diamond"],
   "x-octagon": ["x-circle"],
+
+  // navigation & window actions
+  "rotate-ccw": ["arrow-counter-clockwise"],
+  expand: ["corners-out"],
+  collapse: ["corners-in"],
+  fullscreen: ["corners-out"],
+  external: ["arrow-square-out"],
+  "share-2": ["share-network"],
+  wifi: ["wifi-high"],
+  "wifi-off": ["wifi-slash"],
+
+  // accounts & people
+  people: ["users"],
+  "add-user": ["user-plus"],
+  "remove-user": ["user-minus"],
+  "check-user": ["user-check"],
+
+  // files & documents
+  document: ["file-text"],
+  "file-upload": ["file-arrow-up"],
+  "file-download": ["file-arrow-down"],
+  "file-search": ["file-magnifying-glass"],
+  "folder-add": ["folder-plus"],
+  "folder-remove": ["folder-minus"],
+  "archive-box": ["archive"],
+  map: ["map-trifold"],
+
+  // development, git & cloud
+  "pull-request": ["git-pull-request"],
+  pr: ["git-pull-request"],
+  "source-control": ["git-branch"],
+  merge: ["git-merge"],
+  commit: ["git-commit"],
+  branch: ["git-branch"],
+  fork: ["git-fork"],
+  diff: ["git-diff"],
+  "cloud-upload": ["cloud-arrow-up"],
+  "cloud-download": ["cloud-arrow-down"],
+
+  // currency shorthand
+  usd: ["currency-dollar"],
+  eur: ["currency-eur"],
+  gbp: ["currency-gbp"],
+  btc: ["currency-btc"],
+  yen: ["currency-jpy"],
+  rupee: ["currency-inr"],
+
+  // media & audio
+  film: ["film-reel", "film-strip"],
+  cast: ["airplay", "screencast"],
+  speaker: ["speaker-high", "speaker-hifi"],
+  headphone: ["headphones"],
+  "volume-off": ["speaker-slash"],
+  mute: ["speaker-x"],
+  "bell-off": ["bell-slash"],
+
+  // editing & destructive actions
+  underline: ["text-underline"],
+  "trash-2": ["trash-simple"],
+  delete: ["trash"],
 };
