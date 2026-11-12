@@ -13,10 +13,10 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 
 | Item | Value |
 | --- | --- |
-| Commit (`sagar/dev`) | `a34d7e2` |
-| Remote tip (`origin/sagar/dev`) | `a34d7e2` |
+| Commit (`sagar/dev`) | `28afacc` |
+| Remote tip (`origin/sagar/dev`) | `28afacc` |
 | Inventory | **1,557 icons × 6 weights = 9,342 SVGs** |
-| Original masters | **743 (47.7%)** |
+| Original masters | **803 (51.6%)** |
 | Reference source | Phosphor MIT (being replaced batch by batch) |
 | Validator | **PASS** — 0 problems |
 | Site pages | 1,559 (index + 1,556 icon pages + 404) |
@@ -116,12 +116,13 @@ Then update §1 and §4 here.
 | W | Agent 3 | 30 | collected `b956114` | 593 |
 | U | Agent 1 | 30 | collected `d8a3edd` | 623 |
 | X | Agent 2 | 30 | collected `1e2955f` | 653 |
-| Y | Agent 3 | 30 | collected `a34d7e2` | 743 |
-| **AB** | Agent 1 | 30 | assigned | ~773 |
-| **AC** | Agent 2 | 30 | assigned | ~803 |
+| AB | Agent 1 | 30 | collected `1ae167e` | 773 |
+| AC | Agent 2 | 30 | collected `28afacc` | 803 |
 | **AD** | Agent 3 | 30 | assigned | ~833 |
+| **AE** | Agent 1 | 30 | assigned | ~863 |
+| **AF** | Agent 2 | 30 | assigned | ~893 |
 
-Next letters: AE, AF, AG … (30 per batch). Remaining reference glyphs ≈ 814 → ~27 batches.
+Next letters: AG, AH, AI … (30 per batch). Remaining reference glyphs ≈ 754 → ~25 batches.
 
 > S/T superseded: S (sports/fitness) folded into V; T (weather/nature) was covered by Q.
 > Batch T (`8a2dc3c`) rejected on collection: 25/30 names already `original` (Q). 5 salvageable
