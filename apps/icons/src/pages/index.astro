@@ -124,10 +124,33 @@ const totalFiles = manifest.total * manifest.weights.length;
             </div>
           </div>
 
+          <button
+            type="button"
+            id="select-toggle"
+            class="inline-flex h-10 items-center gap-2 rounded-full px-3 text-[14px] font-medium shrink-0"
+            style="background: var(--color-surface-0); color: var(--color-surface-800); box-shadow: var(--shadow-soft)"
+            aria-pressed="false"
+            aria-label="Select icons to build an install command"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="3" y="3.5" width="7.5" height="7.5" rx="2" />
+              <rect x="13.5" y="13" width="7.5" height="7.5" rx="2" />
+              <path d="m14 6.5 1.8 1.8L20 4.5" />
+            </svg>
+            <span class="hidden sm:inline" data-select-label>Multi-select</span>
+            <span class="select-count-badge" data-select-badge hidden>0</span>
+          </button>
+
           <div class="ml-auto flex items-center gap-3 shrink-0">
             <span class="hidden sm:inline text-[12px] tabular-nums" style="color: var(--color-surface-600)" id="result-count" aria-live="polite">
               {manifest.total.toLocaleString()} icons
             </span>
+            <a
+              href="/philosophy"
+              class="hidden sm:inline-flex items-center h-10 rounded-md px-3 text-[14px] font-medium"
+              style="background: var(--color-surface-0); color: var(--color-surface-700); box-shadow: var(--shadow-soft)"
+              title="Philosophy"
+            >Philosophy</a>
             <a
               href="https://github.com/SAGARBABU123/vaultui"
               class="inline-grid place-items-center w-10 h-10 rounded-md"
@@ -154,6 +177,11 @@ const totalFiles = manifest.total * manifest.weights.length;
           <p class="text-[12px] tabular-nums shrink-0" style="color: var(--color-surface-600)">
             {totalFiles.toLocaleString()} SVG files · 256 grid · currentColor
           </p>
+        </div>
+
+        <div class="select-hint" id="select-hint" hidden>
+          <span class="select-hint__dot" aria-hidden="true"></span>
+          <span>Selection mode is on — tap icons to add them, then copy your command from the bar below. Press <kbd>Esc</kbd> or Done to exit.</span>
         </div>
 
         <noscript>
@@ -209,6 +237,39 @@ const totalFiles = manifest.total * manifest.weights.length;
         </div>
       </div>
     </main>
+  </div>
+
+  <div class="select-bar" id="select-bar" role="region" aria-label="Icon selection" hidden>
+    <div class="select-bar__head">
+      <p class="select-bar__count"><strong data-select-count>0</strong> selected</p>
+      <div class="select-bar__actions">
+        <button type="button" class="btn btn--ghost btn--sm" data-select-clear>Clear</button>
+        <button type="button" class="btn btn--primary btn--sm" data-select-done>Done</button>
+      </div>
+    </div>
+
+    <div class="select-bar__controls">
+      <div class="segmented" role="radiogroup" aria-label="Framework">
+        <button type="button" class="seg-btn" role="radio" data-select-lang="react" aria-checked="true">React</button>
+        <button type="button" class="seg-btn" role="radio" data-select-lang="vue" aria-checked="false">Vue</button>
+        <button type="button" class="seg-btn" role="radio" data-select-lang="svelte" aria-checked="false">Svelte</button>
+      </div>
+      <div class="segmented" role="radiogroup" aria-label="Package manager">
+        <button type="button" class="seg-btn" role="radio" data-select-pm="npm" aria-checked="true">npm</button>
+        <button type="button" class="seg-btn" role="radio" data-select-pm="yarn" aria-checked="false">yarn</button>
+        <button type="button" class="seg-btn" role="radio" data-select-pm="pnpm" aria-checked="false">pnpm</button>
+        <button type="button" class="seg-btn" role="radio" data-select-pm="bun" aria-checked="false">bun</button>
+      </div>
+    </div>
+
+    <div class="select-bar__row">
+      <code class="select-bar__code" data-select-install></code>
+      <button type="button" class="btn btn--ghost btn--sm" data-select-copy-install>Copy</button>
+    </div>
+    <div class="select-bar__row">
+      <code class="select-bar__code" data-select-import></code>
+      <button type="button" class="btn btn--ghost btn--sm" data-select-copy-import>Copy</button>
+    </div>
   </div>
 
   <IconModal weights={manifest.weights} />

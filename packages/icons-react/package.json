@@ -1,0 +1,56 @@
+{
+  "name": "@vaultui/icons-react",
+  "version": "0.1.0",
+  "description": "Vault Icons — 1,557 hand-authored icons in 6 weights as tree-shakeable React components.",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node ../icons/scripts/generate-components.mjs react",
+    "build": "pnpm run generate && tsup",
+    "typecheck": "pnpm run generate && tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@vaultui/configs": "workspace:*",
+    "@types/react": "^18.3.0",
+    "react": "^18.3.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.7.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "esm",
+      "cjs"
+    ],
+    "dts": true,
+    "clean": true,
+    "sourcemap": true,
+    "treeshake": true,
+    "external": [
+      "react",
+      "react/jsx-runtime"
+    ]
+  }
+}

@@ -1,0 +1,178 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const canonical = new URL(
+  "/philosophy",
+  Astro.site ?? "https://icons.vaultui-icons-site.workers.dev",
+).toString();
+
+const principles = [
+  { label: "Grid", value: "24 × 24" },
+  { label: "Safe zone", value: "2.4 – 21.6" },
+  { label: "Optical stroke", value: "1.6 regular" },
+  { label: "Stroke weights", value: "0.9 / 1.25 / 2.4" },
+  { label: "Caps & joins", value: "rounded" },
+  { label: "Shape budget", value: "1 – 4" },
+];
+
+const guarantees = [
+  { label: "Tree-shakeable", value: "import one icon, ship one icon" },
+  { label: "Runtime deps", value: "zero" },
+  { label: "License", value: "MIT" },
+  { label: "Package managers", value: "npm · yarn · pnpm · bun" },
+  { label: "Weights", value: "6 — thin · light · regular · bold · fill · duotone" },
+];
+---
+
+<BaseLayout
+  title="Philosophy — Vault Icons"
+  description="Why Vault Icons exists: a complete, consistent, hand-crafted icon set. Free, MIT-licensed, 100% original geometry, zero runtime dependencies."
+>
+  <link rel="canonical" href={canonical} />
+
+  <main class="min-h-dvh">
+    <div class="mx-auto max-w-[900px] px-6 py-10">
+      <nav class="flex flex-wrap items-center justify-between gap-3">
+        <a href="/" class="text-[14px] font-medium" style="color: var(--color-brand-700)">← All icons</a>
+        <a
+          href="https://github.com/SAGARBABU123/vaultui"
+          class="text-[14px]"
+          style="color: var(--color-surface-600)"
+          aria-label="GitHub repository"
+        >GitHub</a>
+      </nav>
+
+      <header class="mt-12">
+        <p class="text-[12px] font-bold uppercase tracking-[0.14em]" style="color: var(--color-surface-500)">Philosophy</p>
+        <h1 class="text-[44px] sm:text-[56px] leading-[1.04] font-semibold mt-2" style="letter-spacing: -0.03em">
+          Hand-crafted, never traced
+        </h1>
+        <p class="mt-4 max-w-[56ch] text-[17px] leading-relaxed" style="color: var(--color-surface-600)">
+          Every glyph in Vault Icons is drawn from an empty 24×24 grid — one set of rules,
+          one optical rhythm, zero shortcuts. This is the contract we hold all 1,557 icons to.
+        </p>
+      </header>
+
+      <section class="mt-12" aria-labelledby="mission-heading">
+        <div class="rounded-lg border p-6 sm:p-8" style="border-color: var(--color-surface-200); background: var(--color-surface-0); box-shadow: var(--shadow-soft)">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid place-items-center w-9 h-9 rounded-lg shrink-0"
+              style="background: linear-gradient(140deg, var(--color-brand-100), var(--color-brand-50)); box-shadow: inset 0 0 0 1px var(--color-brand-200)"
+              aria-hidden="true"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="9" />
+                <circle cx="12" cy="12" r="4.5" />
+                <circle cx="12" cy="12" r="0.5" fill="var(--color-brand-600)" />
+              </svg>
+            </span>
+            <h2 id="mission-heading" class="text-[20px] font-semibold" style="letter-spacing: -0.02em">Mission</h2>
+          </div>
+          <p class="mt-4 text-[16px] leading-relaxed max-w-[62ch]" style="color: var(--color-surface-700)">
+            A complete, consistent, hand-crafted icon set. Free, MIT-licensed, and with zero runtime
+            dependencies — so it drops into any stack without weighing it down.
+          </p>
+        </div>
+      </section>
+
+      <section class="mt-6" aria-labelledby="principles-heading">
+        <div class="rounded-lg border p-6 sm:p-8" style="border-color: var(--color-surface-200); background: var(--color-surface-0); box-shadow: var(--shadow-soft)">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid place-items-center w-9 h-9 rounded-lg shrink-0"
+              style="background: linear-gradient(140deg, var(--color-brand-100), var(--color-brand-50)); box-shadow: inset 0 0 0 1px var(--color-brand-200)"
+              aria-hidden="true"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 20V4" />
+                <path d="M4 20h16" />
+                <rect x="8" y="9" width="9" height="7" rx="1" />
+              </svg>
+            </span>
+            <h2 id="principles-heading" class="text-[20px] font-semibold" style="letter-spacing: -0.02em">Design principles</h2>
+          </div>
+          <p class="mt-4 text-[15px] leading-relaxed max-w-[62ch]" style="color: var(--color-surface-700)">
+            Six rules keep every glyph optically consistent, from a single weather icon to the whole library.
+          </p>
+          <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {principles.map((item) => (
+              <div
+                class="rounded-md px-4 py-3 border"
+                style="border-color: var(--color-surface-200); background: var(--color-surface-50)"
+              >
+                <dt class="text-[12px] font-semibold uppercase tracking-[0.1em]" style="color: var(--color-surface-500)">
+                  {item.label}
+                </dt>
+                <dd class="mt-1 text-[15px] font-medium tabular-nums" style="color: var(--color-surface-900)">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <section class="mt-6" aria-labelledby="original-heading">
+        <div class="rounded-lg border p-6 sm:p-8" style="border-color: var(--color-surface-200); background: var(--color-surface-0); box-shadow: var(--shadow-soft)">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid place-items-center w-9 h-9 rounded-lg shrink-0"
+              style="background: linear-gradient(140deg, var(--color-brand-100), var(--color-brand-50)); box-shadow: inset 0 0 0 1px var(--color-brand-200)"
+              aria-hidden="true"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7Z" />
+                <path d="M12 2.5v19" />
+                <path d="M12 7 3.5 12M12 7l8.5 5" />
+              </svg>
+            </span>
+            <h2 id="original-heading" class="text-[20px] font-semibold" style="letter-spacing: -0.02em">100% original geometry</h2>
+          </div>
+          <p class="mt-4 text-[16px] leading-relaxed max-w-[62ch]" style="color: var(--color-surface-700)">
+            All 1,557 icons are hand-authored in-house, never traced. No third-party glyphs, no
+            auto-traced outlines, no borrowed paths — every point is placed on purpose.
+          </p>
+        </div>
+      </section>
+
+      <section class="mt-6" aria-labelledby="guarantees-heading">
+        <div class="rounded-lg border p-6 sm:p-8" style="border-color: var(--color-surface-200); background: var(--color-surface-0); box-shadow: var(--shadow-soft)">
+          <div class="flex items-center gap-3">
+            <span
+              class="grid place-items-center w-9 h-9 rounded-lg shrink-0"
+              style="background: linear-gradient(140deg, var(--color-brand-100), var(--color-brand-50)); box-shadow: inset 0 0 0 1px var(--color-brand-200)"
+              aria-hidden="true"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3 5 5.5v5c0 4.2 2.9 7.6 7 9.5 4.1-1.9 7-5.3 7-9.5v-5Z" />
+                <path d="m9 12 2 2 4-4" />
+              </svg>
+            </span>
+            <h2 id="guarantees-heading" class="text-[20px] font-semibold" style="letter-spacing: -0.02em">Developer guarantees</h2>
+          </div>
+          <dl class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {guarantees.map((item) => (
+              <div
+                class="rounded-md px-4 py-3 border"
+                style="border-color: var(--color-surface-200); background: var(--color-surface-50)"
+              >
+                <dt class="text-[12px] font-semibold uppercase tracking-[0.1em]" style="color: var(--color-surface-500)">
+                  {item.label}
+                </dt>
+                <dd class="mt-1 text-[15px] font-medium" style="color: var(--color-surface-900)">
+                  {item.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+
+      <footer class="mt-12 pb-8 flex flex-wrap items-center justify-between gap-3 text-[13px]" style="color: var(--color-surface-600)">
+        <span>Vault Icons · free, MIT, zero deps</span>
+        <a href="/" class="font-medium" style="color: var(--color-brand-700)">Browse the library →</a>
+      </footer>
+    </div>
+  </main>
+</BaseLayout>
