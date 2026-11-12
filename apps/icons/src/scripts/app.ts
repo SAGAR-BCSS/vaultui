@@ -48,6 +48,7 @@ const state = {
   modalWeight: "regular",
   modalSize: 48,
   lang: "react" as "react" | "vue" | "svelte" | "html",
+  pm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
   lastFocus: null as HTMLElement | null,
 };
 
@@ -68,6 +69,38 @@ const pascal = (name: string) =>
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
+
+const PACKAGES: Record<string, string> = {
+  react: "@vaultui/icons-react",
+  vue: "@vaultui/icons-vue",
+  svelte: "@vaultui/icons-svelte",
+};
+
+const INSTALLERS: Record<"npm" | "yarn" | "pnpm" | "bun", string> = {
+  npm: "npm i",
+  yarn: "yarn add",
+  pnpm: "pnpm add",
+  bun: "bun add",
+};
+
+const WEIGHT_SUFFIX: Record<string, string> = {
+  thin: "Thin",
+  light: "Light",
+  regular: "",
+  bold: "Bold",
+  fill: "Fill",
+  duotone: "Duotone",
+};
+
+function installFor(name: string): { command: string; importLine: string } | null {
+  const pkg = PACKAGES[state.lang];
+  if (!pkg) return null;
+  const suffix = WEIGHT_SUFFIX[state.modalWeight] ?? "";
+  return {
+    command: `${INSTALLERS[state.pm]} ${pkg}`,
+    importLine: `import { ${pascal(name)}${suffix} } from "${pkg}";`,
+  };
+}
 
 const innerOf = (svg: string) =>
   svg
@@ -501,6 +534,14 @@ function paintModal() {
   }
   if (code) code.textContent = snippetFor(icon.name, svg, state.lang);
 
+  const install = installFor(icon.name);
+  const installPanel = modal.querySelector<HTMLElement>("[data-install-panel]");
+  const installCommand = $("[data-install-command]");
+  const importLine = $("[data-import-line]");
+  if (installPanel) installPanel.hidden = !install;
+  if (installCommand) installCommand.textContent = install?.command ?? "";
+  if (importLine) importLine.textContent = install?.importLine ?? "";
+
   const position = state.items.findIndex((entry) => entry.name === icon.name);
   const positionEl = $("[data-modal-position]");
   if (positionEl) positionEl.textContent = `${position + 1} / ${state.items.length}`;
@@ -516,6 +557,9 @@ function paintModal() {
   });
   $$("[data-lang]").forEach((button) => {
     button.setAttribute("aria-selected", String(button.getAttribute("data-lang") === state.lang));
+  });
+  $$("[data-pm]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-pm") === state.pm));
   });
 }
 
@@ -784,6 +828,22 @@ function wire() {
       if (langButton) {
         state.lang = (langButton.getAttribute("data-lang") as typeof state.lang) || "react";
         paintModal();
+        return;
+      }
+      const pmButton = target.closest<HTMLElement>("[data-pm]");
+      if (pmButton) {
+        state.pm = (pmButton.getAttribute("data-pm") as typeof state.pm) || "npm";
+        paintModal();
+        return;
+      }
+      if (target.closest("[data-modal-copy-install]")) {
+        const install = installFor(state.modalName);
+        if (install) copyText(install.command);
+        return;
+      }
+      if (target.closest("[data-modal-copy-import]")) {
+        const install = installFor(state.modalName);
+        if (install) copyText(install.importLine);
         return;
       }
     }
