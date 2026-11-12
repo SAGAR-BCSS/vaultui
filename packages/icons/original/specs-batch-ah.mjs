@@ -1,0 +1,70 @@
+/**
+ * Vault Icons - original masters, batch AH.
+ *
+ * Media & devices glyphs authored on the 24px grid, inner markup only.
+ * Glyphs that use an open path get a solid silhouette in BATCH_AH_FILLS so
+ * the fill and duotone weights read correctly.
+ */
+
+export const BATCH_AH = {
+  "video-camera": `<rect x="2.8" y="7" width="12.8" height="10" rx="2.2"/><path d="M15.6 10.6 21.2 7.4v9.2l-5.6-3.2Z"/>`,
+  "video-camera-slash": `<rect x="2.8" y="7" width="12.8" height="10" rx="2.2"/><path d="M15.6 10.6 21.2 7.4v9.2l-5.6-3.2Z"/><path d="M4 4l16 16"/>`,
+  "projector-screen": `<rect x="3.4" y="3.4" width="17.2" height="11.2" rx="1.6"/><path d="M12 14.6v4M8.6 20.6h6.8"/>`,
+  "projector-screen-chart": `<rect x="3.4" y="3.4" width="17.2" height="11.2" rx="1.6"/><path d="M7.6 11.8V8.8M10.4 11.8V6.8M13.2 11.8V9.6M16 11.8V7.6"/><path d="M12 14.6v4M8.6 20.6h6.8"/>`,
+  "stop-circle": `<circle cx="12" cy="12" r="8"/><rect x="9" y="9" width="6" height="6" rx="1.2"/>`,
+  gif: `<rect x="2.8" y="6.4" width="18.4" height="11.2" rx="3"/><path d="M9.4 10a2.7 2.7 0 1 0 0 4M9.4 12H7.6M11.6 9.6v4.8M14.2 14.4V9.6h3.2M14.2 12h2.4"/>`,
+  "microphone-slash": `<rect x="9.2" y="3" width="5.6" height="9.6" rx="2.8"/><path d="M6.4 11.2a5.6 5.6 0 0 1 11.2 0M12 16.8v3.4M9.4 20.2h5.2"/><path d="M4 4l16 16"/>`,
+  "monitor-play": `<rect x="2.8" y="4.2" width="18.4" height="12.4" rx="2"/><path d="M10 7.8 15.4 10.4 10 13Z"/><path d="M12 16.6v4M9 20.6h6"/>`,
+  "mouse-simple": `<rect x="7" y="2.8" width="10" height="18.4" rx="5"/><path d="M12 6.4v3.4"/>`,
+  "mouse-scroll": `<rect x="7" y="2.8" width="10" height="18.4" rx="5"/><path d="M12 5.4v4.2M10.8 6.6 12 5.4l1.2 1.2M10.8 8.4 12 9.6l1.2-1.2"/>`,
+  "music-notes-minus": `<circle cx="7" cy="16.6" r="2.4"/><circle cx="16.6" cy="14.8" r="2.4"/><path d="M9.2 16.6V6.2l9.6-1.6v10.2"/><path d="M16.2 20.4h4.4"/>`,
+  "music-notes-plus": `<circle cx="7" cy="16.6" r="2.4"/><circle cx="16.6" cy="14.8" r="2.4"/><path d="M9.2 16.6V6.2l9.6-1.6v10.2"/><path d="M18.6 17.8v3.6M16.8 19.6h3.6"/>`,
+  panorama: `<rect x="2.8" y="6" width="18.4" height="12" rx="2.4"/><circle cx="8.4" cy="10.2" r="1.8"/><path d="M4.6 16.6 9.2 12l2.8 3 2.4-2.6 4.6 4.2"/>`,
+  presentation: `<rect x="2.8" y="3.6" width="18.4" height="11.6" rx="1.6"/><path d="M7.2 11.6 10 8.8l2.4 2.2 3.4-3.6"/><path d="M12 15.2v4M8.8 20.6h6.4"/>`,
+  "presentation-chart": `<rect x="2.8" y="3.6" width="18.4" height="11.6" rx="1.6"/><path d="M7.8 12V9.2M10.8 12V7M13.8 12V9.4M16.8 12V7.8"/><path d="M12 15.2v4M8.8 20.6h6.4"/>`,
+  "security-camera": `<path d="M3.6 11.6a8.4 8.4 0 0 1 16.8 0Z"/><circle cx="12" cy="16.4" r="1.8"/><path d="M7.8 11.6V8.8h8.4v2.8"/>`,
+  "skip-back-circle": `<circle cx="12" cy="12" r="8"/><path d="M14.8 8.6 10 12l4.8 3.4Z"/><path d="M9.4 8.6v6.8"/>`,
+  "skip-forward-circle": `<circle cx="12" cy="12" r="8"/><path d="M9.2 8.6 14 12l-4.8 3.4Z"/><path d="M14.6 8.6v6.8"/>`,
+  slideshow: `<rect x="2.8" y="4.2" width="18.4" height="11.6" rx="2"/><path d="M8.4 15.8 6.8 20.6M15.6 15.8l1.6 4.8"/><rect x="8" y="7.6" width="8" height="4.8" rx="0.8"/>`,
+  "speaker-hifi": `<rect x="6.4" y="2.8" width="11.2" height="18.4" rx="2"/><circle cx="12" cy="8.6" r="3.2"/><circle cx="12" cy="16" r="2"/><path d="M9.8 5.2h4.4"/>`,
+  "speaker-simple-high": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/><path d="M15.4 9.2a4.2 4.2 0 0 1 0 5.6M18 6.8a8 8 0 0 1 0 10.4"/>`,
+  "speaker-simple-low": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/><path d="M15.4 9.2a4.2 4.2 0 0 1 0 5.6"/>`,
+  "speaker-simple-slash": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/><path d="M4 4l16 16"/>`,
+  "speaker-simple-x": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/><path d="M15.6 9.4l4.8 5.2M20.4 9.4l-4.8 5.2"/>`,
+  "subtitles-slash": `<rect x="2.8" y="6.4" width="18.4" height="11.2" rx="2"/><path d="M6.6 10.4h4.2M6.6 13.6h2.6M12.4 10.4h5M12.4 13.6h3.4"/><path d="M4 4l16 16"/>`,
+  "television-simple": `<rect x="2.8" y="4.6" width="18.4" height="12.4" rx="2"/><path d="M12 17v3.6M8.4 20.6h7.2"/>`,
+  "video-conference": `<rect x="2.8" y="3.6" width="18.4" height="12.8" rx="2"/><circle cx="12" cy="8.4" r="1.9"/><path d="M8.4 13.6a3.6 3.6 0 0 1 7.2 0"/><path d="M12 16.4v4.2M8.4 20.6h7.2"/>`,
+  vignette: `<rect x="2.8" y="4.2" width="18.4" height="15.6" rx="2"/><rect x="6.6" y="7.4" width="10.8" height="9.2" rx="4.6"/>`,
+  webcam: `<circle cx="12" cy="10" r="5.2"/><circle cx="12" cy="10" r="2"/><path d="M8.2 15.6 6.4 20.6h11.2l-1.8-5"/>`,
+  "webcam-slash": `<circle cx="12" cy="10" r="5.2"/><circle cx="12" cy="10" r="2"/><path d="M8.2 15.6 6.4 20.6h11.2l-1.8-5"/><path d="M4 4l16 16"/>`,
+};
+
+export const BATCH_AH_FILLS = {
+  "video-camera-slash": `<rect x="2.8" y="7" width="12.8" height="10" rx="2.2"/><path d="M15.6 10.6 21.2 7.4v9.2l-5.6-3.2Z"/>`,
+  "projector-screen": `<rect x="3.4" y="3.4" width="17.2" height="11.2" rx="1.6"/><path d="M11.2 14.6h1.6v4.4h2.6v1.6H8.6v-1.6h2.6Z"/>`,
+  "projector-screen-chart": `<rect x="3.4" y="3.4" width="17.2" height="11.2" rx="1.6"/><path d="M11.2 14.6h1.6v4.4h2.6v1.6H8.6v-1.6h2.6Z"/>`,
+  gif: `<rect x="2.8" y="6.4" width="18.4" height="11.2" rx="3"/>`,
+  "microphone-slash": `<rect x="9.2" y="3" width="5.6" height="9.6" rx="2.8"/><path d="M6.8 11.2a5.2 5.2 0 0 0 10.4 0h-1.6a3.6 3.6 0 0 1-7.2 0ZM11.2 16.4h1.6v2.6h2.6v1.6H9.4v-1.6h2.6Z"/>`,
+  "monitor-play": `<rect x="2.8" y="4.2" width="18.4" height="12.4" rx="2"/><path d="M11.2 16.6h1.6v3.2h2.6v1.6H8.6v-1.6h2.6Z"/>`,
+  "mouse-simple": `<rect x="7" y="2.8" width="10" height="18.4" rx="5"/>`,
+  "mouse-scroll": `<path d="M12 2.8a5 5 0 0 1 5 5v8.4a5 5 0 0 1-10 0V7.8a5 5 0 0 1 5-5Z"/>`,
+  "music-notes-minus": `<circle cx="7" cy="16.6" r="2.4"/><circle cx="16.6" cy="14.8" r="2.4"/><path d="M8.2 16.6V6.4l10.6-1.8v10.2h-1.6V6.7l-7.4 1.3v8.6Z"/><path d="M16.6 19h4.2v1.6h-4.2Z"/>`,
+  "music-notes-plus": `<circle cx="7" cy="16.6" r="2.4"/><circle cx="16.6" cy="14.8" r="2.4"/><path d="M8.2 16.6V6.4l10.6-1.8v10.2h-1.6V6.7l-7.4 1.3v8.6Z"/><path d="M18 17.8h1.2v1.2h1.2v1.2h-1.2v1.2H18v-1.2h-1.2v-1.2H18Z"/>`,
+  panorama: `<rect x="2.8" y="6" width="18.4" height="12" rx="2.4"/>`,
+  presentation: `<rect x="2.8" y="3.6" width="18.4" height="11.6" rx="1.6"/><path d="M11.2 15.2h1.6v3.8h2.6v1.6H8.8v-1.6h2.4Z"/>`,
+  "presentation-chart": `<rect x="2.8" y="3.6" width="18.4" height="11.6" rx="1.6"/><path d="M11.2 15.2h1.6v3.8h2.6v1.6H8.8v-1.6h2.4Z"/>`,
+  "security-camera": `<path d="M3.6 11.6a8.4 8.4 0 0 1 16.8 0Z"/><rect x="7.8" y="8.8" width="8.4" height="2.8"/>`,
+  "skip-back-circle": `<circle cx="12" cy="12" r="8"/>`,
+  "skip-forward-circle": `<circle cx="12" cy="12" r="8"/>`,
+  slideshow: `<rect x="2.8" y="4.2" width="18.4" height="11.6" rx="2"/><path d="M8.4 15.8h1.6l-1.6 4.8H6.8ZM14 15.8h1.6l1.6 4.8h-1.6Z"/>`,
+  "speaker-hifi": `<rect x="6.4" y="2.8" width="11.2" height="18.4" rx="2"/>`,
+  "speaker-simple-high": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/>`,
+  "speaker-simple-low": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/>`,
+  "speaker-simple-slash": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/>`,
+  "speaker-simple-x": `<path d="M3.4 9.4h3.4l4.6-3.6v12.4l-4.6-3.6H3.4Z"/>`,
+  "subtitles-slash": `<rect x="2.8" y="6.4" width="18.4" height="11.2" rx="2"/>`,
+  "television-simple": `<rect x="2.8" y="4.6" width="18.4" height="12.4" rx="2"/><rect x="11.2" y="17" width="1.6" height="3.6"/><rect x="8.4" y="19.8" width="7.2" height="1.6" rx="0.8"/>`,
+  "video-conference": `<rect x="2.8" y="3.6" width="18.4" height="12.8" rx="2"/><rect x="11.2" y="16.4" width="1.6" height="4.2"/><rect x="8.4" y="19.8" width="7.2" height="1.6" rx="0.8"/>`,
+  webcam: `<circle cx="12" cy="10" r="5.2"/><path d="M8.2 15.6h1.6l-1.8 5H6.4ZM14.2 15.6h1.6l1.8 5h-1.6Z"/>`,
+  "webcam-slash": `<circle cx="12" cy="10" r="5.2"/><path d="M8.2 15.6h1.6l-1.8 5H6.4ZM14.2 15.6h1.6l1.8 5h-1.6Z"/>`,
+};
