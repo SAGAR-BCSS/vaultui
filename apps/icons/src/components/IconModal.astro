@@ -92,6 +92,25 @@ const sizes = [16, 24, 32, 48];
             </button>
           </div>
         </div>
+        <div class="install" data-install-panel>
+          <div class="field">
+            <span class="field__label">Install</span>
+            <div class="segmented" role="radiogroup" aria-label="Package manager">
+              <button type="button" class="seg-btn" role="radio" data-pm="npm" aria-checked="true">npm</button>
+              <button type="button" class="seg-btn" role="radio" data-pm="yarn" aria-checked="false">yarn</button>
+              <button type="button" class="seg-btn" role="radio" data-pm="pnpm" aria-checked="false">pnpm</button>
+              <button type="button" class="seg-btn" role="radio" data-pm="bun" aria-checked="false">bun</button>
+            </div>
+          </div>
+          <div class="install__row">
+            <code class="install__code" data-install-command></code>
+            <button type="button" class="btn btn--ghost btn--sm" data-modal-copy-install>Copy</button>
+          </div>
+          <div class="install__row">
+            <code class="install__code" data-import-line></code>
+            <button type="button" class="btn btn--ghost btn--sm" data-modal-copy-import>Copy</button>
+          </div>
+        </div>
         <div class="code-well" role="tabpanel" aria-live="polite">
           <pre><code data-code-output></code></pre>
         </div>
@@ -128,3 +147,33 @@ const sizes = [16, 24, 32, 48];
   aria-live="polite"
   data-toast
 ></div>
+
+<style>
+  .install {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .install__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 4px 4px 4px 12px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-50);
+    box-shadow: inset 0 0 0 1px var(--color-surface-200);
+  }
+
+  .install__code {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-surface-800);
+  }
+</style>
