@@ -110,6 +110,8 @@ Then update §1 and §4 here.
 Next letters: X, Y, Z … (30 per batch). Remaining reference glyphs ≈ 994 → ~33 batches.
 
 > S/T superseded: S (sports/fitness) folded into V; T (weather/nature) was covered by Q.
+> Batch T (`8a2dc3c`) rejected on collection: 25/30 names already `original` (Q). 5 salvageable
+> refs (atom, hurricane, fire-simple, rocket-launch, virus) queued for a later batch.
 
 ---
 
