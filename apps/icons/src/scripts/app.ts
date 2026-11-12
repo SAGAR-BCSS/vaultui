@@ -36,6 +36,8 @@ const modal = $("#icon-modal") as HTMLElement;
 const toast = $("[data-toast]") as HTMLElement;
 const weightTrigger = $("#weight-trigger") as HTMLButtonElement | null;
 const weightMenu = $("#weight-menu") as HTMLElement | null;
+const selectToggle = $("#select-toggle") as HTMLButtonElement | null;
+const selectBar = $("#select-bar") as HTMLElement | null;
 
 const state = {
   catalog: null as Catalog | null,
@@ -50,6 +52,10 @@ const state = {
   lang: "react" as "react" | "vue" | "svelte" | "html",
   pm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
   lastFocus: null as HTMLElement | null,
+  selectionMode: false,
+  selected: new Set<string>(),
+  selectLang: "react" as "react" | "vue" | "svelte",
+  selectPm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
 };
 
 const layout = { cols: 1, tile: 104, tileH: 84, gap: 12, rowH: 96 };
@@ -100,6 +106,97 @@ function installFor(name: string): { command: string; importLine: string } | nul
     command: `${INSTALLERS[state.pm]} ${pkg}`,
     importLine: `import { ${pascal(name)}${suffix} } from "${pkg}";`,
   };
+}
+
+/* ------------------------------------------------------------ selection */
+
+const CART_KEY = "vault-icons:cart";
+
+function selectionInstall(): string {
+  const pkg = PACKAGES[state.selectLang];
+  return pkg ? `${INSTALLERS[state.selectPm]} ${pkg}` : "";
+}
+
+function selectionImport(): string {
+  const pkg = PACKAGES[state.selectLang];
+  if (!pkg || state.selected.size === 0) return "";
+  const suffix = WEIGHT_SUFFIX[state.weight] ?? "";
+  const names = [...state.selected]
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => pascal(name) + suffix);
+  return `import { ${names.join(", ")} } from "${pkg}";`;
+}
+
+function persistSelection() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify([...state.selected]));
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+function updateSelectUi() {
+  const count = state.selected.size;
+
+  selectToggle?.setAttribute("aria-pressed", String(state.selectionMode));
+  selectToggle?.classList.toggle("is-active", state.selectionMode);
+  if (selectToggle) {
+    selectToggle.style.background = state.selectionMode ? "var(--color-brand-600)" : "var(--color-surface-0)";
+    selectToggle.style.color = state.selectionMode ? "var(--color-surface-0)" : "var(--color-surface-800)";
+  }
+  const selectLabel = $("[data-select-label]");
+  if (selectLabel) selectLabel.textContent = state.selectionMode ? "Selecting…" : "Multi-select";
+  const selectHint = $("#select-hint");
+  if (selectHint) selectHint.hidden = !state.selectionMode;
+  const badge = $("[data-select-badge]");
+  if (badge) {
+    badge.hidden = count === 0;
+    badge.textContent = String(count);
+  }
+
+  if (selectBar) selectBar.hidden = !state.selectionMode;
+
+  const countEl = $("[data-select-count]");
+  if (countEl) countEl.textContent = String(count);
+
+  const installEl = $("[data-select-install]");
+  if (installEl) installEl.textContent = count > 0 ? selectionInstall() : "Select icons to build a command";
+  const importEl = $("[data-select-import]");
+  if (importEl) importEl.textContent = count > 0 ? selectionImport() : "";
+
+  $$("[data-select-copy-install], [data-select-copy-import]").forEach((button) => {
+    (button as HTMLButtonElement).disabled = count === 0;
+  });
+
+  $$("[data-select-lang]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-select-lang") === state.selectLang));
+  });
+  $$("[data-select-pm]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-select-pm") === state.selectPm));
+  });
+
+  grid.setAttribute("data-selecting", String(state.selectionMode));
+}
+
+function toggleSelect(name: string) {
+  if (state.selected.has(name)) state.selected.delete(name);
+  else state.selected.add(name);
+  persistSelection();
+  updateSelectUi();
+  render();
+}
+
+function setSelectionMode(on: boolean) {
+  state.selectionMode = on;
+  updateSelectUi();
+  render();
+}
+
+function clearSelection() {
+  state.selected.clear();
+  persistSelection();
+  updateSelectUi();
+  render();
 }
 
 const innerOf = (svg: string) =>
@@ -280,6 +377,7 @@ function draw() {
       tile.className = "icon-tile";
       tile.dataset.icon = icon.name;
       tile.setAttribute("aria-label", `${icon.name} icon`);
+      if (state.selected.has(icon.name)) tile.classList.add("icon-tile--selected");
       tile.style.position = "absolute";
       tile.style.left = `${padLeft + col * (layout.tile + layout.gap)}px`;
       tile.style.top = `${row * layout.rowH}px`;
@@ -648,6 +746,27 @@ async function copyText(text: string) {
   }
 }
 
+const copiedTimers = new WeakMap<HTMLElement, number>();
+
+function flashCopied(button: HTMLElement | null) {
+  if (!button) return;
+  if (!button.dataset.label) button.dataset.label = button.textContent ?? "Copy";
+  const original = button.dataset.label;
+  button.textContent = "Copied ✓";
+  button.classList.add("is-copied");
+  const previous = copiedTimers.get(button);
+  if (previous) window.clearTimeout(previous);
+  copiedTimers.set(
+    button,
+    window.setTimeout(() => {
+      button.textContent = original;
+      button.classList.remove("is-copied");
+      delete button.dataset.label;
+      copiedTimers.delete(button);
+    }, 1400),
+  );
+}
+
 function downloadSvg() {
   const icon = currentIcon();
   if (!icon) return;
@@ -683,6 +802,43 @@ function trapFocus(event: KeyboardEvent) {
 /* ----------------------------------------------------------------- wiring */
 
 function wire() {
+  selectToggle?.addEventListener("click", () => setSelectionMode(!state.selectionMode));
+
+  $$("[data-select-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const lang = button.getAttribute("data-select-lang");
+      if (lang === "react" || lang === "vue" || lang === "svelte") {
+        state.selectLang = lang;
+        updateSelectUi();
+      }
+    });
+  });
+
+  $$("[data-select-pm]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const pm = button.getAttribute("data-select-pm");
+      if (pm === "npm" || pm === "yarn" || pm === "pnpm" || pm === "bun") {
+        state.selectPm = pm;
+        updateSelectUi();
+      }
+    });
+  });
+
+  $("[data-select-clear]")?.addEventListener("click", clearSelection);
+  $("[data-select-done]")?.addEventListener("click", () => setSelectionMode(false));
+  const copyInstallBtn = $("[data-select-copy-install]") as HTMLButtonElement | null;
+  const copyImportBtn = $("[data-select-copy-import]") as HTMLButtonElement | null;
+  copyInstallBtn?.addEventListener("click", () => {
+    if (state.selected.size === 0) return;
+    copyText(selectionInstall());
+    flashCopied(copyInstallBtn);
+  });
+  copyImportBtn?.addEventListener("click", () => {
+    if (state.selected.size === 0) return;
+    copyText(selectionImport());
+    flashCopied(copyImportBtn);
+  });
+
   searchInput.addEventListener("input", () => {
     state.query = searchInput.value;
     window.clearTimeout(searchTimer);
@@ -745,6 +901,11 @@ function wire() {
       return;
     }
 
+    if (event.key === "Escape" && state.selectionMode) {
+      setSelectionMode(false);
+      return;
+    }
+
     if (event.key === "Escape" && $("#sidebar")?.getAttribute("data-open") === "true") {
       closeSidebar();
     }
@@ -781,7 +942,7 @@ function wire() {
     const target = event.target as HTMLElement;
 
     if (!modal.hidden) {
-      if (target.closest("[data-modal-close]")) {
+      if (target.closest("[data-modal-close]") || target.closest("[data-drawer-close]")) {
         closeModal();
         return;
       }
@@ -836,14 +997,18 @@ function wire() {
         paintModal();
         return;
       }
-      if (target.closest("[data-modal-copy-install]")) {
+      const installBtn = target.closest<HTMLElement>("[data-modal-copy-install]");
+      if (installBtn) {
         const install = installFor(state.modalName);
         if (install) copyText(install.command);
+        flashCopied(installBtn);
         return;
       }
-      if (target.closest("[data-modal-copy-import]")) {
+      const importBtn = target.closest<HTMLElement>("[data-modal-copy-import]");
+      if (importBtn) {
         const install = installFor(state.modalName);
         if (install) copyText(install.importLine);
+        flashCopied(importBtn);
         return;
       }
     }
@@ -851,7 +1016,9 @@ function wire() {
     const iconTile = target.closest<HTMLElement>("[data-icon]");
     if (iconTile && grid.contains(iconTile)) {
       const name = iconTile.getAttribute("data-icon");
-      if (name) openModal(name);
+      if (!name) return;
+      if (state.selectionMode) toggleSelect(name);
+      else openModal(name);
       return;
     }
 
@@ -977,6 +1144,18 @@ async function boot() {
     catalog.categories.length,
   );
 
+  try {
+    const saved = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    if (Array.isArray(saved)) {
+      const valid = new Set(state.all.map((icon) => icon.name));
+      for (const name of saved) {
+        if (typeof name === "string" && valid.has(name)) state.selected.add(name);
+      }
+    }
+  } catch {
+    /* ignore corrupt cart */
+  }
+
   const params = new URLSearchParams(window.location.search);
   const category = params.get("category");
   const query = params.get("q");
@@ -1013,6 +1192,7 @@ async function boot() {
   mounted = true;
   apply(false);
   wire();
+  updateSelectUi();
 
   const hash = window.location.hash.replace("#", "");
   if (hash && state.items.some((icon) => icon.name === hash)) {
