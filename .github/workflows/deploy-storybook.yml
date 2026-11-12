@@ -1,11 +1,11 @@
 name: Deploy — Storybook
 
-# Publishes the Vault UI showroom (apps/showroom → static Storybook) to the
+# Publishes the Vault UI Storybook (apps/storybook → static Storybook) to the
 # Vercel project "vault-ui-storybook".
 #
 # Reliable path: build in CI (repo root, pnpm workspace), stage the static
 # output as a Build Output API bundle (.vercel/output), then `vercel deploy
-# --prebuilt` from inside apps/showroom/dist. Prebuilt deploys ignore the
+# --prebuilt` from inside apps/storybook/dist. Prebuilt deploys ignore the
 # project's framework/build settings, so this can never accidentally build
 # the web app (which is what the root vercel.json would otherwise do).
 #
@@ -50,12 +50,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Storybook
-        run: pnpm turbo run build --filter=@vaultui/showroom
+        run: pnpm turbo run build --filter=@vaultui/storybook
 
       - name: Stage prebuilt output
         run: |
-          mkdir -p apps/showroom/dist/.vercel/output/static
-          cd apps/showroom/dist
+          mkdir -p apps/storybook/dist/.vercel/output/static
+          cd apps/storybook/dist
           for f in * .[!.]*; do
             [ "$f" = ".vercel" ] && continue
             [ -e "$f" ] && cp -r "$f" .vercel/output/static/
@@ -73,4 +73,4 @@ jobs:
             --project vault-ui-storybook \
             --token="$VERCEL_TOKEN" \
             --scope "$VERCEL_ORG_ID" \
-            --cwd apps/showroom/dist
+            --cwd apps/storybook/dist

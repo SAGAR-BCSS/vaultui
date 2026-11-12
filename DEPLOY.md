@@ -1,12 +1,12 @@
 # 🚀 Deploying Vault UI — free tier, no domain needed
 
-**Your app in one line:** a Vite + React SPA (`apps/web`) backed entirely by **Supabase**
+**Your app in one line:** a Vite + React SPA (`apps/components`) backed entirely by **Supabase**
 (auth, Postgres, RLS, RPC). There is **no custom backend server**, so Render is not
 part of the stack today — adding it would deploy an empty process for no benefit.
 
 | Layer        | Where it lives                 | Choice (all free)                          |
 | ------------ | ------------------------------ | ------------------------------------------ |
-| Frontend     | `apps/web` (Vite SPA)          | **Vercel** (recommended) or Cloudflare Pages|
+| Frontend     | `apps/components` (Vite SPA)          | **Vercel** (recommended) or Cloudflare Pages|
 | Auth + DB    | Supabase (Postgres + Auth + RLS) | **Supabase free tier**                    |
 | Backend API  | — (none exists)                | Skip Render (see "When you need Render")   |
 
@@ -30,8 +30,8 @@ push to `main`, gives preview URLs per PR, and the SPA rewrite config is already
 3. Use these settings (Vercel auto-detects most of them):
    - **Framework Preset:** Vite
    - **Root Directory:** `/` (repo root — required for the pnpm monorepo)
-   - **Build Command:** `pnpm turbo run build --filter=@vaultui/web`
-   - **Output Directory:** `apps/web/dist`
+   - **Build Command:** `pnpm turbo run build --filter=@vaultui/components`
+   - **Output Directory:** `apps/components/dist`
 4. **Add env vars** (Settings → Environment Variables):
    - `VITE_SUPABASE_URL` = your Supabase project URL (`https://<ref>.supabase.co`)
    - `VITE_SUPABASE_ANON_KEY` = your anon/public key
@@ -44,20 +44,20 @@ push to `main`, gives preview URLs per PR, and the SPA rewrite config is already
 ## Option B — Cloudflare Pages · ~10 minutes
 
 Also free and auto-connects to GitHub. Unlimited bandwidth (Vercel's free tier has
-100 GB/mo). The SPA fallback is already provided by `apps/web/public/_redirects`.
+100 GB/mo). The SPA fallback is already provided by `apps/components/public/_redirects`.
 
 1. Push to GitHub (same as step 1 above).
 2. https://dash.cloudflare.com → **Workers & Pages** → **Create** → **Pages** → Connect to Git.
 3. Project settings:
-   - **Build command:** `pnpm turbo run build --filter=@vaultui/web`
-   - **Build output directory:** `apps/web/dist`
+   - **Build command:** `pnpm turbo run build --filter=@vaultui/components`
+   - **Build output directory:** `apps/components/dist`
    - *Root directory*: leave the repo root selected (needed for the pnpm workspace).
 4. Add the same two env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`).
 5. **Save and Deploy.** Live at `https://<project>.pages.dev`.
 
 > ⚠️ Cloudflare Pages installs dependencies at the repo root because it detects
 > `pnpm-workspace.yaml`. If the install ever fails there, set the build command to
-> `pnpm install --frozen-lockfile && pnpm turbo run build --filter=@vaultui/web`.
+> `pnpm install --frozen-lockfile && pnpm turbo run build --filter=@vaultui/components`.
 
 ---
 
@@ -80,9 +80,9 @@ Also free and auto-connects to GitHub. Unlimited bandwidth (Vercel's free tier h
 
 ## What about running it locally? (the "server")
 
-There is no server to boot — `pnpm --filter @vaultui/web dev` serves the SPA on
-http://localhost:3000 (Vite). Production build: `pnpm --filter @vaultui/web build`
-(→ `apps/web/dist`, already verified working).
+There is no server to boot — `pnpm --filter @vaultui/components dev` serves the SPA on
+http://localhost:3000 (Vite). Production build: `pnpm --filter @vaultui/components build`
+(→ `apps/components/dist`, already verified working).
 
 ---
 
@@ -103,7 +103,7 @@ consuming your 750 free hours. Deploy it the day you add the Stripe webhook.
 
 ## Verified locally ✅
 
-- `pnpm --filter @vaultui/web build` → success (React SPA, ~227 KB gzip)
+- `pnpm --filter @vaultui/components build` → success (React SPA, ~227 KB gzip)
 - `vite preview` → HTTP 200 at `/`
 - SPA routes (`/docs/*`, `/sign-in`) are covered by `vercel.json` rewrites and the
   Cloudflare `_redirects` fallback.

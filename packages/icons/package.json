@@ -1,0 +1,28 @@
+{
+  "name": "@vaultui/icons",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Vault Icons — 1,200+ vector icons in 6 weights, generated and optimized from reference geometry.",
+  "exports": {
+    ".": "./index.mjs",
+    "./taxonomy": "./taxonomy.mjs",
+    "./manifest.json": "./generated/manifest.json",
+    "./search-index.json": "./generated/search-index.json",
+    "./generated/*": "./generated/*"
+  },
+  "files": [
+    "index.mjs",
+    "taxonomy.mjs",
+    "THIRD-PARTY.md",
+    "generated"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "node --check scripts/build.mjs && node --check taxonomy.mjs && node --check index.mjs"
+  },
+  "devDependencies": {
+    "@phosphor-icons/core": "^2.1.1",
+    "svgo": "^3.3.2"
+  }
+}

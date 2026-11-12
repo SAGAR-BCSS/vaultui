@@ -1,0 +1,70 @@
+/**
+ * Vault Icons - original masters, batch AC.
+ *
+ * Alerts & status glyphs authored on the 24px grid, inner markup only.
+ * Glyphs that use an open path get a solid silhouette in BATCH_AC_FILLS so
+ * the fill and duotone weights read correctly.
+ */
+
+export const BATCH_AC = {
+  "battery-charging": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/><path d="M13.2 9.2 9.6 13.2h2.2l-.8 2 3.6-4h-2.2Z"/>`,
+  "battery-charging-vertical": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><path d="M13.2 9.2 9.6 13.2h2.2l-.8 2 3.6-4h-2.2Z"/>`,
+  "battery-empty": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/>`,
+  "battery-high": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/><rect x="5.2" y="10" width="9.4" height="4" rx="1"/>`,
+  "battery-medium": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/><rect x="5.2" y="10" width="6" height="4" rx="1"/>`,
+  "battery-plus": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/><path d="M12 10v4M10 12h4"/>`,
+  "battery-plus-vertical": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><path d="M12 10v4M10 12h4"/>`,
+  "battery-vertical-empty": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/>`,
+  "battery-vertical-full": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><rect x="9.8" y="5.2" width="4.4" height="12.8" rx="1.2"/>`,
+  "battery-vertical-high": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><rect x="9.8" y="8.8" width="4.4" height="9.2" rx="1.2"/>`,
+  "battery-vertical-low": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><rect x="9.8" y="15" width="4.4" height="3" rx="1"/>`,
+  "battery-vertical-medium": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><rect x="9.8" y="12" width="4.4" height="6" rx="1.2"/>`,
+  "battery-warning": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><path d="M21 10.4v3.2"/><path d="M12 9.6v3.2M12 14.8h.01"/>`,
+  "battery-warning-vertical": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><path d="M10.4 21h3.2"/><path d="M12 9.6v3.2M12 14.8h.01"/>`,
+  "bell-simple": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/>`,
+  "bell-simple-ringing": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/><path d="M3.6 7.8c-.8.9-.8 2.4 0 3.3M20.4 7.8c.8.9.8 2.4 0 3.3"/>`,
+  "bell-simple-slash": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/><path d="M4 4l16 16"/>`,
+  "bell-simple-z": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/><path d="M13 12.8h3.4l-3.4 3.1h3.4"/>`,
+  "bell-slash": `<path d="M6.2 11a5.8 5.8 0 0 1 11.6 0v4.6l1.6 2.2H4.6l1.6-2.2Z"/><path d="M10.4 19.6a1.6 1.6 0 0 0 3.2 0"/><path d="M4 4l16 16"/>`,
+  "bell-z": `<path d="M6.2 11a5.8 5.8 0 0 1 11.6 0v4.6l1.6 2.2H4.6l1.6-2.2Z"/><path d="M10.4 19.6a1.6 1.6 0 0 0 3.2 0"/><path d="M12.6 12.4h3.4l-3.4 3.1h3.4"/>`,
+  biohazard: `<path d="M5.41 6.47a8.6 8.6 0 0 1 13.18 0L16.14 8.53a5.4 5.4 0 0 0-8.28 0Z"/><path d="M20.08 9.06a8.6 8.6 0 0 1-6.59 11.41L12.94 17.32a5.4 5.4 0 0 0 4.14-7.17Z"/><path d="M10.51 20.47a8.6 8.6 0 0 1-6.59-11.41L6.92 10.15a5.4 5.4 0 0 0 4.14 7.17Z"/><circle cx="12" cy="12" r="1.7"/>`,
+  "check-fat": `<path d="M4.2 12.4 9.4 17.6a2 2 0 0 0 2.8 0l7.8-7.8a2 2 0 0 0-2.8-2.8l-6.4 6.4-3.8-3.8a2 2 0 0 0-2.8 2.8Z"/>`,
+  "check-square": `<rect x="3.4" y="3.4" width="17.2" height="17.2" rx="4"/><path d="m7.8 12.4 3 3 5.4-5.8"/>`,
+  "check-square-offset": `<rect x="3.4" y="3.4" width="13.6" height="13.6" rx="3"/><path d="M6.4 11.4 9.4 14.4 19.6 4.2"/>`,
+  "clock-afternoon": `<circle cx="12" cy="12" r="8"/><path d="M12 7.2V12h4.2"/>`,
+  "clock-clockwise": `<circle cx="12" cy="12" r="8"/><path d="M12 12V7.2"/><path d="M12 4.4a7.6 7.6 0 0 1 5.4 2.2M17.4 3.4v3.2h-3.2"/>`,
+  "clock-countdown": `<circle cx="12" cy="12" r="8"/><path d="M12 7.2V12"/><circle cx="16.4" cy="15.2" r="1.3"/>`,
+  "clock-counter-clockwise": `<circle cx="12" cy="12" r="8"/><path d="M12 12V7.2"/><path d="M12 4.4a7.6 7.6 0 0 0-5.4 2.2M6.6 3.4v3.2h3.2"/>`,
+  "clock-user": `<circle cx="12" cy="12" r="8"/><circle cx="12" cy="10" r="1.9"/><path d="M8.8 16.8a3.2 3.2 0 0 1 6.4 0"/>`,
+  gauge: `<path d="M3.4 17.4a9 9 0 0 1 17.2 0"/><path d="M12 17.4 16.6 10.4"/><circle cx="12" cy="17.4" r="1.7"/>`,
+};
+
+export const BATCH_AC_FILLS = {
+  "battery-charging": `<path d="M5 7.4h11.4a2.6 2.6 0 0 1 2.6 2.6v4a2.6 2.6 0 0 1-2.6 2.6H5A2.6 2.6 0 0 1 2.4 14v-4A2.6 2.6 0 0 1 5 7.4ZM5.6 9.8a0.6 0.6 0 0 0-0.6 0.6v3.2a0.6 0.6 0 0 0 0.6 0.6h10.2a0.6 0.6 0 0 0 0.6-0.6v-3.2a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M13.2 9.2 9.6 13.2h2.2l-.8 2 3.6-4h-2.2Z"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-charging-vertical": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M13.2 9.2 9.6 13.2h2.2l-.8 2 3.6-4h-2.2Z"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-empty": `<rect x="2.8" y="7.4" width="16.4" height="9.2" rx="2.2"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-high": `<path d="M5 7.4h11.4a2.6 2.6 0 0 1 2.6 2.6v4a2.6 2.6 0 0 1-2.6 2.6H5A2.6 2.6 0 0 1 2.4 14v-4A2.6 2.6 0 0 1 5 7.4ZM5.6 9.8a0.6 0.6 0 0 0-0.6 0.6v3.2a0.6 0.6 0 0 0 0.6 0.6h10.2a0.6 0.6 0 0 0 0.6-0.6v-3.2a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="5.2" y="10" width="9.4" height="4" rx="1"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-medium": `<path d="M5 7.4h11.4a2.6 2.6 0 0 1 2.6 2.6v4a2.6 2.6 0 0 1-2.6 2.6H5A2.6 2.6 0 0 1 2.4 14v-4A2.6 2.6 0 0 1 5 7.4ZM5.6 9.8a0.6 0.6 0 0 0-0.6 0.6v3.2a0.6 0.6 0 0 0 0.6 0.6h10.2a0.6 0.6 0 0 0 0.6-0.6v-3.2a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="5.2" y="10" width="6" height="4" rx="1"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-plus": `<path d="M5 7.4h11.4a2.6 2.6 0 0 1 2.6 2.6v4a2.6 2.6 0 0 1-2.6 2.6H5A2.6 2.6 0 0 1 2.4 14v-4A2.6 2.6 0 0 1 5 7.4ZM5.6 9.8a0.6 0.6 0 0 0-0.6 0.6v3.2a0.6 0.6 0 0 0 0.6 0.6h10.2a0.6 0.6 0 0 0 0.6-0.6v-3.2a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M11.2 10h1.6v1.6h1.6v1.6h-1.6v1.6h-1.6v-1.6H9.6v-1.6h1.6Z"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-plus-vertical": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M11.2 10h1.6v1.6h1.6v1.6h-1.6v1.6h-1.6v-1.6H9.6v-1.6h1.6Z"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-vertical-empty": `<rect x="7.4" y="2.8" width="9.2" height="16.4" rx="2.2"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-vertical-full": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="9.8" y="5.2" width="4.4" height="12.8" rx="1.2"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-vertical-high": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="9.8" y="8.8" width="4.4" height="9.2" rx="1.2"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-vertical-low": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="9.8" y="15" width="4.4" height="3" rx="1"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-vertical-medium": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><rect x="9.8" y="12" width="4.4" height="6" rx="1.2"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "battery-warning": `<path d="M5 7.4h11.4a2.6 2.6 0 0 1 2.6 2.6v4a2.6 2.6 0 0 1-2.6 2.6H5A2.6 2.6 0 0 1 2.4 14v-4A2.6 2.6 0 0 1 5 7.4ZM5.6 9.8a0.6 0.6 0 0 0-0.6 0.6v3.2a0.6 0.6 0 0 0 0.6 0.6h10.2a0.6 0.6 0 0 0 0.6-0.6v-3.2a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M11.2 9.4h1.6v3.4h-1.6ZM11.2 14.4h1.6v1.6h-1.6Z"/><rect x="20" y="10.2" width="1.6" height="3.6" rx="0.8"/>`,
+  "battery-warning-vertical": `<path d="M10 2.4h4a2.6 2.6 0 0 1 2.6 2.6v11.6a2.6 2.6 0 0 1-2.6 2.6h-4a2.6 2.6 0 0 1-2.6-2.6V5a2.6 2.6 0 0 1 2.6-2.6ZM10.4 5.4a0.6 0.6 0 0 0-0.6 0.6v9.6a0.6 0.6 0 0 0 0.6 0.6h3.2a0.6 0.6 0 0 0 0.6-0.6V6a0.6 0.6 0 0 0-0.6-0.6Z" fill-rule="evenodd"/><path d="M11.2 9.4h1.6v3.4h-1.6ZM11.2 14.4h1.6v1.6h-1.6Z"/><rect x="10.2" y="20" width="3.6" height="1.6" rx="0.8"/>`,
+  "bell-simple-ringing": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/>`,
+  "bell-simple-slash": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/>`,
+  "bell-simple-z": `<path d="M6 11a6 6 0 0 1 12 0v4.6l1.6 2.4H4.4L6 15.6Z"/>`,
+  "bell-slash": `<path d="M6.2 11a5.8 5.8 0 0 1 11.6 0v4.6l1.6 2.2H4.6l1.6-2.2ZM10.4 19.6a1.6 1.6 0 0 0 3.2 0Z" fill-rule="evenodd"/>`,
+  "bell-z": `<path d="M6.2 11a5.8 5.8 0 0 1 11.6 0v4.6l1.6 2.2H4.6l1.6-2.2ZM10.4 19.6a1.6 1.6 0 0 0 3.2 0Z" fill-rule="evenodd"/>`,
+  "check-square": `<path d="M3.4 7.4a4 4 0 0 1 4-4h9.2a4 4 0 0 1 4 4v9.2a4 4 0 0 1-4 4H7.4a4 4 0 0 1-4-4ZM10.7 16.6 6.9 12.8 8.9 10.8 10.7 12.6 15.1 8 17.1 10Z" fill-rule="evenodd"/>`,
+  "check-square-offset": `<rect x="3.4" y="3.4" width="13.6" height="13.6" rx="3"/>`,
+  "clock-afternoon": `<circle cx="12" cy="12" r="8"/>`,
+  "clock-clockwise": `<circle cx="12" cy="12" r="8"/>`,
+  "clock-countdown": `<circle cx="12" cy="12" r="8"/>`,
+  "clock-counter-clockwise": `<circle cx="12" cy="12" r="8"/>`,
+  "clock-user": `<circle cx="12" cy="12" r="8"/>`,
+  gauge: `<path d="M3.4 17.4a9 9 0 0 1 17.2 0Z"/>`,
+};

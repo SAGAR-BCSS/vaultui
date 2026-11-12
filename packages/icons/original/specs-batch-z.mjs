@@ -1,0 +1,71 @@
+/**
+ * Vault Icons - original masters, batch Z.
+ *
+ * Files & folders glyphs authored on the 24px grid, inner markup only.
+ * Glyphs that use an open path get a solid silhouette in BATCH_Z_FILLS so
+ * the fill and duotone weights read correctly.
+ */
+
+export const BATCH_Z = {
+  "address-book-tabs": `<rect x="4.6" y="3" width="12.2" height="18" rx="2"/><path d="M16.8 6.4h2.4v2.6h-2.4ZM16.8 10.7h2.4v2.6h-2.4ZM16.8 15h2.4v2.6h-2.4"/><circle cx="10.8" cy="10" r="2.2"/><path d="M7.2 17a3.8 3.8 0 0 1 7.2 0"/>`,
+  "book-bookmark": `<path d="M7 2.8h12.4v16.2H7A2.4 2.4 0 0 0 4.6 21.4V5.2A2.4 2.4 0 0 1 7 2.8Z"/><path d="M13 2.8h4.6v8l-2.3-1.8-2.3 1.8Z"/>`,
+  "book-open-text": `<path d="M12 6.2C10.2 4.8 7.8 4.2 5 4.4v13.2c2.8-.2 5.2.4 7 1.8 1.8-1.4 4.2-2 7-1.8V4.4c-2.8-.2-5.2.4-7 1.8Z"/><path d="M12 6.2v12.8"/><path d="M7.2 9.4c1.3 0 2.6.3 3.6.8M7.2 12.6c1.3 0 2.6.3 3.6.8"/><path d="M16.8 9.4c-1.3 0-2.6.3-3.6.8M16.8 12.6c-1.3 0-2.6.3-3.6.8"/>`,
+  "book-open-user": `<path d="M12 6.2C10.2 4.8 7.8 4.2 5 4.4v13.2c2.8-.2 5.2.4 7 1.8 1.8-1.4 4.2-2 7-1.8V4.4c-2.8-.2-5.2.4-7 1.8Z"/><path d="M12 6.2v12.8"/><circle cx="8.4" cy="10.6" r="1.7"/><path d="M6 15.8a2.4 2.4 0 0 1 4.8 0"/>`,
+  "bookmarks-simple": `<path d="M4.8 4.4h6.4v14.8l-3.2-2.7-3.2 2.7Z"/><path d="M12.8 4.4h6.4v14.8l-3.2-2.7-3.2 2.7Z"/>`,
+  books: `<rect x="5" y="6" width="3.4" height="12" rx="0.8"/><rect x="9.4" y="4.8" width="3.4" height="13.2" rx="0.8"/><rect x="13.8" y="6.4" width="3.4" height="11.6" rx="0.8"/><path d="M4.2 19h15.6"/>`,
+  "briefcase-metal": `<rect x="2.8" y="7.6" width="18.4" height="12.2" rx="2"/><path d="M9 7.6V5.8a1.8 1.8 0 0 1 1.8-1.8h2.4A1.8 1.8 0 0 1 15 5.8v1.8"/><path d="M2.8 11h3.2v3.2H2.8ZM18 11h3.2v3.2H18Z"/><rect x="9.8" y="9.8" width="4.4" height="4.4" rx="0.9"/>`,
+  "file-archive": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><rect x="8.4" y="10.8" width="7.2" height="6.6" rx="1"/><path d="M8.4 13h7.2M12 10.8v2.2"/>`,
+  "file-arrow-down": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M12 10.6v7M8.8 14.8l3.2 3.2 3.2-3.2"/>`,
+  "file-arrow-up": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M12 17.8v-7M8.8 14l3.2-3.2 3.2 3.2"/>`,
+  "file-c": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M14.4 11.2a3.4 3.4 0 1 0 0 5.8"/>`,
+  "file-c-sharp": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M11.6 11.6a3 3 0 1 0 0 5.2M15.9 11.2l-2 6.8M18 11.2l-2 6.8M13.9 12.8h4.2M13.5 15.6h4.2"/>`,
+  "file-cloud": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M7.8 17.6h8.4a3 3 0 0 0 .4-6 4.2 4.2 0 0 0-7.9-1.2 3.7 3.7 0 0 0-.9 7.2Z"/>`,
+  "file-cpp": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M12 11.4a3 3 0 1 0 0 5.2M14 12.4v2.4M12.8 13.6h2.4M16.4 12.4v2.4M15.2 13.6h2.4"/>`,
+  "file-css": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M10.6 10.8c-1.4 0-1.4 3-2.6 3 1.2 0 1.2 3 2.6 3M13.4 10.8c1.4 0 1.4 3 2.6 3-1.2 0-1.2 3-2.6 3"/>`,
+  "file-dashed": `<path d="M5 3.4h3.6M10.4 3.4h3.6M15.8 3.4H19M19 3.4v3.6M19 8.8v3.6M19 14.2v3.6M19 19.6v1M19 20.6h-3.6M13.6 20.6H10M8.2 20.6H5M5 20.6v-3.6M5 15.2v-3.6M5 9.8V6.2M5 4.4V3.4"/>`,
+  "file-doc": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M7.8 11.6 9.4 17.6 12 12.6 14.6 17.6 16.2 11.6"/>`,
+  "file-html": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M9.4 11.4 6.6 14.6l2.8 3.2M14.6 11.4l2.8 3.2-2.8 3.2M13 10.8l-2 7.6"/>`,
+  "file-ini": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M8.2 12.2h3.2M14 12.2h1.8M8.2 16.4h1.8M12.6 16.4h3.2M13.2 11.2a1 1 0 1 0 0 2 1 1 0 0 0 0-2M11.2 15.4a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>`,
+  "file-jpg": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><rect x="8" y="10.8" width="8.4" height="6.8" rx="1"/><path d="M9 16.4 11 14l1.6 1.8 1.4-1.4 2 2M10.6 11.9a.9.9 0 1 0 0 1.8.9.9 0 0 0 0-1.8"/>`,
+  "file-js": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M11 11.4v4.4a2 2 0 0 1-4 0M16.2 11.6c-2.2-.5-2.8 2-.4 2.5s1.9 2.8-.5 3"/>`,
+  "file-jsx": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M9.8 11.4v4.2a1.6 1.6 0 0 1-3.2 0M13 11.5c-2.4-.4-2.8 1.9-.4 2.2s2.3 2.6-.4 2.7M14.4 11.4l2.2 5.2M16.6 11.4l-2.2 5.2"/>`,
+  "file-magnifying-glass": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><circle cx="12.8" cy="13.4" r="2.6"/><path d="m14.7 15.3 2 2"/>`,
+  "file-md": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M10.6 11.6l-1.2 5.6M14.2 11.6l-1.2 5.6M8.6 13.2h7.4M8.2 15.6h7.4"/>`,
+  "file-png": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M9.4 17.4v-6.2h2.6a1.9 1.9 0 0 1 0 3.8H9.4"/>`,
+  "file-ppt": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><rect x="7.6" y="10.8" width="8.8" height="5.6" rx="1"/><path d="M12 16.4v1.4M9.6 17.8h4.8"/>`,
+  "file-py": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M8.8 17.4v-6h2.4a1.8 1.8 0 0 1 0 3.6H8.8M13.4 11.4 15 14l1.6-2.6M15 14v3.4"/>`,
+  "file-rs": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><circle cx="12" cy="14" r="2"/><path d="M12 10.4v1.2M12 16.4v1.2M8.4 14h1.2M14.4 14h1.2M9.5 11.5l.9.9M13.6 15.6l.9.9M14.5 11.5l-.9.9M10.4 15.6l-.9.9"/>`,
+  "file-sql": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M15.6 12.2a3.6 1.4 0 1 1-7.2 0 3.6 1.4 0 1 1 7.2 0Z"/><path d="M8.4 12.2v3.4c0 .8 1.6 1.4 3.6 1.4s3.6-.6 3.6-1.4v-3.4M8.4 13.9c0 .8 1.6 1.4 3.6 1.4s3.6-.6 3.6-1.4"/>`,
+  "file-svg": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/><path d="M14.4 3.2v4h4"/><path d="M8.6 15.8c2.8-5.4 4.6-5.4 6.8 0M8.6 14.8a1 1 0 1 0 0 2 1 1 0 0 0 0-2M15.4 14.8a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>`,
+};
+
+export const BATCH_Z_FILLS = {
+  "address-book-tabs": `<path d="M4.6 3h12.2v3.4h2.4v2.6h-2.4v1.7h2.4v2.6h-2.4v1.7h2.4v2.6h-2.4V21H4.6Z"/>`,
+  "book-open-text": `<path d="M12 6.2C10.2 4.8 7.8 4.2 5 4.4v13.2c2.8-.2 5.2.4 7 1.8 1.8-1.4 4.2-2 7-1.8V4.4c-2.8-.2-5.2.4-7 1.8Z"/>`,
+  "book-open-user": `<path d="M12 6.2C10.2 4.8 7.8 4.2 5 4.4v13.2c2.8-.2 5.2.4 7 1.8 1.8-1.4 4.2-2 7-1.8V4.4c-2.8-.2-5.2.4-7 1.8Z"/>`,
+  books: `<path d="M5 6h3.4v12H5ZM9.4 4.8h3.4v13.2H9.4ZM13.8 6.4h3.4v11.6h-3.4ZM4.2 18.6h15.6v1.6H4.2Z"/>`,
+  "briefcase-metal": `<path d="M2.8 9.6a2 2 0 0 1 2-2H9V5.8A1.8 1.8 0 0 1 10.8 4h2.4A1.8 1.8 0 0 1 15 5.8v1.8h4.2a2 2 0 0 1 2 2v8.2a2 2 0 0 1-2 2H4.8a2 2 0 0 1-2-2ZM10.4 6.2h3.2v1.4h-3.2Z" fill-rule="evenodd"/>`,
+  "file-archive": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-arrow-down": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-arrow-up": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-c": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-c-sharp": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-cloud": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-cpp": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-css": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-dashed": `<path d="M5 3.4h9.6l4 4v13.2H5Z"/>`,
+  "file-doc": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-html": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-ini": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-jpg": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-js": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-jsx": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-magnifying-glass": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-md": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-png": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-ppt": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-py": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-rs": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-sql": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+  "file-svg": `<path d="M6 3.2h8.4l4 4v13.6H6Z"/>`,
+};

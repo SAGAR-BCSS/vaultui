@@ -6,7 +6,7 @@
  * distributed via npm packages, so their entries point at the package instead.
  *
  * Usage:  node scripts/registry-build.mjs
- * Output: registry.json (repo root) + apps/web/public/registry.json
+ * Output: registry.json (repo root) + apps/components/public/registry.json
  */
 import fs from "fs";
 import path from "path";

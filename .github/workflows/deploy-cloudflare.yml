@@ -1,0 +1,92 @@
+name: Deploy — Cloudflare Pages
+
+# Manual CD for the two static apps.
+#
+#   components → apps/components/dist  (Vite/React docs + marketplace)
+#   icons      → apps/icons/dist       (Astro icon explorer)
+#
+# Deployment is opt-in: this workflow only runs via workflow_dispatch.
+# Required repository secrets:
+#   CLOUDFLARE_API_TOKEN   – Pages:Edit token
+#   CLOUDFLARE_ACCOUNT_ID
+# Optional repository variables (defaults shown):
+#   CF_PAGES_PROJECT_COMPONENTS = vault-components
+#   CF_PAGES_PROJECT_ICONS      = vault-icons
+
+on:
+  workflow_dispatch:
+    inputs:
+      app:
+        description: Which app to deploy
+        required: true
+        type: choice
+        default: both
+        options:
+          - both
+          - components
+          - icons
+      branch:
+        description: Cloudflare Pages branch (production for main)
+        required: false
+        default: main
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: deploy-cloudflare-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment: cloudflare-pages
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      - name: Build components
+        if: ${{ inputs.app == 'both' || inputs.app == 'components' }}
+        run: pnpm turbo run build --filter=@vaultui/components
+
+      - name: Build icons
+        if: ${{ inputs.app == 'both' || inputs.app == 'icons' }}
+        run: pnpm turbo run build --filter=@vaultui/icons-site
+
+      - name: Deploy components to Cloudflare Pages
+        if: ${{ inputs.app == 'both' || inputs.app == 'components' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy apps/components/dist
+            --project-name=${{ vars.CF_PAGES_PROJECT_COMPONENTS || 'vault-components' }}
+            --branch=${{ inputs.branch }}
+
+      - name: Deploy icons to Cloudflare Pages
+        if: ${{ inputs.app == 'both' || inputs.app == 'icons' }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: >-
+            pages deploy apps/icons/dist
+            --project-name=${{ vars.CF_PAGES_PROJECT_ICONS || 'vault-icons' }}
+            --branch=${{ inputs.branch }}

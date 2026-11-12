@@ -11,7 +11,7 @@
   ],
   "license": "MIT",
   "scripts": {
-    "typecheck": "tsc --noEmit --allowJs --checkJs --skipLibCheck bin.js 2>/dev/null || true"
+    "typecheck": "node --check bin.js"
   },
   "publishConfig": {
     "access": "public"

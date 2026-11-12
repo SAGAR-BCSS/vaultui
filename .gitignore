@@ -8,6 +8,9 @@ storybook-static/
 # Turbo
 .turbo/
 
+# Cloudflare
+.wrangler/
+
 # Environment
 .env
 .env.local
@@ -29,3 +32,8 @@ bun.lock
 
 # Packed tarballs (bun pm pack / pnpm pack outputs)
 *.tgz
+
+# Vault Icons — generated at build time from @phosphor-icons/core (MIT)
+packages/icons/generated/
+apps/icons/public/data/
+**/.astro/

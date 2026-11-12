@@ -1,8 +1,8 @@
 {
-  "name": "@vaultui/showroom",
+  "name": "@vaultui/storybook",
   "version": "0.0.1",
   "private": true,
-  "description": "Vault UI showroom \u2014 the Storybook storefront",
+  "description": "Vault UI \u2014 the Storybook storefront",
   "scripts": {
     "storybook": "STORYBOOK_DISABLE_TELEMETRY=1 storybook dev -p 6006",
     "build": "STORYBOOK_DISABLE_TELEMETRY=1 storybook build -o dist",

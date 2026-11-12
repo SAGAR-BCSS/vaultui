@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found — Vault Icons"
+  description="This page is not part of the Vault Icons library."
+>
+  <main class="min-h-dvh grid place-items-center px-6">
+    <div class="text-center max-w-[46ch]">
+      <p class="text-[12px] font-bold uppercase tracking-[0.14em]" style="color: var(--color-surface-500)">
+        404
+      </p>
+      <h1 class="text-[48px] leading-[1.05] font-semibold mt-2" style="letter-spacing: -0.03em">
+        This page isn't in the set
+      </h1>
+      <p class="mt-4 text-[16px] leading-relaxed" style="color: var(--color-surface-600)">
+        The page you're looking for doesn't exist. Head back to the library and keep browsing the
+        1,500+ icons.
+      </p>
+      <a
+        href="/"
+        class="inline-flex h-11 items-center px-5 mt-7 rounded-md text-[14px] font-semibold"
+        style="background: var(--color-brand-600); color: #fff; box-shadow: var(--shadow-soft)"
+      >
+        Back to icons
+      </a>
+    </div>
+  </main>
+</BaseLayout>

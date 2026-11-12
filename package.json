@@ -4,12 +4,20 @@
   "private": true,
   "description": "Vault UI — premium React + Tailwind component marketplace (monorepo)",
   "packageManager": "pnpm@11.5.2",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "typecheck": "turbo run typecheck",
     "lint": "turbo run lint",
-    "storybook": "pnpm --filter @vaultui/showroom storybook",
+    "components": "pnpm --filter @vaultui/components dev",
+    "components:build": "pnpm --filter @vaultui/components build",
+    "icons": "pnpm --filter @vaultui/icons-site dev",
+    "icons:build": "pnpm --filter @vaultui/icons-site build",
+    "icons:validate": "node packages/icons/scripts/validate-icons.mjs",
+    "storybook": "pnpm --filter @vaultui/storybook storybook",
     "clean": "turbo run clean && rm -rf node_modules",
     "publish:free": "cd packages/tokens && npm publish --access public && cd ../../packages/utils && npm publish --access public && cd ../../packages/ui && npm publish --access public"
   },

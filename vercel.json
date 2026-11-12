@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
-  "buildCommand": "pnpm turbo run build --filter=@vaultui/web",
+  "buildCommand": "pnpm turbo run build --filter=@vaultui/components",
   "installCommand": "pnpm install --frozen-lockfile",
-  "outputDirectory": "apps/web/dist",
+  "outputDirectory": "apps/components/dist",
   "headers": [
     {
       "source": "/assets/(.*)",
