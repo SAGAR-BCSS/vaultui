@@ -48,6 +48,13 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      # astro check imports public/data/manifest.json, which is a build artifact.
+      # Generate it before typecheck so the check can resolve the module.
+      - name: Generate icon dataset
+        run: |
+          node packages/icons/scripts/build.mjs
+          node apps/icons/scripts/sync-data.mjs
+
       - name: Typecheck
         run: pnpm typecheck
 
