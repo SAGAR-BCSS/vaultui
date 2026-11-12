@@ -39,7 +39,7 @@ const category = manifest.categories.find((entry: { id: string }) => entry.id ==
 const svg = svgFor(icon.name, "regular");
 const label = (weight: string) => weight.charAt(0).toUpperCase() + weight.slice(1);
 
-const canonical = new URL(`/icons/${icon.name}`, Astro.site ?? "https://vault-icons.kaundinya.workers.dev").toString();
+const canonical = new URL(`/icons/${icon.name}`, Astro.site ?? "https://vault-icons.vaultui-icons-site.workers.dev").toString();
 const jsonLd = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "CreativeWork",
@@ -50,7 +50,7 @@ const jsonLd = JSON.stringify({
   isPartOf: {
     "@type": "CollectionPage",
     name: "Vault Icons",
-    url: new URL("/", Astro.site ?? "https://vault-icons.kaundinya.workers.dev").toString(),
+    url: new URL("/", Astro.site ?? "https://vault-icons.vaultui-icons-site.workers.dev").toString(),
   },
 });
 ---

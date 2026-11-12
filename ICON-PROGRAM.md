@@ -20,10 +20,10 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 | Reference source | **none — Phosphor fully replaced** |
 | Validator | **PASS** — 0 problems |
 | Site pages | 1,559 (index + 1,556 icon pages + 404) |
-| Live URL | **https://vault-icons.kaundinya.workers.dev** |
-| Worker version | `18d10bfe` |
-| Cloudflare account subdomain | `kaundinya` |
-| Existing workers (do not overwrite) | `admin`, `app`, `kaundinya-consultancy-marketing-page` |
+| Live URL | **https://vault-icons.vaultui-icons-site.workers.dev** |
+| Worker version | `8deb51f8` |
+| Cloudflare account | `mani868849@gmail.com` (id `20d1209b…`) |
+| Cloudflare account subdomain | `vaultui-icons-site` |
 
 Per-category counts (after taxonomy rebalance): core-ui 259 · arrows 166 · alerts 97 ·
 dev 166 · text 98 · media 117 · files 86 · commerce 76 · communication 118 · objects-life 374.
@@ -183,14 +183,14 @@ Then update §1 and §4 here.
 - `main` is **protected** (PR + 3 required checks). Direct push is rejected.
   Monorepo PR branch: `feat/monorepo` (`d7bc610`).
   Compare: `https://github.com/SAGARBABU123/vaultui/compare/main...feat/monorepo?expand=1`
-- Cloudflare auth is already stored (wrangler OAuth, `gudipudimani63@gmail.com`).
+- Cloudflare auth is stored (wrangler OAuth, `mani868849@gmail.com`) on a dedicated
+  account (`20d1209b…`) separate from the `kaundinya` account — do not deploy to the
+  `kaundinya` account (it hosts `admin`, `app`, `kaundinya-consultancy-marketing-page`).
 - `apps/icons/wrangler.jsonc`: worker `vault-icons`, static assets `./dist`,
   `not_found_handling: "404-page"`.
-- The requested `app.vault-icons.workers.dev` is impossible without changing the
-  account subdomain (currently `kaundinya`) and the `app` worker already exists —
-  do not overwrite it.
-- The old `apps/web/design inspiratipn zip/*:Zone.Identifier` paths are invalid on
-  Windows. The repo uses sparse-checkout; avoid plain `git add -A` on this checkout.
+- Account workers.dev subdomain is `vaultui-icons-site` (locked; rename is a one-time
+  dashboard-only action). The old `apps/web/design inspiratipn zip/*:Zone.Identifier`
+  paths are invalid on Windows. The repo uses sparse-checkout; avoid plain `git add -A`.
 
 ---
 
