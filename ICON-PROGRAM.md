@@ -13,10 +13,10 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 
 | Item | Value |
 | --- | --- |
-| Commit (`sagar/dev`) | `28afacc` |
-| Remote tip (`origin/sagar/dev`) | `28afacc` |
+| Commit (`sagar/dev`) | `335e52f` |
+| Remote tip (`origin/sagar/dev`) | `335e52f` |
 | Inventory | **1,557 icons × 6 weights = 9,342 SVGs** |
-| Original masters | **803 (51.6%)** |
+| Original masters | **833 (53.5%)** |
 | Reference source | Phosphor MIT (being replaced batch by batch) |
 | Validator | **PASS** — 0 problems |
 | Site pages | 1,559 (index + 1,556 icon pages + 404) |
@@ -118,11 +118,12 @@ Then update §1 and §4 here.
 | X | Agent 2 | 30 | collected `1e2955f` | 653 |
 | AB | Agent 1 | 30 | collected `1ae167e` | 773 |
 | AC | Agent 2 | 30 | collected `28afacc` | 803 |
-| **AD** | Agent 3 | 30 | assigned | ~833 |
+| AD | Agent 3 | 30 | collected `335e52f` | 833 |
 | **AE** | Agent 1 | 30 | assigned | ~863 |
 | **AF** | Agent 2 | 30 | assigned | ~893 |
+| **AG** | Agent 3 | 30 | assigned | ~923 |
 
-Next letters: AG, AH, AI … (30 per batch). Remaining reference glyphs ≈ 754 → ~25 batches.
+Next letters: AH, AI, AJ … (30 per batch). Remaining reference glyphs ≈ 724 → ~24 batches.
 
 > S/T superseded: S (sports/fitness) folded into V; T (weather/nature) was covered by Q.
 > Batch T (`8a2dc3c`) rejected on collection: 25/30 names already `original` (Q). 5 salvageable
