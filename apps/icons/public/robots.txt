@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://vault-icons.vaultui-icons-site.workers.dev/sitemap.xml
+Sitemap: https://icons.vaultui-icons-site.workers.dev/sitemap.xml

@@ -20,8 +20,8 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 | Reference source | **none — Phosphor fully replaced** |
 | Validator | **PASS** — 0 problems |
 | Site pages | 1,559 (index + 1,556 icon pages + 404) |
-| Live URL | **https://vault-icons.vaultui-icons-site.workers.dev** |
-| Worker version | `8deb51f8` |
+| Live URL | **https://icons.vaultui-icons-site.workers.dev** |
+| Worker version | `3cb325db` |
 | Cloudflare account | `mani868849@gmail.com` (id `20d1209b…`) |
 | Cloudflare account subdomain | `vaultui-icons-site` |
 
@@ -158,7 +158,7 @@ Then update §1 and §4 here.
 3. Icons app (light Vault theme, floating shell, virtualized grid, drawer, snippets)
 4. SEO (1,556 per-icon pages, sitemap, 404, canonical, JSON-LD)
 5. Interaction/a11y (keyboard grid nav, history-aware drawer, focus trap, skip link)
-6. Cloudflare deploy (`vault-icons.kaundinya.workers.dev`)
+6. Cloudflare deploy (`icons.vaultui-icons-site.workers.dev`)
 7. QA tooling (`validate-icons.mjs`, `contact-sheet.mjs`) + CI validation
 8. Original glyph program — **COMPLETE (1,557/1,557 = 100%)**
 
@@ -186,7 +186,7 @@ Then update §1 and §4 here.
 - Cloudflare auth is stored (wrangler OAuth, `mani868849@gmail.com`) on a dedicated
   account (`20d1209b…`) separate from the `kaundinya` account — do not deploy to the
   `kaundinya` account (it hosts `admin`, `app`, `kaundinya-consultancy-marketing-page`).
-- `apps/icons/wrangler.jsonc`: worker `vault-icons`, static assets `./dist`,
+- `apps/icons/wrangler.jsonc`: worker `icons`, static assets `./dist`,
   `not_found_handling: "404-page"`.
 - Account workers.dev subdomain is `vaultui-icons-site` (locked; rename is a one-time
   dashboard-only action). The old `apps/web/design inspiratipn zip/*:Zone.Identifier`
