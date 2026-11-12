@@ -1,0 +1,29 @@
+{
+  "name": "@vaultui/icons-svelte",
+  "version": "0.1.0",
+  "description": "Vault Icons — 1,557 hand-authored icons in 6 weights as tree-shakeable Svelte components.",
+  "license": "MIT",
+  "type": "module",
+  "svelte": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "svelte": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "files": [
+    "src"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node ../icons/scripts/generate-components.mjs svelte",
+    "prepublishOnly": "pnpm run generate"
+  },
+  "peerDependencies": {
+    "svelte": "^5.0.0"
+  }
+}

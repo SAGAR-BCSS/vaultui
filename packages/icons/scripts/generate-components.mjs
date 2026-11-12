@@ -7,10 +7,7 @@
  *   @vaultui/icons-vue     → src/icons/<name>.vue   (1 SFC per weight)
  *   @vaultui/icons-svelte  → src/icons/<name>.svelte (1 component per weight)
  *
- * Weights: thin, light, regular, bold, fill, duotone.
- *   - thin/light/regular/bold: stroke widths 0.9 / 1.25 / 1.6 / 2.4
- *   - fill:    solid silhouette, fill="currentColor", no stroke
- *   - duotone: dim fill silhouette + regular stroke outline
+ * Usage: node generate-components.mjs [react|vue|svelte|all]
  */
 
 import { readdir, mkdir, writeFile, rm } from "node:fs/promises";
@@ -25,7 +22,6 @@ const repoRoot = path.resolve(iconsRoot, "..", "..");
 
 const WEIGHTS = ["thin", "light", "regular", "bold", "fill", "duotone"];
 const STROKE = { thin: "0.9", light: "1.25", regular: "1.6", bold: "2.4" };
-
 const SUFFIX = { thin: "Thin", light: "Light", regular: "", bold: "Bold", fill: "Fill", duotone: "Duotone" };
 
 async function loadBatches() {
@@ -52,6 +48,8 @@ function pascal(name) {
     .join("");
 }
 
+const iconName = (component, weight) => component + SUFFIX[weight];
+
 const JSX_ATTR = {
   "fill-rule": "fillRule",
   "stroke-width": "strokeWidth",
@@ -62,7 +60,6 @@ const JSX_ATTR = {
   "clip-rule": "clipRule",
 };
 
-// Split inner markup into { tag, attrs } objects (self-closing only: path/circle/rect).
 function parseElements(inner) {
   const out = [];
   const re = /<(\w+)([^>]*?)\/?>/g;
@@ -88,19 +85,20 @@ function toJsx(inner, indent = "      ") {
     .join("\n");
 }
 
-function iconName(component, weight) {
-  return component + SUFFIX[weight];
+function indentSvg(markup, spaces) {
+  const pad = " ".repeat(spaces);
+  return markup
+    .trim()
+    .split("\n")
+    .map((line) => pad + line.trim())
+    .join("\n");
 }
 
 // ---------------------------------------------------------------------------
 // React
 // ---------------------------------------------------------------------------
-function reactComponent(component, name, inner, fill) {
-  const parts = [];
-  for (const weight of WEIGHTS) {
-    const exportName = iconName(component, weight);
-    parts.push(reactWeight(exportName, weight, inner, fill));
-  }
+function reactComponent(component, inner, fill) {
+  const parts = WEIGHTS.map((w) => reactWeight(iconName(component, w), w, inner, fill));
   parts.push(`export { ${WEIGHTS.map((w) => iconName(component, w)).join(", ")} };`);
   return `import type { VaultIconProps } from "../types";
 
@@ -109,25 +107,22 @@ ${parts.join("\n\n")}
 }
 
 function reactWeight(exportName, weight, inner, fill) {
-  const attrs = {
-    xmlns: "http://www.w3.org/2000/svg",
-    viewBox: "0 0 24 24",
-    width: "{size}",
-    height: "{size}",
-    ...(weight === "fill"
-      ? { fill: "currentColor" }
-      : { fill: "none" }),
-    ...(weight !== "fill" ? { stroke: "currentColor" } : {}),
-    ...(STROKE[weight] ? { strokeWidth: `{${STROKE[weight]}}` } : {}),
-    ...(weight !== "fill" ? { strokeLinecap: "round", strokeLinejoin: "round" } : {}),
-    "aria-hidden": "true",
-    ...{ "...props" : "" },
-  };
+  const attrs = [
+    'xmlns="http://www.w3.org/2000/svg"',
+    'viewBox="0 0 24 24"',
+    "width={size}",
+    "height={size}",
+  ];
+  if (weight === "fill") {
+    attrs.push('fill="currentColor"');
+  } else {
+    attrs.push('fill="none"', 'stroke="currentColor"');
+    if (STROKE[weight]) attrs.push(`strokeWidth={${STROKE[weight]}}`);
+    attrs.push('strokeLinecap="round"', 'strokeLinejoin="round"');
+  }
+  attrs.push('aria-hidden="true"', "{...props}");
   const body = reactBody(weight, inner, fill);
-  const attrLines = Object.entries(attrs)
-    .filter(([, v]) => v !== "")
-    .map(([k, v]) => `        ${k}={${v}}`)
-    .join("\n");
+  const attrLines = attrs.map((a) => `        ${a}`).join("\n");
   return `function ${exportName}({ size = 24, ...props }: VaultIconProps) {
   return (
     <svg
@@ -140,9 +135,7 @@ ${body}
 }
 
 function reactBody(weight, inner, fill) {
-  if (weight === "fill") {
-    return toJsx(fill);
-  }
+  if (weight === "fill") return toJsx(fill);
   if (weight === "duotone") {
     return `      <g opacity={0.22} fill="currentColor" stroke="none">\n${toJsx(fill, "        ")}\n      </g>\n      <g stroke="currentColor" strokeWidth={1.6} strokeLinecap="round" strokeLinejoin="round">\n${toJsx(inner, "        ")}\n      </g>`;
   }
@@ -152,17 +145,14 @@ function reactBody(weight, inner, fill) {
 // ---------------------------------------------------------------------------
 // Vue (SFC, one file per weight)
 // ---------------------------------------------------------------------------
-function vueComponent(name, weight, inner, fill) {
-  const script = `<script setup lang="ts">
+function vueComponent(weight, inner, fill) {
+  return `<script setup lang="ts">
 const props = withDefaults(defineProps<{ size?: number | string }>(), { size: 24 });
-</script>`;
-  const svgAttrs = vueSvgAttrs(weight);
-  const body = vueBody(weight, inner, fill);
-  return `${script}
+</script>
 
 <template>
-  <svg ${svgAttrs}>
-${body}
+  <svg ${vueSvgAttrs(weight)}>
+${vueBody(weight, inner, fill)}
   </svg>
 </template>
 `;
@@ -187,35 +177,23 @@ function vueSvgAttrs(weight) {
 }
 
 function vueBody(weight, inner, fill) {
-  if (weight === "fill") return indentSvg(inner, 4);
+  if (weight === "fill") return indentSvg(fill, 4);
   if (weight === "duotone") {
     return `    <g opacity="0.22" fill="currentColor" stroke="none">\n${indentSvg(fill, 6)}\n    </g>\n    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">\n${indentSvg(inner, 6)}\n    </g>`;
   }
   return indentSvg(inner, 4);
 }
 
-function indentSvg(markup, spaces) {
-  const pad = " ".repeat(spaces);
-  return markup
-    .trim()
-    .split("\n")
-    .map((line) => pad + line.trim())
-    .join("\n");
-}
-
 // ---------------------------------------------------------------------------
 // Svelte (one component per weight)
 // ---------------------------------------------------------------------------
-function svelteComponent(name, weight, inner, fill) {
-  const script = `<script lang="ts">
+function svelteComponent(weight, inner, fill) {
+  return `<script lang="ts">
   let { size = 24 }: { size?: number | string } = $props();
-</script>`;
-  const svgAttrs = svelteSvgAttrs(weight);
-  const body = svelteBody(weight, inner, fill);
-  return `${script}
+</script>
 
-<svg ${svgAttrs}>
-${body}
+<svg ${svelteSvgAttrs(weight)}>
+${svelteBody(weight, inner, fill)}
 </svg>
 `;
 }
@@ -250,92 +228,78 @@ function svelteBody(weight, inner, fill) {
 // main
 // ---------------------------------------------------------------------------
 async function main() {
-  const { icons: batchIcons, fills: batchFills } = await loadBatches();
+  const target = process.argv[2] || "all";
+  const want = (fw) => target === "all" || target === fw;
 
+  const { icons: batchIcons, fills: batchFills } = await loadBatches();
   const icons = { ...ORIGINAL_ICONS, ...batchIcons };
   const fills = { ...ORIGINAL_FILLS, ...batchFills };
+  const names = Object.keys(icons).sort().filter((n) => icons[n] && pascal(n));
 
-  const names = Object.keys(icons).sort();
+  const pkgRoot = path.join(repoRoot, "packages");
 
-  const reactDir = path.join(repoRoot, "packages", "icons-react", "src", "icons");
-  const vueDir = path.join(repoRoot, "packages", "icons-vue", "src", "icons");
-  const svelteDir = path.join(repoRoot, "packages", "icons-svelte", "src", "icons");
-
-  await rm(path.join(reactDir), { recursive: true, force: true });
-  await rm(path.join(vueDir), { recursive: true, force: true });
-  await rm(path.join(svelteDir), { recursive: true, force: true });
-  await mkdir(reactDir, { recursive: true });
-  await mkdir(vueDir, { recursive: true });
-  await mkdir(svelteDir, { recursive: true });
-
-  const reactBarrel = [];
-  const vueBarrel = [];
-  const svelteBarrel = [];
-
-  for (const name of names) {
-    const inner = icons[name];
-    const fill = fills[name] ?? inner;
-    const component = pascal(name);
-    if (!inner || !component) continue;
-
-    // React: one file, six named exports
-    await writeFile(
-      path.join(reactDir, `${name}.tsx`),
-      reactComponent(component, name, inner, fill),
-      "utf8",
-    );
-    reactBarrel.push(`export { ${WEIGHTS.map((w) => iconName(component, w)).join(", ")} } from "./icons/${name}";`);
-
-    // Vue: one SFC per weight
-    for (const weight of WEIGHTS) {
-      const filename = weight === "regular" ? `${name}.vue` : `${name}-${weight}.vue`;
-      await writeFile(
-        path.join(vueDir, filename),
-        vueComponent(name, weight, inner, fill),
-        "utf8",
-      );
+  if (want("react")) {
+    const dir = path.join(pkgRoot, "icons-react", "src", "icons");
+    await rm(dir, { recursive: true, force: true });
+    await mkdir(dir, { recursive: true });
+    const barrel = [];
+    for (const name of names) {
+      const inner = icons[name];
+      const fill = fills[name] ?? inner;
+      const component = pascal(name);
+      await writeFile(path.join(dir, `${name}.tsx`), reactComponent(component, inner, fill), "utf8");
+      barrel.push(`export { ${WEIGHTS.map((w) => iconName(component, w)).join(", ")} } from "./icons/${name}";`);
     }
-    vueBarrel.push(
-      WEIGHTS.map((w) => {
-        const file = w === "regular" ? `${name}.vue` : `${name}-${w}.vue`;
-        return `export { default as ${iconName(component, w)} } from "./icons/${file}";`;
-      }).join("\n"),
-    );
-
-    // Svelte: one component per weight
-    for (const weight of WEIGHTS) {
-      const filename = weight === "regular" ? `${name}.svelte` : `${name}-${weight}.svelte`;
-      await writeFile(
-        path.join(svelteDir, filename),
-        svelteComponent(name, weight, inner, fill),
-        "utf8",
-      );
-    }
-    svelteBarrel.push(
-      WEIGHTS.map((w) => {
-        const file = w === "regular" ? `${name}.svelte` : `${name}-${w}.svelte`;
-        return `export { default as ${iconName(component, w)} } from "./icons/${file}";`;
-      }).join("\n"),
-    );
+    await writeFile(path.join(pkgRoot, "icons-react", "src", "index.ts"), barrel.join("\n") + "\n", "utf8");
   }
 
-  await writeFile(
-    path.join(repoRoot, "packages", "icons-react", "src", "index.ts"),
-    reactBarrel.join("\n") + "\n",
-    "utf8",
-  );
-  await writeFile(
-    path.join(repoRoot, "packages", "icons-vue", "src", "index.ts"),
-    vueBarrel.join("\n") + "\n",
-    "utf8",
-  );
-  await writeFile(
-    path.join(repoRoot, "packages", "icons-svelte", "src", "index.ts"),
-    svelteBarrel.join("\n") + "\n",
-    "utf8",
-  );
+  if (want("vue")) {
+    const dir = path.join(pkgRoot, "icons-vue", "src", "icons");
+    await rm(dir, { recursive: true, force: true });
+    await mkdir(dir, { recursive: true });
+    const barrel = [];
+    for (const name of names) {
+      const inner = icons[name];
+      const fill = fills[name] ?? inner;
+      const component = pascal(name);
+      for (const weight of WEIGHTS) {
+        const file = weight === "regular" ? `${name}.vue` : `${name}-${weight}.vue`;
+        await writeFile(path.join(dir, file), vueComponent(weight, inner, fill), "utf8");
+      }
+      barrel.push(
+        WEIGHTS.map((w) => {
+          const file = w === "regular" ? `${name}.vue` : `${name}-${w}.vue`;
+          return `export { default as ${iconName(component, w)} } from "./icons/${file}";`;
+        }).join("\n"),
+      );
+    }
+    await writeFile(path.join(pkgRoot, "icons-vue", "src", "index.ts"), barrel.join("\n") + "\n", "utf8");
+  }
 
-  console.log(`Generated ${names.length} icons → react (1 file/icon), vue + svelte (6 files/icon).`);
+  if (want("svelte")) {
+    const dir = path.join(pkgRoot, "icons-svelte", "src", "icons");
+    await rm(dir, { recursive: true, force: true });
+    await mkdir(dir, { recursive: true });
+    const barrel = [];
+    for (const name of names) {
+      const inner = icons[name];
+      const fill = fills[name] ?? inner;
+      const component = pascal(name);
+      for (const weight of WEIGHTS) {
+        const file = weight === "regular" ? `${name}.svelte` : `${name}-${weight}.svelte`;
+        await writeFile(path.join(dir, file), svelteComponent(weight, inner, fill), "utf8");
+      }
+      barrel.push(
+        WEIGHTS.map((w) => {
+          const file = w === "regular" ? `${name}.svelte` : `${name}-${w}.svelte`;
+          return `export { default as ${iconName(component, w)} } from "./icons/${file}";`;
+        }).join("\n"),
+      );
+    }
+    await writeFile(path.join(pkgRoot, "icons-svelte", "src", "index.ts"), barrel.join("\n") + "\n", "utf8");
+  }
+
+  console.log(`Generated ${names.length} icons → ${target}.`);
 }
 
 main().catch((error) => {
