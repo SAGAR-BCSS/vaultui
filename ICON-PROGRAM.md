@@ -13,8 +13,8 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 
 | Item | Value |
 | --- | --- |
-| Commit (`sagar/dev`) | `8907848` |
-| Remote tip (`origin/sagar/dev`) | `8907848` |
+| Commit (`sagar/dev`) | `3064dd9` |
+| Remote tip (`origin/sagar/dev`) | `3064dd9` |
 | Inventory | **1,557 icons × 6 weights = 9,342 SVGs** |
 | Original masters | **473 (30.4%)** |
 | Reference source | Phosphor MIT (being replaced batch by batch) |
