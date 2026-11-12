@@ -80,6 +80,15 @@ Then update §1 and §4 here.
 
 `build.mjs` auto-merges every `original/specs-batch-*.mjs` file, so no wiring is needed.
 
+### Batched verify mode (adopted 2026-11-12, saves time/tokens)
+
+- **Every batch** (cheap): collect → one commit → `build.mjs` + `validate-icons.mjs` only.
+- **Every ~5 batches / "ship" milestone**: `typecheck` + site `build` + `wrangler deploy`
+  + push `sagar/dev` + update snapshot/ledger, once for the whole batch group.
+- Rationale: a single batch never needs a full site rebuild or deploy; commit+push per
+  batch keeps the safety net, the milestone step keeps the live site moving. `main` is
+  still only merged at the end (phase 18).
+
 ---
 
 ## 4. Batch ledger
