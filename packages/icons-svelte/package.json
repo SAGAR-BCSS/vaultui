@@ -1,6 +1,6 @@
 {
   "name": "@vaultui/icons-svelte",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Vault Icons — 1,557 hand-authored icons in 6 weights as tree-shakeable Svelte components.",
   "license": "MIT",
   "type": "module",

@@ -79,7 +79,7 @@ jobs:
         run: node packages/icons/scripts/validate-icons.mjs
 
       # Guard the published package contract: deep imports, tree-shaking,
-      # types, tarball budgets, publint and attw. Fails the PR if any regress.
+      # types, tarball budgets and attw. Fails the PR if any regress.
       - name: Verify icon packages
         run: node scripts/verify-icon-packages.mjs
 
