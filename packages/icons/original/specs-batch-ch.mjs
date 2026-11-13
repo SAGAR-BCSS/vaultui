@@ -33,7 +33,6 @@ export const BATCH_CH = {
   thread: `<rect x="4.4" y="9.4" width="8.2" height="6.2" rx="1.4"/><rect x="3.6" y="7.4" width="9.8" height="2" rx="1"/><rect x="3.6" y="15.6" width="9.8" height="2" rx="1"/><path d="M12.6 11.4c2.4 0 4 1.4 4 3.4 0 1.6-1.2 2.8-2.8 2.8"/>`,
   tissue: `<path d="M4.4 12.4h15.2v7.2H4.4Z"/><path d="M8.4 12.4c0-2.2 1.6-3.6 3.6-3.6s3.6 1.4 3.6 3.6c0 1.2-.6 2-1.4 2.4h-4.4c-.8-.4-1.4-1.2-1.4-2.4Z"/><path d="M7.4 12.4h9.2"/>`,
   toothpaste: `<path d="M6.4 8.4h9.2v11.2H6.4Z"/><rect x="8.4" y="4.6" width="5.2" height="3.8" rx="1.2"/><path d="M6.4 18.4h9.2v1.8H6.4Z"/><path d="M7.6 11.4h6.8"/>`,
-  torch: `<path d="M12 3.4c1.8 2.4 2.8 4.2 2.8 5.8 0 1.6-1.2 2.8-2.8 2.8s-2.8-1.2-2.8-2.8c0-1.6 1-3.4 2.8-5.8Z"/><rect x="10.8" y="12.4" width="2.4" height="7.8" rx="1.2"/><path d="M8.4 12.4h7.2v1.6H8.4Z"/>`,
   toy: `<path d="M8.4 8.4h7.2l-1.6 5.2H10Z"/><rect x="11.4" y="4.4" width="1.2" height="4" rx=".6"/><path d="M12 13.6 10.8 16h2.4Z"/><circle cx="12" cy="4.4" r="1.2"/>`,
   unicycle: `<circle cx="12" cy="15.4" r="5"/><path d="M12 10.4V7.4M12 10.4 10.4 13.4M12 10.4l1.6 3"/><path d="M9.4 5.4h5.2v2H9.4Z"/><path d="M8.4 13.4h2M13.6 13.4h2"/>`,
   // END_CH_ICONS
