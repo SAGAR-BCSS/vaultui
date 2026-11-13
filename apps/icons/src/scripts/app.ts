@@ -104,7 +104,7 @@ function installFor(name: string): { command: string; importLine: string } | nul
   const suffix = WEIGHT_SUFFIX[state.modalWeight] ?? "";
   return {
     command: `${INSTALLERS[state.pm]} ${pkg}`,
-    importLine: `import { ${pascal(name)}${suffix} } from "${pkg}";`,
+    importLine: `import { ${pascal(name)}${suffix} } from "${pkg}/icons/${name}/${state.modalWeight}";`,
   };
 }
 
@@ -120,11 +120,12 @@ function selectionInstall(): string {
 function selectionImport(): string {
   const pkg = PACKAGES[state.selectLang];
   if (!pkg || state.selected.size === 0) return "";
-  const suffix = WEIGHT_SUFFIX[state.weight] ?? "";
-  const names = [...state.selected]
+  const weight = state.weight;
+  const suffix = WEIGHT_SUFFIX[weight] ?? "";
+  return [...state.selected]
     .sort((a, b) => a.localeCompare(b))
-    .map((name) => pascal(name) + suffix);
-  return `import { ${names.join(", ")} } from "${pkg}";`;
+    .map((name) => `import { ${pascal(name)}${suffix} } from "${pkg}/icons/${name}/${weight}";`)
+    .join("\n");
 }
 
 function persistSelection() {
