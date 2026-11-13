@@ -1,0 +1,62 @@
+{
+  "base": "d5e99a2",
+  "branch": "sagar/icons-qa2-a1",
+  "scope": {
+    "files": ["ca", "cb", "ce", "cg", "ci", "cj"],
+    "pending": ["cc", "cd", "ch"],
+    "absent": ["cf"],
+    "glyphs": 166,
+    "svgs": 996
+  },
+  "fixes": {
+    "forcepsBounds": { "status": "ok", "checked": 2, "fail": 0 },
+    "honeyPot": "absent",
+    "honeypot": "present",
+    "manifestTotal": 2363
+  },
+  "bounds": {
+    "checked": 332,
+    "fail": 2,
+    "glyphs": [
+      {
+        "file": "specs-batch-ci.mjs",
+        "name": "hammock",
+        "weights": ["regular", "fill"],
+        "range": { "minX": 3.6, "maxX": 21.8, "minY": 1.4, "maxY": 16.4 },
+        "cause": "implicit S reflection control point (21.8, 1.4)",
+        "fix": "use explicit C or move first S handle to 17.8 12.2"
+      }
+    ]
+  },
+  "xml": { "checked": 996, "fail": 0 },
+  "fills": { "open": 61, "missing": 0, "orphan": 0, "declared": 80 },
+  "dupes": {
+    "exactNames": 0,
+    "exactGeometry": 0,
+    "near": [
+      { "a": "palm-tree", "b": "tree-palm", "keep": "tree-palm", "reason": "synonym; tree-palm exists earlier (q)" },
+      { "a": "droplet", "b": "drop", "keep": "drop", "reason": "synonym; drop exists earlier (g)" },
+      { "a": "garbage-bin", "b": "wastebasket", "keep": "wastebasket", "reason": "near-identical silhouette plus synonym; garbage-bin adds wheels" }
+    ],
+    "reviewedKeepBoth": [
+      "galaxy|milky-way",
+      "hare|rabbit",
+      "parasol|umbrella",
+      "parasol|beach-with-umbrella",
+      "pocket-watch|watch",
+      "table-lamp|lamp",
+      "barrel|oil-drum",
+      "basin|sink",
+      "sunrise|sunset",
+      "full-moon|new-moon|crescent-moon",
+      "ladle|scoop|spoon",
+      "whisk|spatula",
+      "bolt|screw|nail",
+      "pliers|clamp",
+      "picture-frame|poster|postcard",
+      "cushion|mattress"
+    ]
+  },
+  "sheet": { "path": "qa/wave3/contact-sheet-ca-cj.html", "icons": 166 },
+  "verdict": "issues"
+}
