@@ -141,7 +141,6 @@ const weights = [
       <div class="ph-marks" aria-hidden="true">
         <span></span><span></span><span></span><span></span>
       </div>
-      <div class="ph-ruler" aria-hidden="true"></div>
       <div class="ph-frame" aria-hidden="true"></div>
       <div class="ph-hero__copy">
         <p class="ph-eyebrow"><span>Philosophy</span><span>Field notes / 001</span></p>
@@ -153,57 +152,45 @@ const weights = [
         <p class="ph-meta">1,557 glyphs · 6 weights · 4 shapes max · MIT</p>
       </div>
 
-      <figure class="ph-specimen ph-index">
-        <div class="ph-index__head">
-          <span>Specimen 001</span>
-          <span>Acorn / optical family</span>
+      <figure class="ph-specimen ph-board">
+        <div class="ph-board__head">
+          <span>Weight system</span>
+          <span>6 styles / 1 silhouette</span>
         </div>
-        <div class="ph-index__body">
-          <span class="ph-index__rail" aria-hidden="true">six weights</span>
-          <ol class="ph-index__list">
-            {weights.map((w, index) => (
-              <li class={`ph-index__row${w.id === "regular" ? " is-default" : ""}`}>
-                <span class="ph-index__n">0{index + 1}</span>
-                <span class="ph-index__glyph">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                    {w.fill ? (
-                      <g fill="currentColor">
-                        {acornFill.map((d) => <path d={d} />)}
-                        <rect x="11.4" y="2.9" width="1.2" height="2.4" rx="0.6" />
-                      </g>
-                    ) : w.duotone ? (
-                      <>
-                        <g opacity="0.22" fill="currentColor" stroke="none">
-                          {acornFill.map((d) => <path d={d} />)}
-                          <rect x="11.4" y="2.9" width="1.2" height="2.4" rx="0.6" />
-                        </g>
-                        <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
-                          {acornOutline.map((d) => <path d={d} />)}
-                        </g>
-                      </>
-                    ) : (
-                      <g stroke="currentColor" stroke-width={w.stroke} stroke-linecap="round" stroke-linejoin="round" fill="none">
-                        {acornOutline.map((d) => <path d={d} />)}
-                      </g>
-                    )}
-                  </svg>
-                </span>
-                <span class="ph-index__name">
-                  {w.label}
-                  {w.id === "regular" && <em>default</em>}
-                </span>
-                <span class={`ph-index__bar ph-index__bar--${w.id}`} aria-hidden="true"></span>
-                <span class="ph-index__value">{w.note}</span>
-              </li>
-            ))}
-          </ol>
+        <div class="ph-board__grid">
+          {weights.map((w) => (
+            <div class={`ph-board__tile${w.id === "regular" ? " is-default" : ""}`}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                {w.fill ? (
+                  <path d="M20.6 12 12.6 4v5H3.4v6h9.2v5Z" fill="currentColor" />
+                ) : w.duotone ? (
+                  <>
+                    <path d="M20.6 12 12.6 4v5H3.4v6h9.2v5Z" fill="currentColor" opacity="0.22" />
+                    <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
+                      <path d="M4.5 12h15" />
+                      <path d="M13 5.5 19.5 12 13 18.5" />
+                    </g>
+                  </>
+                ) : (
+                  <g stroke="currentColor" stroke-width={w.stroke} stroke-linecap="round" stroke-linejoin="round" fill="none">
+                    <path d="M4.5 12h15" />
+                    <path d="M13 5.5 19.5 12 13 18.5" />
+                  </g>
+                )}
+              </svg>
+              <span class="ph-board__name">
+                {w.label}
+                {w.id === "regular" && <em>default</em>}
+              </span>
+              <span class="ph-board__value">{w.note}</span>
+            </div>
+          ))}
         </div>
-        <div class="ph-index__foot">
+        <div class="ph-board__foot">
           <span>24 × 24 grid</span>
-          <span>6 weights</span>
           <span>1,557 glyphs</span>
+          <span>MIT</span>
         </div>
-        <figcaption>Specimen index — one silhouette, six weights</figcaption>
       </figure>
     </header>
 
@@ -552,27 +539,7 @@ const weights = [
       position: absolute;
       inset: 0;
       z-index: -1;
-      background-image:
-        repeating-linear-gradient(30deg, rgb(255 255 255 / 0.055) 0 1px, transparent 1px 30px),
-        repeating-linear-gradient(-30deg, rgb(255 255 255 / 0.055) 0 1px, transparent 1px 30px);
-      background-position: 0 0, 0 0;
-      mask-image: radial-gradient(120% 100% at 50% 0%, #000 18%, transparent 86%);
-      pointer-events: none;
-    }
-
-    .ph-ruler {
-      position: absolute;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      height: 9px;
-      border-top: 1px solid rgb(255 255 255 / 0.08);
-      background-image: repeating-linear-gradient(
-        90deg,
-        transparent 0 23px,
-        rgb(255 255 255 / 0.16) 23px 24px
-      );
-      opacity: 0.7;
+      background: radial-gradient(120% 100% at 50% 0%, transparent 40%, rgb(0 0 0 / 0.28) 100%);
       pointer-events: none;
     }
 
@@ -582,22 +549,6 @@ const weights = [
       border: 1px solid rgb(255 255 255 / 0.07);
       border-radius: 18px;
       pointer-events: none;
-    }
-
-    .ph-hero::after {
-      content: "24";
-      position: absolute;
-      right: -0.06em;
-      bottom: -0.36em;
-      z-index: -1;
-      font-size: clamp(240px, 38vw, 520px);
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.08em;
-      color: transparent;
-      -webkit-text-stroke: 1px rgb(255 255 255 / 0.08);
-      pointer-events: none;
-      user-select: none;
     }
 
     .ph-hero__copy,
@@ -704,177 +655,102 @@ const weights = [
       margin: 0;
     }
 
-    .ph-index {
-      overflow: hidden;
-      border: 1px solid rgb(255 255 255 / 0.16);
+    .ph-board {
+      padding: clamp(14px, 2vw, 20px);
       border-radius: 20px;
-      background:
-        radial-gradient(420px 260px at 85% 0%, rgb(111 123 242 / 0.18), transparent 65%),
-        rgb(255 255 255 / 0.035);
-      box-shadow: inset 0 0 80px rgb(111 123 242 / 0.1);
+      background: var(--color-surface-0);
+      color: var(--color-surface-900);
+      box-shadow:
+        0 24px 70px rgb(0 0 0 / 0.38),
+        inset 0 0 0 1px rgb(0 0 0 / 0.05);
     }
 
-    .ph-index__head {
+    .ph-board__head {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      padding: 14px 18px;
-      border-bottom: 1px solid rgb(255 255 255 / 0.12);
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 0.1em;
+      padding: 0 2px 12px;
+      border-bottom: 1px solid var(--color-surface-200);
+      font-size: 9.5px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
-      color: rgb(255 255 255 / 0.5);
+      color: var(--color-surface-500);
     }
 
-    .ph-index__body {
+    .ph-board__grid {
       display: grid;
-      grid-template-columns: 30px minmax(0, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 12px;
     }
 
-    .ph-index__rail {
+    .ph-board__tile {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      border-right: 1px solid rgb(255 255 255 / 0.1);
-      font-family: var(--font-mono);
-      font-size: 8px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: rgb(255 255 255 / 0.34);
-      writing-mode: vertical-rl;
-      transform: rotate(180deg);
+      gap: 4px;
+      min-height: 104px;
+      padding: 14px 6px 10px;
+      border: 1px solid var(--color-surface-200);
+      border-radius: 12px;
+      background: var(--color-surface-50);
     }
 
-    .ph-index__list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
+    .ph-board__tile svg {
+      width: 46px;
+      height: 46px;
+      color: var(--color-surface-900);
     }
 
-    .ph-index__row {
-      display: grid;
-      grid-template-columns: 22px 38px minmax(0, 1fr) 46px 44px;
-      gap: 10px;
-      align-items: center;
-      min-height: 58px;
-      padding: 8px 16px;
-      border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    .ph-board__tile.is-default {
+      border-color: var(--color-brand-400);
+      background: var(--color-brand-50);
+      box-shadow: inset 0 0 0 1px var(--color-brand-200);
     }
 
-    .ph-index__row:last-child {
-      border-bottom: 0;
+    .ph-board__tile.is-default svg {
+      color: var(--color-brand-700);
     }
 
-    .ph-index__row.is-default {
-      background: linear-gradient(90deg, rgb(111 123 242 / 0.2), transparent 78%);
-      box-shadow: inset 3px 0 0 var(--color-brand-300);
-    }
-
-    .ph-index__n {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      color: rgb(255 255 255 / 0.34);
-    }
-
-    .ph-index__glyph {
-      display: grid;
-      place-items: center;
-    }
-
-    .ph-index__glyph svg {
-      width: 32px;
-      height: 32px;
-      color: var(--color-surface-0);
-    }
-
-    .ph-index__name {
+    .ph-board__name {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.01em;
-      color: rgb(255 255 255 / 0.86);
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-surface-800);
     }
 
-    .ph-index__name em {
+    .ph-board__name em {
       padding: 2px 6px;
-      border: 1px solid rgb(111 123 242 / 0.55);
       border-radius: 999px;
-      font-family: var(--font-mono);
+      background: var(--color-brand-600);
+      color: var(--color-surface-0);
       font-size: 7px;
       font-style: normal;
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--color-brand-200);
     }
 
-    .ph-index__bar {
-      justify-self: end;
-      width: 100%;
-      max-width: 46px;
-      height: 2px;
-      border-radius: 999px;
-      background: rgb(255 255 255 / 0.55);
+    .ph-board__value {
+      font-size: 9px;
+      color: var(--color-surface-500);
     }
 
-    .ph-index__bar--thin {
-      height: 1px;
-    }
-
-    .ph-index__bar--light {
-      height: 1.5px;
-    }
-
-    .ph-index__bar--regular {
-      height: 2px;
-      background: var(--color-surface-0);
-    }
-
-    .ph-index__bar--bold {
-      height: 3px;
-    }
-
-    .ph-index__bar--fill {
-      height: 8px;
-      background: var(--color-surface-0);
-    }
-
-    .ph-index__bar--duotone {
-      height: 8px;
-      background: linear-gradient(90deg, rgb(255 255 255 / 0.22) 50%, rgb(255 255 255 / 0.72) 50%);
-    }
-
-    .ph-index__value {
-      font-family: var(--font-mono);
-      font-size: 8.5px;
-      text-align: right;
-      color: rgb(255 255 255 / 0.42);
-    }
-
-    .ph-index__foot {
+    .ph-board__foot {
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
       gap: 8px;
-      padding: 12px 18px;
-      border-top: 1px solid rgb(255 255 255 / 0.12);
-      font-family: var(--font-mono);
-      font-size: 8.5px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgb(255 255 255 / 0.46);
-    }
-
-    .ph-index figcaption {
-      padding: 0 18px 14px;
-      font-family: var(--font-mono);
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--color-surface-200);
       font-size: 9px;
-      letter-spacing: 0.09em;
+      font-weight: 500;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgb(255 255 255 / 0.4);
-      text-align: right;
+      color: var(--color-surface-500);
     }
 
     .ph-start {
@@ -1288,27 +1164,27 @@ const weights = [
     }
 
     @media (prefers-reduced-motion: no-preference) {
-      .ph-index__row {
+      .ph-board__tile {
         animation: ph-rise 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
       }
 
-      .ph-index__row:nth-child(2) {
+      .ph-board__tile:nth-child(2) {
         animation-delay: 0.04s;
       }
 
-      .ph-index__row:nth-child(3) {
+      .ph-board__tile:nth-child(3) {
         animation-delay: 0.08s;
       }
 
-      .ph-index__row:nth-child(4) {
+      .ph-board__tile:nth-child(4) {
         animation-delay: 0.12s;
       }
 
-      .ph-index__row:nth-child(5) {
+      .ph-board__tile:nth-child(5) {
         animation-delay: 0.16s;
       }
 
-      .ph-index__row:nth-child(6) {
+      .ph-board__tile:nth-child(6) {
         animation-delay: 0.2s;
       }
 
@@ -1333,13 +1209,9 @@ const weights = [
         grid-template-columns: 1fr;
       }
 
-      .ph-index {
-        max-width: 460px;
+      .ph-board {
+        max-width: 480px;
         margin: 0 auto;
-      }
-
-      .ph-index figcaption {
-        text-align: center;
       }
 
       .ph-rules {
@@ -1453,22 +1325,18 @@ const weights = [
         gap: 12px;
       }
 
-      .ph-index__body {
-        grid-template-columns: 1fr;
+      .ph-board__tile {
+        min-height: 92px;
+        padding: 12px 4px 8px;
       }
 
-      .ph-index__rail {
-        display: none;
+      .ph-board__tile svg {
+        width: 40px;
+        height: 40px;
       }
 
-      .ph-index__row {
-        grid-template-columns: 20px 32px minmax(0, 1fr) 40px;
-        gap: 8px;
-        padding: 9px 12px;
-      }
-
-      .ph-index__bar {
-        display: none;
+      .ph-board__name {
+        font-size: 9px;
       }
     }
 
