@@ -1,0 +1,478 @@
+{
+  "base": "19cf600",
+  "branch": "sagar/icons-qa-a1",
+  "scope": {
+    "files": 22,
+    "glyphs": 592,
+    "svgs": 3552
+  },
+  "bounds": {
+    "checked": 1184,
+    "fails": [
+      {
+        "file": "specs-batch-br.mjs",
+        "name": "forceps",
+        "weights": [
+          "regular",
+          "fill"
+        ],
+        "detail": "minY lands just under 2.4 (source dot sits exactly on the 2.4 rail, arc sampling rounds to 2.40)",
+        "fix": "nudge the two pivot dots down by ~0.1 (e.g. 2.4 -> 2.5) or shrink the radius 1.4 -> 1.3"
+      }
+    ]
+  },
+  "xml": {
+    "checked": 3552,
+    "fails": 0
+  },
+  "fills": {
+    "open": 367,
+    "missing": [],
+    "orphan": [],
+    "declared": 387
+  },
+  "dupes": {
+    "exactNames": [],
+    "exactGeometry": [],
+    "heuristicPairs": [
+      {
+        "a": "certificate-check",
+        "b": "certificate-warning",
+        "why": "same stem (certificate)"
+      },
+      {
+        "a": "domain",
+        "b": "domain-check",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "domain",
+        "b": "domain-plus",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "domain",
+        "b": "domain-x",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "domain-check",
+        "b": "domain-plus",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "domain-check",
+        "b": "domain-x",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "domain-plus",
+        "b": "domain-x",
+        "why": "same stem (domain)"
+      },
+      {
+        "a": "honey-pot",
+        "b": "honeypot",
+        "why": "same stem (honey-pot)"
+      },
+      {
+        "a": "identity",
+        "b": "identity-check",
+        "why": "same stem (identity)"
+      },
+      {
+        "a": "left-luggage",
+        "b": "luggage",
+        "why": "same stem (luggage)"
+      },
+      {
+        "a": "server-check",
+        "b": "server-off",
+        "why": "same stem (server)"
+      },
+      {
+        "a": "server-check",
+        "b": "server-slash",
+        "why": "same stem (server)"
+      },
+      {
+        "a": "server-off",
+        "b": "server-slash",
+        "why": "same stem (server)"
+      },
+      {
+        "a": "certificate-check",
+        "b": "certificate",
+        "why": "same stem as earlier (certificate)"
+      },
+      {
+        "a": "certificate-warning",
+        "b": "certificate",
+        "why": "same stem as earlier (certificate)"
+      },
+      {
+        "a": "menu-simple",
+        "b": "menu",
+        "why": "same stem as earlier (menu)"
+      },
+      {
+        "a": "password-check",
+        "b": "password",
+        "why": "same stem as earlier (password)"
+      },
+      {
+        "a": "police-car-light",
+        "b": "police-car",
+        "why": "same stem as earlier (police-car)"
+      },
+      {
+        "a": "server-check",
+        "b": "server",
+        "why": "same stem as earlier (server)"
+      },
+      {
+        "a": "server-off",
+        "b": "server",
+        "why": "same stem as earlier (server)"
+      },
+      {
+        "a": "server-slash",
+        "b": "server",
+        "why": "same stem as earlier (server)"
+      },
+      {
+        "a": "small-airplane",
+        "b": "airplane",
+        "why": "same stem as earlier (plane)"
+      }
+    ],
+    "trueSynonyms": [
+      {
+        "a": "honeypot",
+        "b": "honey-pot",
+        "keep": "honeypot",
+        "reason": "Same object name; honeypot already exists in bg, honey-pot (bv) is a synonym. Keep canonical honeypot and alias or retire honey-pot."
+      }
+    ],
+    "reviewedPairs": [
+      {
+        "a": "certificate",
+        "b": "certificate-check",
+        "keep": "both",
+        "reason": "Certificate document vs document + check badge; intentional modifier."
+      },
+      {
+        "a": "certificate",
+        "b": "certificate-warning",
+        "keep": "both",
+        "reason": "Certificate document vs document + warning badge; intentional modifier."
+      },
+      {
+        "a": "certificate-check",
+        "b": "certificate-warning",
+        "keep": "both",
+        "reason": "Different badge symbol in the same certificate family."
+      },
+      {
+        "a": "domain",
+        "b": "domain-check",
+        "keep": "both",
+        "reason": "Domain globe vs globe + check badge; intentional modifier."
+      },
+      {
+        "a": "domain",
+        "b": "domain-plus",
+        "keep": "both",
+        "reason": "Domain globe vs globe + plus badge; intentional modifier."
+      },
+      {
+        "a": "domain",
+        "b": "domain-x",
+        "keep": "both",
+        "reason": "Domain globe vs globe + x badge; intentional modifier."
+      },
+      {
+        "a": "domain-check",
+        "b": "domain-plus",
+        "keep": "both",
+        "reason": "Same family, different badge symbol."
+      },
+      {
+        "a": "domain-check",
+        "b": "domain-x",
+        "keep": "both",
+        "reason": "Same family, different badge symbol."
+      },
+      {
+        "a": "domain-plus",
+        "b": "domain-x",
+        "keep": "both",
+        "reason": "Same family, different badge symbol."
+      },
+      {
+        "a": "identity",
+        "b": "identity-check",
+        "keep": "both",
+        "reason": "Portrait frame vs portrait + check; intentional modifier."
+      },
+      {
+        "a": "server",
+        "b": "server-check",
+        "keep": "both",
+        "reason": "Plain server vs server + check badge."
+      },
+      {
+        "a": "server",
+        "b": "server-off",
+        "keep": "both",
+        "reason": "Plain server vs server + power badge."
+      },
+      {
+        "a": "server",
+        "b": "server-slash",
+        "keep": "both",
+        "reason": "Plain server vs slashed server."
+      },
+      {
+        "a": "server-check",
+        "b": "server-off",
+        "keep": "both",
+        "reason": "Different status badge."
+      },
+      {
+        "a": "server-check",
+        "b": "server-slash",
+        "keep": "both",
+        "reason": "Badge vs slash state."
+      },
+      {
+        "a": "server-off",
+        "b": "server-slash",
+        "keep": "both",
+        "reason": "Power badge vs slash state."
+      },
+      {
+        "a": "password",
+        "b": "password-check",
+        "keep": "both",
+        "reason": "Field of dots vs field + check badge."
+      },
+      {
+        "a": "menu",
+        "b": "menu-simple",
+        "keep": "both",
+        "reason": "Simple line-count variant."
+      },
+      {
+        "a": "police-car",
+        "b": "police-car-light",
+        "keep": "both",
+        "reason": "Light-bar variant."
+      },
+      {
+        "a": "luggage",
+        "b": "left-luggage",
+        "keep": "both",
+        "reason": "Left-arrow variant authored in the same bn batch; silhouettes differ."
+      },
+      {
+        "a": "airplane",
+        "b": "small-airplane",
+        "keep": "both",
+        "reason": "Detailed vs simplified airplane; silhouettes differ."
+      }
+    ],
+    "manualPairs": [
+      {
+        "a": "pan",
+        "b": "frying-pan",
+        "keep": "both",
+        "reason": "Lidded saucepan vs open skillet; distinct silhouettes."
+      },
+      {
+        "a": "doughnut",
+        "b": "bagel",
+        "keep": "both",
+        "reason": "Glazed ring with drips vs seed-topped ring; distinct."
+      },
+      {
+        "a": "cheese",
+        "b": "cheese-wedge",
+        "keep": "both",
+        "reason": "Rectangular block vs triangular wedge; distinct."
+      },
+      {
+        "a": "beer-stein",
+        "b": "beer-mug",
+        "keep": "both",
+        "reason": "Faceted stein vs handled mug with foam; distinct."
+      },
+      {
+        "a": "pint-glass",
+        "b": "glass-of-milk",
+        "keep": "both",
+        "reason": "Tapered pint with fill lines vs milk glass with splash; distinct."
+      },
+      {
+        "a": "barbell",
+        "b": "dumbbell",
+        "keep": "both",
+        "reason": "Long bar with end plates vs short thick dumbbell; distinct."
+      },
+      {
+        "a": "badminton",
+        "b": "shuttlecock",
+        "keep": "both",
+        "reason": "Rounded feather fan in flight vs flat-top shuttle at rest; distinct."
+      },
+      {
+        "a": "cricket-bat",
+        "b": "cricket-game",
+        "keep": "both",
+        "reason": "Bat alone vs bat + ball + stumps; distinct."
+      },
+      {
+        "a": "field-hockey",
+        "b": "hockey-stick",
+        "keep": "both",
+        "reason": "Stick + ball vs stick + puck; distinct."
+      },
+      {
+        "a": "archery",
+        "b": "bow",
+        "keep": "both",
+        "reason": "Bow with string and arrow vs bow only; distinct."
+      },
+      {
+        "a": "firecracker",
+        "b": "sparkler",
+        "keep": "both",
+        "reason": "Fused firecracker vs sparkler stick with sparks; distinct."
+      },
+      {
+        "a": "doll",
+        "b": "teddy-bear",
+        "keep": "both",
+        "reason": "Rag doll with pigtails vs bear with round ears; distinct."
+      },
+      {
+        "a": "backpack",
+        "b": "duffel-bag",
+        "keep": "both",
+        "reason": "Two-strap backpack vs cylindrical duffel; distinct."
+      },
+      {
+        "a": "hammer",
+        "b": "mallet",
+        "keep": "both",
+        "reason": "Claw hammer vs round-headed mallet; distinct."
+      },
+      {
+        "a": "diamond",
+        "b": "gem-stone",
+        "keep": "both",
+        "reason": "Brilliant outline vs emerald-cut facets; distinct."
+      },
+      {
+        "a": "nail",
+        "b": "sewing-needle",
+        "keep": "both",
+        "reason": "Flat-head nail vs eyed sewing needle; distinct."
+      }
+    ]
+  },
+  "sheet": {
+    "path": "qa/wave1-2/contact-sheet-bd-by.html",
+    "icons": 592
+  },
+  "perFile": {
+    "specs-batch-bd.mjs": {
+      "icons": 30,
+      "fills": 24
+    },
+    "specs-batch-be.mjs": {
+      "icons": 30,
+      "fills": 19
+    },
+    "specs-batch-bf.mjs": {
+      "icons": 30,
+      "fills": 25
+    },
+    "specs-batch-bg.mjs": {
+      "icons": 30,
+      "fills": 20
+    },
+    "specs-batch-bh.mjs": {
+      "icons": 30,
+      "fills": 29
+    },
+    "specs-batch-bi.mjs": {
+      "icons": 30,
+      "fills": 27
+    },
+    "specs-batch-bj.mjs": {
+      "icons": 30,
+      "fills": 23
+    },
+    "specs-batch-bk.mjs": {
+      "icons": 30,
+      "fills": 25
+    },
+    "specs-batch-bl.mjs": {
+      "icons": 30,
+      "fills": 27
+    },
+    "specs-batch-bm.mjs": {
+      "icons": 25,
+      "fills": 19
+    },
+    "specs-batch-bn.mjs": {
+      "icons": 21,
+      "fills": 12
+    },
+    "specs-batch-bo.mjs": {
+      "icons": 25,
+      "fills": 0
+    },
+    "specs-batch-bp.mjs": {
+      "icons": 10,
+      "fills": 0
+    },
+    "specs-batch-bq.mjs": {
+      "icons": 30,
+      "fills": 27
+    },
+    "specs-batch-br.mjs": {
+      "icons": 30,
+      "fills": 29
+    },
+    "specs-batch-bs.mjs": {
+      "icons": 30,
+      "fills": 30
+    },
+    "specs-batch-bt.mjs": {
+      "icons": 28,
+      "fills": 17
+    },
+    "specs-batch-bu.mjs": {
+      "icons": 30,
+      "fills": 17
+    },
+    "specs-batch-bv.mjs": {
+      "icons": 30,
+      "fills": 17
+    },
+    "specs-batch-bw.mjs": {
+      "icons": 27,
+      "fills": 0
+    },
+    "specs-batch-bx.mjs": {
+      "icons": 29,
+      "fills": 0
+    },
+    "specs-batch-by.mjs": {
+      "icons": 7,
+      "fills": 0
+    }
+  }
+}
