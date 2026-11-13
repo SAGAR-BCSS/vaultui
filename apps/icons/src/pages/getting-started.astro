@@ -38,14 +38,12 @@ function weightSvg(weight: { id: string; stroke: string | null }): string {
   return `<svg ${attrs} fill="none" stroke="currentColor" stroke-width="${weight.stroke}" stroke-linecap="round" stroke-linejoin="round">${acornOutline}</svg>`;
 }
 
-const reactCode = `import {
-  Acorn,
-  AcornThin,
-  AcornLight,
-  AcornBold,
-  AcornFill,
-  AcornDuotone,
-} from "@vaultui/icons-react";
+const reactCode = `import { Acorn } from "@vaultui/icons-react/icons/acorn/regular";
+import { AcornThin } from "@vaultui/icons-react/icons/acorn/thin";
+import { AcornLight } from "@vaultui/icons-react/icons/acorn/light";
+import { AcornBold } from "@vaultui/icons-react/icons/acorn/bold";
+import { AcornFill } from "@vaultui/icons-react/icons/acorn/fill";
+import { AcornDuotone } from "@vaultui/icons-react/icons/acorn/duotone";
 
 export default function Icons() {
   return (
@@ -61,14 +59,12 @@ export default function Icons() {
 }`;
 
 const vueCode = `<script setup lang="ts">
-import {
-  Acorn,
-  AcornThin,
-  AcornLight,
-  AcornBold,
-  AcornFill,
-  AcornDuotone,
-} from "@vaultui/icons-vue";
+import Acorn from "@vaultui/icons-vue/icons/acorn/regular";
+import AcornThin from "@vaultui/icons-vue/icons/acorn/thin";
+import AcornLight from "@vaultui/icons-vue/icons/acorn/light";
+import AcornBold from "@vaultui/icons-vue/icons/acorn/bold";
+import AcornFill from "@vaultui/icons-vue/icons/acorn/fill";
+import AcornDuotone from "@vaultui/icons-vue/icons/acorn/duotone";
 </script>
 
 <template>
@@ -83,14 +79,12 @@ import {
 </template>`;
 
 const svelteCode = `<script>
-import {
-  Acorn,
-  AcornThin,
-  AcornLight,
-  AcornBold,
-  AcornFill,
-  AcornDuotone,
-} from "@vaultui/icons-svelte";
+import Acorn from "@vaultui/icons-svelte/icons/acorn/regular";
+import AcornThin from "@vaultui/icons-svelte/icons/acorn/thin";
+import AcornLight from "@vaultui/icons-svelte/icons/acorn/light";
+import AcornBold from "@vaultui/icons-svelte/icons/acorn/bold";
+import AcornFill from "@vaultui/icons-svelte/icons/acorn/fill";
+import AcornDuotone from "@vaultui/icons-svelte/icons/acorn/duotone";
 </script>
 
 <div style="display: flex; gap: 12px; color: #4f46e5">
@@ -205,8 +199,11 @@ const examples = [
     <section class="gs-section" aria-labelledby="usage-heading">
       <h2 id="usage-heading" class="gs-section__title">Usage</h2>
       <p class="gs-section__lede">
-        Import the weights you need and render them like any other component. The
-        <code>Acorn</code> glyph is used below across all six weights.
+        Import the weights you need and render them like any other component. Each
+        example uses a deep, per-weight import so only the glyphs you use are pulled
+        in; root imports such as <code>@vaultui/icons-react</code> still work for
+        compatibility. The <code>Acorn</code> glyph is used below across all six
+        weights.
       </p>
 
       <div class="flex flex-col gap-6">
