@@ -28,7 +28,7 @@ const $$ = <T extends Element = HTMLElement>(selector: string) =>
 const grid = $("#icon-grid") as HTMLElement;
 const scroller = $("#main") as HTMLElement;
 const searchInput = $("#search") as HTMLInputElement;
-const resultCount = $("#result-count") as HTMLElement;
+const resultCount = $("#result-count") as HTMLElement | null;
 const viewTitle = $("#view-title") as HTMLElement;
 const viewDesc = $("#view-desc") as HTMLElement;
 const emptyState = $("#empty-state") as HTMLElement;
@@ -56,6 +56,7 @@ const state = {
   selected: new Set<string>(),
   selectLang: "react" as "react" | "vue" | "svelte",
   selectPm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
+  iconColor: "",
 };
 
 const layout = { cols: 1, tile: 104, tileH: 84, gap: 12, rowH: 96 };
@@ -98,13 +99,22 @@ const WEIGHT_SUFFIX: Record<string, string> = {
   duotone: "Duotone",
 };
 
+function deepImportLine(lang: "react" | "vue" | "svelte", name: string, weight: string): string {
+  const component = `${pascal(name)}${WEIGHT_SUFFIX[weight] ?? ""}`;
+  const target = `${PACKAGES[lang]}/icons/${name}/${weight}`;
+  return lang === "react"
+    ? `import { ${component} } from "${target}";`
+    : `import ${component} from "${target}";`;
+}
+
 function installFor(name: string): { command: string; importLine: string } | null {
-  const pkg = PACKAGES[state.lang];
+  const lang = state.lang;
+  if (lang === "html") return null;
+  const pkg = PACKAGES[lang];
   if (!pkg) return null;
-  const suffix = WEIGHT_SUFFIX[state.modalWeight] ?? "";
   return {
     command: `${INSTALLERS[state.pm]} ${pkg}`,
-    importLine: `import { ${pascal(name)}${suffix} } from "${pkg}";`,
+    importLine: deepImportLine(lang, name, state.modalWeight),
   };
 }
 
@@ -118,18 +128,79 @@ function selectionInstall(): string {
 }
 
 function selectionImport(): string {
-  const pkg = PACKAGES[state.selectLang];
+  const lang = state.selectLang;
+  const pkg = PACKAGES[lang];
   if (!pkg || state.selected.size === 0) return "";
-  const suffix = WEIGHT_SUFFIX[state.weight] ?? "";
-  const names = [...state.selected]
+  const weight = state.weight;
+  return [...state.selected]
     .sort((a, b) => a.localeCompare(b))
-    .map((name) => pascal(name) + suffix);
-  return `import { ${names.join(", ")} } from "${pkg}";`;
+    .map((name) => deepImportLine(lang, name, weight))
+    .join("\n");
 }
 
 function persistSelection() {
   try {
     localStorage.setItem(CART_KEY, JSON.stringify([...state.selected]));
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+/* -------------------------------------------------------------- icon tint */
+
+const COLOR_KEY = "vault-icons:icon-color";
+
+function applyIconColor(color: string) {
+  state.iconColor = color;
+  const root = document.documentElement;
+  if (color) root.style.setProperty("--icon-color", color);
+  else root.style.removeProperty("--icon-color");
+
+  const swatch = $("[data-color-swatch]") as HTMLElement | null;
+  if (swatch) swatch.style.background = color;
+
+  const input = $("#color-input") as HTMLInputElement | null;
+  if (input && color) input.value = color;
+
+  $$("[data-color]").forEach((button) => {
+    button.setAttribute("aria-selected", String((button.getAttribute("data-color") || "") === color));
+  });
+}
+
+function setColorMenu(open: boolean) {
+  const menu = $("#color-menu");
+  const toggle = $("#color-toggle");
+  if (!menu || !toggle) return;
+  menu.hidden = !open;
+  toggle.setAttribute("aria-expanded", String(open));
+}
+
+function saveIconColor(color: string) {
+  try {
+    if (color) localStorage.setItem(COLOR_KEY, color);
+    else localStorage.removeItem(COLOR_KEY);
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+/* ---------------------------------------------------------- sidebar rail */
+
+const SIDEBAR_KEY = "vault-icons:sidebar-collapsed";
+
+function setSidebarCollapsed(collapsed: boolean) {
+  const shell = document.querySelector(".app-shell");
+  const sidebar = $("#sidebar");
+  const button = $("[data-sidebar-collapse]");
+  shell?.setAttribute("data-sidebar-collapsed", String(collapsed));
+  sidebar?.setAttribute("data-collapsed", String(collapsed));
+  if (button) {
+    button.setAttribute("aria-pressed", String(collapsed));
+    button.setAttribute("aria-label", collapsed ? "Expand navigation" : "Collapse navigation");
+    button.setAttribute("title", collapsed ? "Expand navigation" : "Collapse navigation");
+  }
+  try {
+    localStorage.setItem(SIDEBAR_KEY, collapsed ? "1" : "0");
   } catch {
     /* storage unavailable — ignore */
   }
@@ -442,7 +513,9 @@ function apply(push = true) {
 
   const activeCategory = state.catalog.categories.find((c) => c.id === state.category);
 
-  resultCount.textContent = `${state.items.length.toLocaleString()} icon${state.items.length === 1 ? "" : "s"}`;
+  if (resultCount) {
+    resultCount.textContent = `${state.items.length.toLocaleString()} icon${state.items.length === 1 ? "" : "s"}`;
+  }
   emptyState.hidden = state.items.length > 0;
   grid.style.display = state.items.length > 0 ? "" : "none";
 
@@ -804,6 +877,36 @@ function trapFocus(event: KeyboardEvent) {
 function wire() {
   selectToggle?.addEventListener("click", () => setSelectionMode(!state.selectionMode));
 
+  $("#color-toggle")?.addEventListener("click", () => {
+    const menu = $("#color-menu");
+    if (menu) setColorMenu(menu.hidden);
+  });
+  $$("[data-color]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const color = button.getAttribute("data-color") || "";
+      applyIconColor(color);
+      saveIconColor(color);
+      setColorMenu(false);
+    });
+  });
+  $("#color-input")?.addEventListener("input", (event) => {
+    const color = (event.target as HTMLInputElement).value;
+    applyIconColor(color);
+    saveIconColor(color);
+  });
+  $("#color-reset")?.addEventListener("click", () => {
+    applyIconColor("");
+    saveIconColor("");
+    setColorMenu(false);
+  });
+  $("[data-sidebar-collapse]")?.addEventListener("click", () => {
+    const sidebar = $("#sidebar");
+    setSidebarCollapsed(sidebar?.getAttribute("data-collapsed") !== "true");
+  });
+  document.addEventListener("click", (event) => {
+    if (!(event.target as Element).closest("#color-picker")) setColorMenu(false);
+  });
+
   $$("[data-select-lang]").forEach((button) => {
     button.addEventListener("click", () => {
       const lang = button.getAttribute("data-select-lang");
@@ -1134,6 +1237,19 @@ async function boot() {
   }
 
   state.catalog = catalog;
+
+  try {
+    const savedColor = localStorage.getItem(COLOR_KEY);
+    if (savedColor) applyIconColor(savedColor);
+  } catch {
+    /* storage unavailable — ignore */
+  }
+
+  try {
+    if (localStorage.getItem(SIDEBAR_KEY) === "1") setSidebarCollapsed(true);
+  } catch {
+    /* storage unavailable — ignore */
+  }
   state.all = interleave(
     catalog.icons.map(([name, category, tags, aliases]) => ({
       name,

@@ -37,6 +37,21 @@ for (let index = 0; ; index += 1) {
 
 const initial = ordered.slice(0, 72);
 const totalFiles = manifest.total * manifest.weights.length;
+
+const colorPresets = [
+  { name: "Default", value: "" },
+  { name: "Slate", value: "#475569" },
+  { name: "Gray", value: "#6b7280" },
+  { name: "Blue", value: "#2563eb" },
+  { name: "Indigo", value: "#4f46e5" },
+  { name: "Violet", value: "#7c3aed" },
+  { name: "Emerald", value: "#059669" },
+  { name: "Amber", value: "#d97706" },
+  { name: "Rose", value: "#e11d48" },
+  { name: "Red", value: "#dc2626" },
+  { name: "Teal", value: "#0d9488" },
+  { name: "Black", value: "#111827" },
+];
 ---
 
 <BaseLayout>
@@ -61,7 +76,14 @@ const totalFiles = manifest.total * manifest.weights.length;
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
           </button>
 
-          <div class="relative flex-1 min-w-0 max-w-[560px]">
+          <div class="hidden md:block min-w-0 max-w-[260px] shrink">
+            <h1 class="text-[16px] font-semibold leading-tight truncate" id="view-title">All icons</h1>
+            <p class="text-[11px] leading-tight mt-0.5 truncate" style="color: var(--color-surface-600)" id="view-desc">
+              {manifest.total.toLocaleString()} icons across {manifest.categories.length} categories.
+            </p>
+          </div>
+
+          <div class="relative flex-1 min-w-0 max-w-[320px]">
             <svg
               class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
               width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -142,15 +164,50 @@ const totalFiles = manifest.total * manifest.weights.length;
           </button>
 
           <div class="ml-auto flex items-center gap-3 shrink-0">
-            <span class="hidden sm:inline text-[12px] tabular-nums" style="color: var(--color-surface-600)" id="result-count" aria-live="polite">
-              {manifest.total.toLocaleString()} icons
-            </span>
-            <a
-              href="/philosophy"
-              class="hidden sm:inline-flex items-center h-10 rounded-md px-3 text-[14px] font-medium"
-              style="background: var(--color-surface-0); color: var(--color-surface-700); box-shadow: var(--shadow-soft)"
-              title="Philosophy"
-            >Philosophy</a>
+            <div class="color-picker" id="color-picker">
+              <button
+                type="button"
+                id="color-toggle"
+                class="color-toggle"
+                aria-haspopup="true"
+                aria-expanded="false"
+                aria-controls="color-menu"
+                aria-label="Icon colour"
+              >
+                <span class="color-toggle__swatch" data-color-swatch aria-hidden="true"></span>
+                <span class="hidden sm:inline" data-color-label>Colour</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="color-menu" id="color-menu" hidden>
+                <p class="color-menu__title">Icon colour</p>
+                <div class="color-swatches" role="listbox" aria-label="Icon colours">
+                  {colorPresets.map((preset) => (
+                    <button
+                      type="button"
+                      class="color-swatch"
+                      role="option"
+                      data-color={preset.value}
+                      aria-selected={preset.value === "" ? "true" : "false"}
+                      aria-label={preset.name}
+                      title={preset.name}
+                    >
+                      <span
+                        class="color-swatch__dot"
+                        style={preset.value ? `background:${preset.value}` : undefined}
+                        data-default={preset.value === "" ? "true" : undefined}
+                      ></span>
+                    </button>
+                  ))}
+                </div>
+                <label class="color-custom">
+                  <span>Custom</span>
+                  <input type="color" id="color-input" value="#4f46e5" aria-label="Custom icon colour" />
+                </label>
+                <button type="button" id="color-reset" class="color-reset">Reset to default</button>
+              </div>
+            </div>
             <a
               href="https://github.com/SAGARBABU123/vaultui"
               class="inline-grid place-items-center w-10 h-10 rounded-md"
@@ -167,17 +224,9 @@ const totalFiles = manifest.total * manifest.weights.length;
       </header>
 
       <div class="px-4 sm:px-6 pb-20">
-        <div class="flex flex-col sm:flex-row sm:flex-wrap sm:items-end sm:justify-between gap-3 py-6">
-          <div class="min-w-0 sm:flex-1">
-            <h1 class="text-[30px] font-semibold leading-tight" id="view-title">All icons</h1>
-            <p class="text-[14px] mt-1 max-w-[60ch]" style="color: var(--color-surface-600)" id="view-desc">
-              {manifest.total.toLocaleString()} icons across {manifest.categories.length} categories, each in six weights. Click any icon for React, Vue and Svelte snippets.
-            </p>
-          </div>
-          <p class="text-[12px] tabular-nums shrink-0" style="color: var(--color-surface-600)">
-            {totalFiles.toLocaleString()} SVG files · 256 grid · currentColor
-          </p>
-        </div>
+        <p class="text-[12px] tabular-nums text-right py-3" style="color: var(--color-surface-600)">
+          {totalFiles.toLocaleString()} SVG files · 256 grid · currentColor
+        </p>
 
         <div class="select-hint" id="select-hint" hidden>
           <span class="select-hint__dot" aria-hidden="true"></span>
