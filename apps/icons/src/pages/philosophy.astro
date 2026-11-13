@@ -415,28 +415,68 @@ const weights = [
     </section>
 
     <section class="ph-contract" aria-labelledby="contract-heading">
-      <div>
+      <div class="ph-contract__copy">
         <p class="ph-kicker">The promise</p>
-        <h2 id="contract-heading">Original by construction.<br />Consistent by contract.</h2>
+        <h2 id="contract-heading">Original by construction.<br /><span>Consistent by contract.</span></h2>
         <p>
-          Every icon is hand-authored in-house — never traced, never borrowed.
+          Every icon is hand-authored in-house - never traced, never borrowed.
           The rules above are checked before a glyph ships, so adding icon 1,558
           cannot make the first 1,557 look wrong.
         </p>
+        <div class="ph-seal" aria-hidden="true">
+          <svg viewBox="0 0 120 120">
+            <defs>
+              <path id="ph-seal-ring" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0" />
+            </defs>
+            <circle cx="60" cy="60" r="54" fill="none" stroke="currentColor" stroke-width="1" stroke-dasharray="2 5" opacity="0.5" />
+            <circle cx="60" cy="60" r="34" fill="none" stroke="currentColor" stroke-width="1" opacity="0.35" />
+            <text class="ph-seal__ring">
+              <textPath href="#ph-seal-ring" startOffset="0">100% ORIGINAL GEOMETRY · HAND AUTHORED · </textPath>
+            </text>
+            <text class="ph-seal__big" x="60" y="60" text-anchor="middle">1,557</text>
+            <text class="ph-seal__small" x="60" y="74" text-anchor="middle">GLYPHS</text>
+          </svg>
+        </div>
       </div>
-      <dl>
-        {guarantees.map((item) => (
-          <div>
-            <dt>{item.label}</dt>
-            <dd>{item.value}</dd>
-          </div>
-        ))}
-      </dl>
+
+      <div class="ph-contract__panel">
+        <div class="ph-contract__panel-head">
+          <span>Guarantees</span>
+          <span>05</span>
+        </div>
+        <dl>
+          {guarantees.map((item, index) => (
+            <div class="ph-guarantee">
+              <span class="ph-guarantee__n">0{index + 1}</span>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+        <div class="ph-contract__panel-foot">
+          <span>Checked before every release</span>
+          <span>MIT</span>
+        </div>
+      </div>
     </section>
 
     <footer class="ph-footer">
-      <span>Abhayaui Icons · hand-drawn, MIT, zero deps</span>
-      <a href="/">Browse the library →</a>
+      <div class="ph-footer__brand">
+        <span class="ph-footer__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M4.5 12h15M13 5.5 19.5 12 13 18.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <div>
+          <strong>Abhayaui Icons</strong>
+          <span>Hand-drawn, MIT, zero dependencies</span>
+        </div>
+      </div>
+      <nav class="ph-footer__links" aria-label="Footer">
+        <a href="/">Browse library</a>
+        <a href="/getting-started/">Get started</a>
+        <a href="https://github.com/SAGARBABU123/vaultui">GitHub</a>
+      </nav>
     </footer>
   </main>
 
@@ -1085,56 +1125,164 @@ const weights = [
     }
 
     .ph-contract {
+      position: relative;
       display: grid;
-      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.85fr);
-      gap: clamp(28px, 5vw, 70px);
+      grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+      gap: clamp(24px, 4vw, 56px);
       margin-top: clamp(56px, 8vw, 100px);
-      padding: clamp(28px, 4.4vw, 54px);
-      border-radius: 24px;
+      padding: clamp(26px, 4vw, 52px);
+      border-radius: 26px;
+      overflow: hidden;
       color: var(--color-surface-0);
-      background: var(--color-surface-950);
+      background:
+        radial-gradient(720px 400px at 12% 0%, rgb(111 123 242 / 0.28), transparent 65%),
+        linear-gradient(145deg, #1a1d3d 0%, #101124 60%, #1b1e42 100%);
+      box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.06);
+    }
+
+    .ph-contract::after {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 1px solid rgb(255 255 255 / 0.06);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    .ph-contract__copy {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
 
     .ph-contract h2 {
       margin: 0;
-      font-size: clamp(28px, 3.8vw, 44px);
-      line-height: 1.04;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.03;
       letter-spacing: -0.045em;
     }
 
-    .ph-contract > div > p:last-child {
+    .ph-contract h2 span {
+      color: var(--color-brand-300);
+    }
+
+    .ph-contract__copy > p:not(.ph-kicker) {
       margin: 18px 0 0;
       max-width: 42ch;
-      font-size: 14.5px;
+      font-size: 15px;
       line-height: 1.6;
-      color: rgb(255 255 255 / 0.65);
+      color: rgb(255 255 255 / 0.66);
     }
 
     .ph-contract .ph-kicker {
       color: var(--color-brand-300);
     }
 
-    .ph-contract dl {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
-      gap: 22px;
-      margin: 0;
-      align-content: center;
+    .ph-seal {
+      width: clamp(120px, 14vw, 156px);
+      margin-top: clamp(24px, 4vw, 40px);
+      color: var(--color-brand-200);
     }
 
-    .ph-contract dt {
-      font-family: var(--font-mono);
-      font-size: 9.5px;
+    .ph-seal svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .ph-seal__ring {
+      font-size: 7.2px;
+      letter-spacing: 0.22em;
+      fill: currentColor;
+      opacity: 0.8;
+    }
+
+    .ph-seal__big {
+      font-family: var(--font-sans);
+      font-size: 21px;
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      fill: var(--color-surface-0);
+    }
+
+    .ph-seal__small {
+      font-family: var(--font-sans);
+      font-size: 7px;
+      letter-spacing: 0.28em;
+      fill: currentColor;
+      opacity: 0.7;
+    }
+
+    .ph-contract__panel {
+      position: relative;
+      z-index: 1;
+      padding: clamp(18px, 2.4vw, 26px);
+      border-radius: 18px;
+      background: var(--color-surface-0);
+      color: var(--color-surface-900);
+      box-shadow: 0 20px 60px rgb(0 0 0 / 0.32);
+    }
+
+    .ph-contract__panel-head,
+    .ph-contract__panel-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-surface-500);
+    }
+
+    .ph-contract__panel-head {
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ph-contract__panel-foot {
+      padding-top: 10px;
+      border-top: 1px solid var(--line);
+    }
+
+    .ph-contract__panel dl {
+      margin: 0;
+    }
+
+    .ph-guarantee {
+      display: grid;
+      grid-template-columns: 22px minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: baseline;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .ph-guarantee:last-child {
+      border-bottom: 0;
+    }
+
+    .ph-guarantee__n {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--color-brand-600);
+    }
+
+    .ph-guarantee dt {
+      font-size: 10px;
+      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: rgb(255 255 255 / 0.45);
+      color: var(--color-surface-500);
     }
 
-    .ph-contract dd {
-      margin: 6px 0 0;
-      font-size: 17px;
-      font-weight: 500;
-      line-height: 1.3;
+    .ph-guarantee dd {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: right;
+      color: var(--color-surface-900);
     }
 
     .ph-footer {
@@ -1142,18 +1290,67 @@ const weights = [
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-top: 40px;
-      padding-top: 20px;
+      gap: 16px;
+      margin-top: 36px;
+      padding: 20px 2px 0;
       border-top: 1px solid var(--line);
-      font-size: 13px;
-      color: var(--color-surface-600);
     }
 
-    .ph-footer a {
-      color: var(--color-brand-700);
+    .ph-footer__brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .ph-footer__mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--color-brand-600);
+      color: var(--color-surface-0);
+      box-shadow: 0 6px 16px rgb(91 102 232 / 0.3);
+    }
+
+    .ph-footer__mark svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .ph-footer__brand div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .ph-footer__brand strong {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .ph-footer__brand span {
+      font-size: 11.5px;
+      color: var(--color-surface-500);
+    }
+
+    .ph-footer__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      font-size: 12.5px;
+    }
+
+    .ph-footer__links a {
+      color: var(--color-surface-600);
       font-weight: 500;
       text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .ph-footer__links a:hover {
+      color: var(--color-brand-700);
     }
 
     @media (hover: hover) {
@@ -1316,6 +1513,19 @@ const weights = [
 
       .ph-hero {
         border-radius: 20px;
+      }
+
+      .ph-footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .ph-footer__links {
+        gap: 14px;
+      }
+
+      .ph-seal {
+        width: 132px;
       }
     }
 
