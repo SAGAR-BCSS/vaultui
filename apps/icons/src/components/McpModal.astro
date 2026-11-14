@@ -10,7 +10,6 @@
   >
     <header class="drawer__head">
       <div class="min-w-0 flex-1">
-        <p class="drawer__eyebrow">AI integration</p>
         <h2 id="mcp-title" class="drawer__title">MCP Server</h2>
         <p id="mcp-desc" class="drawer__meta">
           <span class="drawer__chip"><span class="drawer__dot"></span>Read-only · no auth</span>
@@ -23,11 +22,6 @@
     </header>
 
     <div class="drawer__body">
-      <p class="mcp-lede">
-        Give any AI agent the full icon library. It can search by concept, fetch the exact SVG and
-        get correct React, Vue or Svelte imports instead of guessing names.
-      </p>
-
       <div class="segmented" role="radiogroup" aria-label="Connection method">
         <button type="button" class="seg-btn" role="radio" data-mcp-tab="remote" aria-checked="true">Remote URL</button>
         <button type="button" class="seg-btn" role="radio" data-mcp-tab="local" aria-checked="false">Local npx</button>
@@ -84,13 +78,6 @@
 </div>
 
 <style>
-  .mcp-lede {
-    margin: 0 0 18px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--color-surface-700);
-  }
-
   .mcp-panel {
     display: flex;
     flex-direction: column;
