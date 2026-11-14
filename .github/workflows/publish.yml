@@ -65,6 +65,14 @@ jobs:
           pnpm --filter @vaultui/tokens build
           pnpm --filter @vaultui/utils build
           pnpm --filter @vaultui/ui build
+          pnpm --filter @vaultui/icons build
+          pnpm --filter @vaultui/icons-react build
+          pnpm --filter @vaultui/icons-vue generate
+          pnpm --filter @vaultui/icons-svelte generate
+
+      # Refuse to publish a package whose export/size/type guarantees regressed.
+      - name: Verify icon packages
+        run: node scripts/verify-icon-packages.mjs
 
       - name: Publish to npm registry
         env:
@@ -80,6 +88,10 @@ jobs:
           (cd packages/tokens && npm publish --access public --registry https://registry.npmjs.org/)
           (cd packages/utils && npm publish --access public --registry https://registry.npmjs.org/)
           (cd packages/ui && npm publish --access public --registry https://registry.npmjs.org/)
+          (cd packages/icons && npm publish --access public --registry https://registry.npmjs.org/)
+          (cd packages/icons-react && npm publish --access public --registry https://registry.npmjs.org/)
+          (cd packages/icons-vue && npm publish --access public --registry https://registry.npmjs.org/)
+          (cd packages/icons-svelte && npm publish --access public --registry https://registry.npmjs.org/)
 
   smoke-test:
     runs-on: ubuntu-latest

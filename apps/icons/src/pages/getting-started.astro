@@ -1,0 +1,405 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const managers = [
+  { id: "npm", label: "npm", verb: "install" },
+  { id: "yarn", label: "yarn", verb: "add" },
+  { id: "pnpm", label: "pnpm", verb: "add" },
+  { id: "bun", label: "bun", verb: "add" },
+];
+
+const frameworks = [
+  { id: "react", label: "React", pkg: "@vaultui/icons-react" },
+  { id: "vue", label: "Vue", pkg: "@vaultui/icons-vue" },
+  { id: "svelte", label: "Svelte", pkg: "@vaultui/icons-svelte" },
+];
+
+const weights = [
+  { id: "thin", label: "Thin", export: "AcornThin", stroke: "0.9" },
+  { id: "light", label: "Light", export: "AcornLight", stroke: "1.25" },
+  { id: "regular", label: "Regular", export: "Acorn", stroke: "1.6" },
+  { id: "bold", label: "Bold", export: "AcornBold", stroke: "2.4" },
+  { id: "fill", label: "Fill", export: "AcornFill", stroke: null },
+  { id: "duotone", label: "Duotone", export: "AcornDuotone", stroke: "1.6" },
+];
+
+const acornOutline = `<path d="M7 10.6c0-3.4 2.2-5.6 5-5.6s5 2.2 5 5.6Z"/><path d="M8.3 10.6h7.4c.3 4.4-1.2 7.2-3.7 8.8-2.5-1.6-4-4.4-3.7-8.8Z"/><path d="M12 5.2V3"/><path d="M9.2 8.6l.8 2M12 7.6v3M14.8 8.6l-.8 2"/>`;
+const acornFill = `<path d="M7 10.6c0-3.4 2.2-5.6 5-5.6s5 2.2 5 5.6Z"/><path d="M8.3 10.6h7.4c.3 4.4-1.2 7.2-3.7 8.8-2.5-1.6-4-4.4-3.7-8.8Z"/><rect x="11.4" y="2.9" width="1.2" height="2.4" rx="0.6"/>`;
+
+function weightSvg(weight: { id: string; stroke: string | null }): string {
+  const attrs =
+    'xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"';
+  if (weight.id === "fill") {
+    return `<svg ${attrs} fill="currentColor">${acornFill}</svg>`;
+  }
+  if (weight.id === "duotone") {
+    return `<svg ${attrs} fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><g opacity="0.22" fill="currentColor" stroke="none">${acornFill}</g>${acornOutline}</svg>`;
+  }
+  return `<svg ${attrs} fill="none" stroke="currentColor" stroke-width="${weight.stroke}" stroke-linecap="round" stroke-linejoin="round">${acornOutline}</svg>`;
+}
+
+const reactCode = `import { Acorn } from "@vaultui/icons-react/icons/acorn/regular";
+import { AcornThin } from "@vaultui/icons-react/icons/acorn/thin";
+import { AcornLight } from "@vaultui/icons-react/icons/acorn/light";
+import { AcornBold } from "@vaultui/icons-react/icons/acorn/bold";
+import { AcornFill } from "@vaultui/icons-react/icons/acorn/fill";
+import { AcornDuotone } from "@vaultui/icons-react/icons/acorn/duotone";
+
+export default function Icons() {
+  return (
+    <div style={{ display: "flex", gap: 12, color: "#4f46e5" }}>
+      <Acorn size={32} />
+      <AcornThin size={32} />
+      <AcornLight size={32} />
+      <AcornBold size={32} />
+      <AcornFill size={32} />
+      <AcornDuotone size={32} />
+    </div>
+  );
+}`;
+
+const vueCode = `<script setup lang="ts">
+import Acorn from "@vaultui/icons-vue/icons/acorn/regular";
+import AcornThin from "@vaultui/icons-vue/icons/acorn/thin";
+import AcornLight from "@vaultui/icons-vue/icons/acorn/light";
+import AcornBold from "@vaultui/icons-vue/icons/acorn/bold";
+import AcornFill from "@vaultui/icons-vue/icons/acorn/fill";
+import AcornDuotone from "@vaultui/icons-vue/icons/acorn/duotone";
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; color: #4f46e5">
+    <Acorn :size="32" />
+    <AcornThin :size="32" />
+    <AcornLight :size="32" />
+    <AcornBold :size="32" />
+    <AcornFill :size="32" />
+    <AcornDuotone :size="32" />
+  </div>
+</template>`;
+
+const svelteCode = `<script>
+import Acorn from "@vaultui/icons-svelte/icons/acorn/regular";
+import AcornThin from "@vaultui/icons-svelte/icons/acorn/thin";
+import AcornLight from "@vaultui/icons-svelte/icons/acorn/light";
+import AcornBold from "@vaultui/icons-svelte/icons/acorn/bold";
+import AcornFill from "@vaultui/icons-svelte/icons/acorn/fill";
+import AcornDuotone from "@vaultui/icons-svelte/icons/acorn/duotone";
+</script>
+
+<div style="display: flex; gap: 12px; color: #4f46e5">
+  <Acorn size={32} />
+  <AcornThin size={32} />
+  <AcornLight size={32} />
+  <AcornBold size={32} />
+  <AcornFill size={32} />
+  <AcornDuotone size={32} />
+</div>`;
+
+const examples = [
+  { id: "react", label: "React JSX", code: reactCode },
+  { id: "vue", label: "Vue SFC", code: vueCode },
+  { id: "svelte", label: "Svelte", code: svelteCode },
+];
+---
+
+<BaseLayout
+  title="Getting started — Abhayaui Icons"
+  description="Install Abhayaui Icons and render 1,500+ hand-authored glyphs in React, Vue and Svelte — six weights, one grid, zero runtime dependencies."
+>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header
+    class="sticky top-0 z-30 border-b backdrop-blur-xl"
+    style="border-color: var(--color-surface-200); background: color-mix(in oklab, var(--color-surface-0) 85%, transparent)"
+  >
+    <div class="flex items-center gap-3 h-16 px-4 sm:px-6">
+      <a href="/" class="flex items-center gap-2.5 shrink-0">
+        <span
+          class="grid place-items-center w-9 h-9 rounded-lg shrink-0"
+          style="background: linear-gradient(140deg, var(--color-brand-100), var(--color-brand-50)); box-shadow: inset 0 0 0 1px var(--color-brand-200)"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-brand-600)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7Z" />
+            <circle cx="12" cy="12" r="3.2" stroke="var(--color-brand-500)" />
+            <path d="M12 8.8v6.4" stroke="var(--color-brand-500)" />
+          </svg>
+        </span>
+        <span class="font-semibold text-[15px] leading-tight" style="color: var(--color-surface-900)">Abhayaui Icons</span>
+      </a>
+
+      <nav class="ml-auto flex items-center gap-1" aria-label="Site navigation">
+        <a href="/" class="gs-nav">Icons</a>
+        <a href="/getting-started" class="gs-nav" aria-current="page">Getting started</a>
+        <a href="https://github.com/SAGARBABU123/vaultui" class="gs-nav">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="gs-container pb-24">
+    <section class="gs-hero">
+      <p class="text-[12px] font-bold uppercase tracking-[0.14em]" style="color: var(--color-brand-600)">Abhayaui Icons</p>
+      <h1 class="text-[40px] sm:text-[48px] leading-[1.05] font-semibold mt-3" style="letter-spacing: -0.03em">Getting started</h1>
+      <p class="mt-4 text-[16px] leading-relaxed max-w-[62ch]" style="color: var(--color-surface-600)">
+        Install Abhayaui Icons into React, Vue or Svelte and drop a glyph straight into your
+        components. Every one of the 1,557 icons ships in six weights with zero runtime
+        dependencies.
+      </p>
+    </section>
+
+    <section class="gs-section" aria-labelledby="install-heading">
+      <h2 id="install-heading" class="gs-section__title">Install</h2>
+      <p class="gs-section__lede">Pick your framework, then run the command for your package manager.</p>
+
+      <div class="gs-grid">
+        {
+          frameworks.map((fw) => (
+            <div class="gs-card">
+              <div class="flex items-center gap-3 mb-4">
+                <h3 class="text-[18px] font-semibold" style="color: var(--color-surface-900)">{fw.label}</h3>
+                <code class="gs-pkg">{fw.pkg}</code>
+              </div>
+              <div class="flex flex-col gap-2">
+                {
+                  managers.map((m) => (
+                    <div class="gs-cmd">
+                      <span class="gs-cmd__label">{m.label}</span>
+                      <code class="gs-cmd__code">{m.verb} {fw.pkg}</code>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="gs-section" aria-labelledby="weights-heading">
+      <h2 id="weights-heading" class="gs-section__title">Six weights, one grid</h2>
+      <p class="gs-section__lede">
+        The regular weight keeps the plain name (<code>Acorn</code>); every other weight
+        appends a suffix. All glyphs inherit <code>currentColor</code> and take an optional
+        <code>size</code>.
+      </p>
+
+      <div class="gs-weights">
+        {
+          weights.map((w) => (
+            <div class="gs-weight">
+              <span class="gs-weight__glyph" set:html={weightSvg(w)} />
+              <code class="gs-weight__export">{w.export}</code>
+              <span class="gs-weight__label">{w.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="gs-section" aria-labelledby="usage-heading">
+      <h2 id="usage-heading" class="gs-section__title">Usage</h2>
+      <p class="gs-section__lede">
+        Import the weights you need and render them like any other component. Each
+        example uses a deep, per-weight import so only the glyphs you use are pulled
+        in; root imports such as <code>@vaultui/icons-react</code> still work for
+        compatibility. The <code>Acorn</code> glyph is used below across all six
+        weights.
+      </p>
+
+      <div class="flex flex-col gap-6">
+        {
+          examples.map((ex) => (
+            <div class="gs-example">
+              <h3 class="gs-example__title">{ex.label}</h3>
+              <div class="code-well">
+                <pre><code>{ex.code}</code></pre>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .gs-nav {
+    display: inline-flex;
+    align-items: center;
+    height: 34px;
+    padding: 0 12px;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-surface-600);
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .gs-nav:hover {
+    background-color: var(--color-surface-100);
+    color: var(--color-surface-900);
+  }
+
+  .gs-nav[aria-current="page"] {
+    background-color: var(--color-brand-50);
+    color: var(--color-brand-700);
+    font-weight: 600;
+  }
+
+  .gs-container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .gs-hero {
+    padding-top: 56px;
+    padding-bottom: 8px;
+  }
+
+  .gs-section {
+    margin-top: 56px;
+  }
+
+  .gs-section__title {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-surface-900);
+  }
+
+  .gs-section__lede {
+    margin-top: 6px;
+    max-width: 64ch;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--color-surface-600);
+  }
+
+  .gs-section__lede code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    padding: 1px 5px;
+    border-radius: 5px;
+    background-color: var(--color-surface-100);
+    color: var(--color-surface-800);
+  }
+
+  .gs-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+  }
+
+  .gs-card {
+    border: 1px solid var(--color-surface-200);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface-0);
+    box-shadow: var(--shadow-soft);
+    padding: 20px;
+  }
+
+  .gs-pkg {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background-color: var(--color-brand-50);
+    color: var(--color-brand-700);
+  }
+
+  .gs-cmd {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface-950);
+  }
+
+  .gs-cmd__label {
+    flex-shrink: 0;
+    min-width: 42px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-300);
+  }
+
+  .gs-cmd__code {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--color-surface-100);
+  }
+
+  .gs-weights {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .gs-weight {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 12px 14px;
+    border: 1px solid var(--color-surface-200);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface-0);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+  }
+
+  .gs-weight__glyph {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    color: var(--color-brand-600);
+  }
+
+  .gs-weight__export {
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--color-surface-900);
+  }
+
+  .gs-weight__label {
+    font-size: 12px;
+    color: var(--color-surface-600);
+  }
+
+  .gs-example__title {
+    margin-bottom: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-surface-900);
+  }
+
+  .code-well {
+    max-height: none;
+  }
+
+  @media (max-width: 900px) {
+    .gs-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .gs-weights {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 480px) {
+    .gs-weights {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

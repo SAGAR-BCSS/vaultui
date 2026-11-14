@@ -3,7 +3,7 @@
 > Source of truth for resuming the icon program. If a session is lost, read this
 > file top-to-bottom and continue. Update the snapshot after every collected batch.
 
-Last updated: 2026-11-13 (dictionary expansion complete — 2,475 originals, deployed)
+Last updated: 2026-11-13 (dictionary expansion complete — 2,474 originals, deployed)
 Repo: `C:\Users\Sagar Babu\vaultui` — GitHub `SAGARBABU123/vaultui`
 Working branch: **`sagar/dev`** (do not work on `main`)
 
@@ -15,15 +15,16 @@ Working branch: **`sagar/dev`** (do not work on `main`)
 | --- | --- |
 | Commit (`sagar/dev`) | `48bc3e6` |
 | Remote tip (`fork/sagar/dev`) | `48bc3e6` |
-| Inventory | **2,475 icons × 6 weights = 14,850 SVGs** |
-| Original masters | **2,475 (100%)** |
+| Inventory | **2,474 icons × 6 weights = 14,844 SVGs** |
+| Original masters | **2,474 (100%)** |
 | Reference source | **none** |
 | Validator | **PASS** — 0 problems |
-| Site pages | 2,477 (index + 2,475 icon pages + 404) |
+| Site pages | 2,476 (index + 2,474 icon pages + 404) |
 | Live URL | **https://icons.abhayaui.workers.dev** |
-| Worker version | `a836edaa-d3d1-4747-96b2-682b084bd6e2` |
+| Worker version | `2eab0e20-90e7-4179-92e4-317e8f66b62c` |
 | Cloudflare account | `mani868849@gmail.com` (id `20d1209b…`) |
 | Cloudflare account subdomain | `abhayaui` |
+| Site features | multi-select cart · global icon colour picker (default currentColor) · philosophy + getting-started pages |
 
 Per-category counts: core-ui 412 · objects-life 878 · dev-data 301 · alerts-status 174 ·
 arrows 166 · communication 121 · media 120 · text 101 · files 91 · commerce 78.
@@ -156,9 +157,9 @@ Then update §1 and §4 here.
 | CK–CL | A4 | 33 | collected `040f2c3` | 2437 |
 | CM–CN | A5 | 49 | collected `19cf600` | 2486 |
 
-Deduped during collection: `skateboard`/`sled` (bt), `admission-tickets`/`circus-tent`/`kite` (bm/bt), `onion` (bw), `mushroom`/`desert`/`desert-island` (ce), `oyster` (cc), `honey-pot` (bv), `pushpin` (bq), `purse`/`torch` (bs/ch), `archive` (e). Final unique inventory **2,475**.
+Deduped during collection: `skateboard`/`sled` (bt), `admission-tickets`/`circus-tent`/`kite` (bm/bt), `onion` (bw), `mushroom`/`desert`/`desert-island` (ce), `oyster` (cc), `honey-pot` (bv), `pushpin` (bq), `purse`/`torch` (bs/ch), `archive` (e). Final unique inventory **2,474**. Renamed `police-car-light` → `police-car-siren` (weight-suffix collision) and removed `mouse-trap` (dup of `mousetrap`).
 
-**Batch program COMPLETE** — 2,475/2,475 icons are `source: "original"` (100%). No reference glyphs remain.
+**Batch program COMPLETE** — 2,474/2,474 icons are `source: "original"` (100%). No reference glyphs remain.
 
 > S/T superseded: S (sports/fitness) folded into V; T (weather/nature) was covered by Q.
 > Batch T (`8a2dc3c`) rejected on collection: 25/30 names already `original` (Q).

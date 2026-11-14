@@ -28,7 +28,7 @@ const $$ = <T extends Element = HTMLElement>(selector: string) =>
 const grid = $("#icon-grid") as HTMLElement;
 const scroller = $("#main") as HTMLElement;
 const searchInput = $("#search") as HTMLInputElement;
-const resultCount = $("#result-count") as HTMLElement;
+const resultCount = $("#result-count") as HTMLElement | null;
 const viewTitle = $("#view-title") as HTMLElement;
 const viewDesc = $("#view-desc") as HTMLElement;
 const emptyState = $("#empty-state") as HTMLElement;
@@ -36,6 +36,8 @@ const modal = $("#icon-modal") as HTMLElement;
 const toast = $("[data-toast]") as HTMLElement;
 const weightTrigger = $("#weight-trigger") as HTMLButtonElement | null;
 const weightMenu = $("#weight-menu") as HTMLElement | null;
+const selectToggle = $("#select-toggle") as HTMLButtonElement | null;
+const selectBar = $("#select-bar") as HTMLElement | null;
 
 const state = {
   catalog: null as Catalog | null,
@@ -48,7 +50,13 @@ const state = {
   modalWeight: "regular",
   modalSize: 48,
   lang: "react" as "react" | "vue" | "svelte" | "html",
+  pm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
   lastFocus: null as HTMLElement | null,
+  selectionMode: false,
+  selected: new Set<string>(),
+  selectLang: "react" as "react" | "vue" | "svelte",
+  selectPm: "npm" as "npm" | "yarn" | "pnpm" | "bun",
+  iconColor: "",
 };
 
 const layout = { cols: 1, tile: 104, tileH: 84, gap: 12, rowH: 96 };
@@ -68,6 +76,206 @@ const pascal = (name: string) =>
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join("");
+
+const PACKAGES: Record<string, string> = {
+  react: "@vaultui/icons-react",
+  vue: "@vaultui/icons-vue",
+  svelte: "@vaultui/icons-svelte",
+};
+
+const INSTALLERS: Record<"npm" | "yarn" | "pnpm" | "bun", string> = {
+  npm: "npm i",
+  yarn: "yarn add",
+  pnpm: "pnpm add",
+  bun: "bun add",
+};
+
+const WEIGHT_SUFFIX: Record<string, string> = {
+  thin: "Thin",
+  light: "Light",
+  regular: "",
+  bold: "Bold",
+  fill: "Fill",
+  duotone: "Duotone",
+};
+
+function deepImportLine(lang: "react" | "vue" | "svelte", name: string, weight: string): string {
+  const component = `${pascal(name)}${WEIGHT_SUFFIX[weight] ?? ""}`;
+  const target = `${PACKAGES[lang]}/icons/${name}/${weight}`;
+  return lang === "react"
+    ? `import { ${component} } from "${target}";`
+    : `import ${component} from "${target}";`;
+}
+
+function installFor(name: string): { command: string; importLine: string } | null {
+  const lang = state.lang;
+  if (lang === "html") return null;
+  const pkg = PACKAGES[lang];
+  if (!pkg) return null;
+  return {
+    command: `${INSTALLERS[state.pm]} ${pkg}`,
+    importLine: deepImportLine(lang, name, state.modalWeight),
+  };
+}
+
+/* ------------------------------------------------------------ selection */
+
+const CART_KEY = "vault-icons:cart";
+
+function selectionInstall(): string {
+  const pkg = PACKAGES[state.selectLang];
+  return pkg ? `${INSTALLERS[state.selectPm]} ${pkg}` : "";
+}
+
+function selectionImport(): string {
+  const lang = state.selectLang;
+  const pkg = PACKAGES[lang];
+  if (!pkg || state.selected.size === 0) return "";
+  const weight = state.weight;
+  return [...state.selected]
+    .sort((a, b) => a.localeCompare(b))
+    .map((name) => deepImportLine(lang, name, weight))
+    .join("\n");
+}
+
+function persistSelection() {
+  try {
+    localStorage.setItem(CART_KEY, JSON.stringify([...state.selected]));
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+/* -------------------------------------------------------------- icon tint */
+
+const COLOR_KEY = "vault-icons:icon-color";
+
+function applyIconColor(color: string) {
+  state.iconColor = color;
+  const root = document.documentElement;
+  if (color) root.style.setProperty("--icon-color", color);
+  else root.style.removeProperty("--icon-color");
+
+  const swatch = $("[data-color-swatch]") as HTMLElement | null;
+  if (swatch) swatch.style.background = color;
+
+  const input = $("#color-input") as HTMLInputElement | null;
+  if (input && color) input.value = color;
+
+  $$("[data-color]").forEach((button) => {
+    button.setAttribute("aria-selected", String((button.getAttribute("data-color") || "") === color));
+  });
+}
+
+function setColorMenu(open: boolean) {
+  const menu = $("#color-menu");
+  const toggle = $("#color-toggle");
+  if (!menu || !toggle) return;
+  menu.hidden = !open;
+  toggle.setAttribute("aria-expanded", String(open));
+}
+
+function saveIconColor(color: string) {
+  try {
+    if (color) localStorage.setItem(COLOR_KEY, color);
+    else localStorage.removeItem(COLOR_KEY);
+  } catch {
+    /* storage unavailable — ignore */
+  }
+}
+
+/* ---------------------------------------------------------- sidebar rail */
+
+const SIDEBAR_KEY = "vault-icons:sidebar-collapsed";
+
+function setSidebarCollapsed(collapsed: boolean) {
+  const shell = document.querySelector(".app-shell");
+  const sidebar = $("#sidebar");
+  const button = $("[data-sidebar-collapse]");
+  shell?.setAttribute("data-sidebar-collapsed", String(collapsed));
+  sidebar?.setAttribute("data-collapsed", String(collapsed));
+  if (button) {
+    button.setAttribute("aria-pressed", String(collapsed));
+    button.setAttribute("aria-label", collapsed ? "Expand navigation" : "Collapse navigation");
+    button.setAttribute("title", collapsed ? "Expand navigation" : "Collapse navigation");
+  }
+  try {
+    localStorage.setItem(SIDEBAR_KEY, collapsed ? "1" : "0");
+  } catch {
+    /* storage unavailable — ignore */
+  }
+
+  const refresh = () => {
+    measure();
+    if (state.catalog) apply(false);
+  };
+  requestAnimationFrame(refresh);
+  window.setTimeout(refresh, 380);
+}
+
+function updateSelectUi() {
+  const count = state.selected.size;
+
+  selectToggle?.setAttribute("aria-pressed", String(state.selectionMode));
+  selectToggle?.classList.toggle("is-active", state.selectionMode);
+  if (selectToggle) {
+    selectToggle.style.background = state.selectionMode ? "var(--color-brand-600)" : "var(--color-surface-0)";
+    selectToggle.style.color = state.selectionMode ? "var(--color-surface-0)" : "var(--color-surface-800)";
+  }
+  const selectLabel = $("[data-select-label]");
+  if (selectLabel) selectLabel.textContent = state.selectionMode ? "Selecting…" : "Multi-select";
+  const selectHint = $("#select-hint");
+  if (selectHint) selectHint.hidden = !state.selectionMode;
+  const badge = $("[data-select-badge]");
+  if (badge) {
+    badge.hidden = count === 0;
+    badge.textContent = String(count);
+  }
+
+  if (selectBar) selectBar.hidden = !state.selectionMode;
+
+  const countEl = $("[data-select-count]");
+  if (countEl) countEl.textContent = String(count);
+
+  const installEl = $("[data-select-install]");
+  if (installEl) installEl.textContent = count > 0 ? selectionInstall() : "Select icons to build a command";
+  const importEl = $("[data-select-import]");
+  if (importEl) importEl.textContent = count > 0 ? selectionImport() : "";
+
+  $$("[data-select-copy-install], [data-select-copy-import]").forEach((button) => {
+    (button as HTMLButtonElement).disabled = count === 0;
+  });
+
+  $$("[data-select-lang]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-select-lang") === state.selectLang));
+  });
+  $$("[data-select-pm]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-select-pm") === state.selectPm));
+  });
+
+  grid.setAttribute("data-selecting", String(state.selectionMode));
+}
+
+function toggleSelect(name: string) {
+  if (state.selected.has(name)) state.selected.delete(name);
+  else state.selected.add(name);
+  persistSelection();
+  updateSelectUi();
+  render();
+}
+
+function setSelectionMode(on: boolean) {
+  state.selectionMode = on;
+  updateSelectUi();
+  render();
+}
+
+function clearSelection() {
+  state.selected.clear();
+  persistSelection();
+  updateSelectUi();
+  render();
+}
 
 const innerOf = (svg: string) =>
   svg
@@ -202,7 +410,9 @@ function measure() {
   layout.tileH = tileH;
   layout.gap = gap;
   layout.rowH = tileH + gap;
-  layout.cols = Math.max(1, Math.floor((grid.clientWidth + gap) / (tile + gap)));
+  const cols = Math.max(1, Math.floor((grid.clientWidth + gap) / (tile + gap)));
+  const collapsed = $("#sidebar")?.getAttribute("data-collapsed") === "true";
+  layout.cols = collapsed ? Math.min(cols, 12) : cols;
 }
 
 function gridOffsetTop() {
@@ -247,6 +457,7 @@ function draw() {
       tile.className = "icon-tile";
       tile.dataset.icon = icon.name;
       tile.setAttribute("aria-label", `${icon.name} icon`);
+      if (state.selected.has(icon.name)) tile.classList.add("icon-tile--selected");
       tile.style.position = "absolute";
       tile.style.left = `${padLeft + col * (layout.tile + layout.gap)}px`;
       tile.style.top = `${row * layout.rowH}px`;
@@ -311,7 +522,9 @@ function apply(push = true) {
 
   const activeCategory = state.catalog.categories.find((c) => c.id === state.category);
 
-  resultCount.textContent = `${state.items.length.toLocaleString()} icon${state.items.length === 1 ? "" : "s"}`;
+  if (resultCount) {
+    resultCount.textContent = `${state.items.length.toLocaleString()} icon${state.items.length === 1 ? "" : "s"}`;
+  }
   emptyState.hidden = state.items.length > 0;
   grid.style.display = state.items.length > 0 ? "" : "none";
 
@@ -501,6 +714,14 @@ function paintModal() {
   }
   if (code) code.textContent = snippetFor(icon.name, svg, state.lang);
 
+  const install = installFor(icon.name);
+  const installPanel = modal.querySelector<HTMLElement>("[data-install-panel]");
+  const installCommand = $("[data-install-command]");
+  const importLine = $("[data-import-line]");
+  if (installPanel) installPanel.hidden = !install;
+  if (installCommand) installCommand.textContent = install?.command ?? "";
+  if (importLine) importLine.textContent = install?.importLine ?? "";
+
   const position = state.items.findIndex((entry) => entry.name === icon.name);
   const positionEl = $("[data-modal-position]");
   if (positionEl) positionEl.textContent = `${position + 1} / ${state.items.length}`;
@@ -516,6 +737,9 @@ function paintModal() {
   });
   $$("[data-lang]").forEach((button) => {
     button.setAttribute("aria-selected", String(button.getAttribute("data-lang") === state.lang));
+  });
+  $$("[data-pm]").forEach((button) => {
+    button.setAttribute("aria-checked", String(button.getAttribute("data-pm") === state.pm));
   });
 }
 
@@ -604,6 +828,27 @@ async function copyText(text: string) {
   }
 }
 
+const copiedTimers = new WeakMap<HTMLElement, number>();
+
+function flashCopied(button: HTMLElement | null) {
+  if (!button) return;
+  if (!button.dataset.label) button.dataset.label = button.textContent ?? "Copy";
+  const original = button.dataset.label;
+  button.textContent = "Copied ✓";
+  button.classList.add("is-copied");
+  const previous = copiedTimers.get(button);
+  if (previous) window.clearTimeout(previous);
+  copiedTimers.set(
+    button,
+    window.setTimeout(() => {
+      button.textContent = original;
+      button.classList.remove("is-copied");
+      delete button.dataset.label;
+      copiedTimers.delete(button);
+    }, 1400),
+  );
+}
+
 function downloadSvg() {
   const icon = currentIcon();
   if (!icon) return;
@@ -639,6 +884,79 @@ function trapFocus(event: KeyboardEvent) {
 /* ----------------------------------------------------------------- wiring */
 
 function wire() {
+  selectToggle?.addEventListener("click", () => setSelectionMode(!state.selectionMode));
+
+  $("#color-toggle")?.addEventListener("click", () => {
+    const menu = $("#color-menu");
+    if (menu) setColorMenu(menu.hidden);
+  });
+  $$("[data-color]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const color = button.getAttribute("data-color") || "";
+      applyIconColor(color);
+      saveIconColor(color);
+      setColorMenu(false);
+    });
+  });
+  $("#color-input")?.addEventListener("input", (event) => {
+    const color = (event.target as HTMLInputElement).value;
+    applyIconColor(color);
+    saveIconColor(color);
+  });
+  $("#color-reset")?.addEventListener("click", () => {
+    applyIconColor("");
+    saveIconColor("");
+    setColorMenu(false);
+  });
+  $("[data-sidebar-collapse]")?.addEventListener("click", () => {
+    const sidebar = $("#sidebar");
+    setSidebarCollapsed(sidebar?.getAttribute("data-collapsed") !== "true");
+  });
+  document.querySelector(".app-shell")?.addEventListener("transitionend", (event) => {
+    if ((event as TransitionEvent).propertyName === "grid-template-columns") {
+      measure();
+      if (state.catalog) apply(false);
+    }
+  });
+  document.addEventListener("click", (event) => {
+    if (!(event.target as Element).closest("#color-picker")) setColorMenu(false);
+  });
+
+  $$("[data-select-lang]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const lang = button.getAttribute("data-select-lang");
+      if (lang === "react" || lang === "vue" || lang === "svelte") {
+        state.selectLang = lang;
+        updateSelectUi();
+      }
+    });
+  });
+
+  $$("[data-select-pm]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const pm = button.getAttribute("data-select-pm");
+      if (pm === "npm" || pm === "yarn" || pm === "pnpm" || pm === "bun") {
+        state.selectPm = pm;
+        updateSelectUi();
+      }
+    });
+  });
+
+  $("[data-select-clear]")?.addEventListener("click", clearSelection);
+  $("[data-select-done]")?.addEventListener("click", () => setSelectionMode(false));
+  const copyInstallBtn = $("[data-select-copy-install]") as HTMLButtonElement | null;
+  const copyImportBtn = $("[data-select-copy-import]") as HTMLButtonElement | null;
+  copyInstallBtn?.addEventListener("click", () => {
+    if (state.selected.size === 0) return;
+    copyText(selectionInstall());
+    flashCopied(copyInstallBtn);
+  });
+  copyImportBtn?.addEventListener("click", () => {
+    if (state.selected.size === 0) return;
+    copyText(selectionImport());
+    flashCopied(copyImportBtn);
+  });
+
   searchInput.addEventListener("input", () => {
     state.query = searchInput.value;
     window.clearTimeout(searchTimer);
@@ -701,6 +1019,11 @@ function wire() {
       return;
     }
 
+    if (event.key === "Escape" && state.selectionMode) {
+      setSelectionMode(false);
+      return;
+    }
+
     if (event.key === "Escape" && $("#sidebar")?.getAttribute("data-open") === "true") {
       closeSidebar();
     }
@@ -737,7 +1060,7 @@ function wire() {
     const target = event.target as HTMLElement;
 
     if (!modal.hidden) {
-      if (target.closest("[data-modal-close]")) {
+      if (target.closest("[data-modal-close]") || target.closest("[data-drawer-close]")) {
         closeModal();
         return;
       }
@@ -786,12 +1109,34 @@ function wire() {
         paintModal();
         return;
       }
+      const pmButton = target.closest<HTMLElement>("[data-pm]");
+      if (pmButton) {
+        state.pm = (pmButton.getAttribute("data-pm") as typeof state.pm) || "npm";
+        paintModal();
+        return;
+      }
+      const installBtn = target.closest<HTMLElement>("[data-modal-copy-install]");
+      if (installBtn) {
+        const install = installFor(state.modalName);
+        if (install) copyText(install.command);
+        flashCopied(installBtn);
+        return;
+      }
+      const importBtn = target.closest<HTMLElement>("[data-modal-copy-import]");
+      if (importBtn) {
+        const install = installFor(state.modalName);
+        if (install) copyText(install.importLine);
+        flashCopied(importBtn);
+        return;
+      }
     }
 
     const iconTile = target.closest<HTMLElement>("[data-icon]");
     if (iconTile && grid.contains(iconTile)) {
       const name = iconTile.getAttribute("data-icon");
-      if (name) openModal(name);
+      if (!name) return;
+      if (state.selectionMode) toggleSelect(name);
+      else openModal(name);
       return;
     }
 
@@ -907,6 +1252,19 @@ async function boot() {
   }
 
   state.catalog = catalog;
+
+  try {
+    const savedColor = localStorage.getItem(COLOR_KEY);
+    if (savedColor) applyIconColor(savedColor);
+  } catch {
+    /* storage unavailable — ignore */
+  }
+
+  try {
+    if (localStorage.getItem(SIDEBAR_KEY) === "1") setSidebarCollapsed(true);
+  } catch {
+    /* storage unavailable — ignore */
+  }
   state.all = interleave(
     catalog.icons.map(([name, category, tags, aliases]) => ({
       name,
@@ -916,6 +1274,18 @@ async function boot() {
     })),
     catalog.categories.length,
   );
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+    if (Array.isArray(saved)) {
+      const valid = new Set(state.all.map((icon) => icon.name));
+      for (const name of saved) {
+        if (typeof name === "string" && valid.has(name)) state.selected.add(name);
+      }
+    }
+  } catch {
+    /* ignore corrupt cart */
+  }
 
   const params = new URLSearchParams(window.location.search);
   const category = params.get("category");
@@ -953,6 +1323,7 @@ async function boot() {
   mounted = true;
   apply(false);
   wire();
+  updateSelectUi();
 
   const hash = window.location.hash.replace("#", "");
   if (hash && state.items.some((icon) => icon.name === hash)) {

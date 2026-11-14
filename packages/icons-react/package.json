@@ -1,0 +1,90 @@
+{
+  "name": "@vaultui/icons-react",
+  "version": "0.2.0",
+  "description": "Vault Icons - 1,557 hand-authored icons in 6 weights as tree-shakeable React components.",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/*/index.d.ts",
+      "import": "./dist/icons/*/index.js"
+    },
+    "./icons/*/thin": {
+      "types": "./dist/icons/*/thin.d.ts",
+      "import": "./dist/icons/*/thin.js"
+    },
+    "./icons/*/light": {
+      "types": "./dist/icons/*/light.d.ts",
+      "import": "./dist/icons/*/light.js"
+    },
+    "./icons/*/regular": {
+      "types": "./dist/icons/*/regular.d.ts",
+      "import": "./dist/icons/*/regular.js"
+    },
+    "./icons/*/bold": {
+      "types": "./dist/icons/*/bold.d.ts",
+      "import": "./dist/icons/*/bold.js"
+    },
+    "./icons/*/fill": {
+      "types": "./dist/icons/*/fill.d.ts",
+      "import": "./dist/icons/*/fill.js"
+    },
+    "./icons/*/duotone": {
+      "types": "./dist/icons/*/duotone.d.ts",
+      "import": "./dist/icons/*/duotone.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "scripts": {
+    "generate": "node ../icons/scripts/generate-components.mjs react",
+    "build": "pnpm run generate && tsup && node scripts/build-icons.mjs",
+    "typecheck": "pnpm run generate && tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@vaultui/configs": "workspace:*",
+    "@types/react": "^18.3.0",
+    "react": "^18.3.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.7.0"
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "format": [
+      "cjs"
+    ],
+    "dts": true,
+    "clean": true,
+    "sourcemap": false,
+    "treeshake": true,
+    "external": [
+      "react",
+      "react/jsx-runtime"
+    ]
+  }
+}
